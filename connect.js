@@ -27,9 +27,37 @@ async function testConnection() {
 }
 
 const Users = require ("./models/usersModel.js")(sequelize);
+const Index = require ("./models/indexModel.js")(sequelize);
+const Genres = require ("./models/genresModel.js")(sequelize);
+const Reviews = require ("./models/reviewsModel.js")(sequelize);
+const Swap = require ("./models/swapModel.js")(sequelize);
+
+Index.belongsTo(Genres, {
+    foreignKey:"genreId"
+});
+
+Reviews.belongsTo(Users, {
+    foreignKey:"userId"
+});
+
+Reviews.belongsTo(Index, {
+    foreignKey:"indexId"
+});
+
+Swap.belongsTo(Users, {
+    foreignKey:"userId"
+});
+
+Swap.belongsTo(Index, {
+    foreignKey:"indexId"
+});
 
 module.exports = {
     sequelize,
     testConnection,
     Users,
+    Index,
+    Swap,
+    Genres,
+    Reviews,
 }
