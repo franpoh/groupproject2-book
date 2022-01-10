@@ -3,8 +3,15 @@ const { sequelize, testConnection, Users, Index, Swap, Reviews, Genres } = requi
 const express = require('express');
 const app = express();
 
+const generalRoutes = require("./routes/generalRoutes.js");
+
+// Test connections
 testConnection();
 
+// Parsing JSON
+app.use(express.json());
+
+// Main Page
 app.get('/', async (req, res) => {
   res.send("Welcome to the bookswap!");
 });
@@ -20,4 +27,8 @@ app.get('/test', async (req, res) => {
   res.send(JSON.stringify([users, index, swap, reviews, genres]));
 });
 
+// Sign in routes (Register, Login)                 
+app.use(generalRoutes);
+
+// Port listening
 app.listen(process.env.PORT);
