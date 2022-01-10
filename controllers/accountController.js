@@ -1,5 +1,6 @@
 const registerService = require("../services/registerService.js");
 const loginService = require("../services/loginService.js");
+const profileService = require("../services/profileService.js");
 
 class accountController {
     async register (req, res) {
@@ -18,6 +19,12 @@ class accountController {
     async login (req, res) {
         console.log("Login Details: ", req.body);
         const result = await loginService.login(req.body.email, req.body.password);
+        res.status(result.status);
+        return res.json({ data: result.data, message: result.message });
+    }
+
+    async viewProfile(req, res) {
+        const result = await profileService.viewProfile(req.username); // using values passed from authenticateJwt
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
     }
