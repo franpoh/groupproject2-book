@@ -30,6 +30,11 @@ module.exports = function (sequelize) {
                 field: "user_id",
                 allowNull: false,
             },
+            availability: {
+                type: DataTypes.STRING, // YES or NO
+                field: "availability",
+                allowNull: false,
+            },
             createdAt: {
                 type: DataTypes.DATE,
                 field: "created_at",
