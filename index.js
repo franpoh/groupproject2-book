@@ -6,7 +6,6 @@ const app = express();
 const generalRoutes = require("./routes/generalRoutes.js");
 const protectedRoutes = require("./routes/protectedRoutes.js");
 
-
 // Test connections
 testConnection();
 
