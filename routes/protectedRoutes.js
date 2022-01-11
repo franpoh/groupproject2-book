@@ -18,7 +18,7 @@ router.get('/protected', (req, res) => {
 });
 
 
-router.post('/protected/swap', grabController.swapBook);
+router.post('/protected/swap', grabController.grabBook);
 
 
 module.exports = router;
