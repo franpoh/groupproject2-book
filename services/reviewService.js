@@ -1,29 +1,78 @@
 const { Reviews } = require("../connect.js");
 
 module.exports = {
-    addReview: async (userId, indexId, rev) => {
+
+    addReview: async (userid, indexid, rev) => {
+
         let result = {
             message: null,
             status: null,
             data: null,
         };
 
-        const review = await Reviews.findAll({
-            where: {
-                indexId: indexId
-            }
+        const newReview = await Reviews.create({
+            review: rev,
+            userId: userid,
+            indexId: indexid
         })
 
 
-        if (rev !== review.review) {
-            review.review = rev;
-        }
+        // if (rev !== review.review) {
+        //     review.review = rev;
+        // }
 
-        await review.save();
-        result.data = review;
+
+
+//         const review = await Reviews.findAll({
+//             where: {
+//                 indexId: indexId
+//             }
+//         })
+
+
+//         if (rev !== review.review) {
+//             review.review = rev;
+//         }
+
+//         await review.save();
+//         result.data = review;
+        await newReview.save();
+        result.data = newReview;
         result.status = 200;
         result.message = `review added`;;
 
         return result;
     },
 };
+
+/*
+[
+  [
+    {
+      "reviewId": 1,
+      "review": "Lots of suspense and mystery, a fascinating read.",
+      "userId": 1,
+      "indexId": 2,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "reviewId": 2,
+      "review": "I am looking forward to the sequel!",
+      "userId": 2,
+      "indexId": 1,
+      "createdAt": null,
+      "updatedAt": null
+    }
+  ]
+]
+
+{
+"rev":"NO SEQUELS NEEDEDED!",
+"userId":2,
+"indexId":1
+}
+
+*/
+
+

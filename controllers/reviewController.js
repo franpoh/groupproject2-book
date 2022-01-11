@@ -10,10 +10,12 @@ class reviewController {
             return res.json({ message: "Incorrect request data" });
         }
 
-        if (req.body.rev === res.body.rev) {
-            res.status(400);
-            return res.json({ message: "entry invalid: duplicate" });
-        }
+
+        // if (req.body.rev === res.body.rev) {
+        //     res.status(400);
+        //     return res.json({ message: "entry invalid: duplicate" });
+        // }
+
 
         const result = await reviewService.addReview(req.body.userId, req.body.indexId, req.body.rev);
         res.status(result.status);
