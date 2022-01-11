@@ -1,9 +1,9 @@
-const swapService = require("../services/swap.service");
+const grabService = require("../services/grabService");
 
-class SwapController {
+class GrabController {
 
     // G1 query: middleware verification of token here or in service?
-    async swapBook(req, res) {
+    async grabBook(req, res) {
 
         // req.body.userId - for user Id buying book
         // req.body.swapId - for id of specific book in inventory
@@ -25,7 +25,7 @@ class SwapController {
             });
         };
 
-        const result = await swapService.swapBook(req.body.userId, req.body.swapId);
+        const result = await swapService.grabBook(req.body.userId, req.body.swapId);
         res.status(result.status);        
 
         return res.json({
@@ -35,4 +35,4 @@ class SwapController {
     };
 };
 
-module.exports = SwapController;
+module.exports = GrabController;

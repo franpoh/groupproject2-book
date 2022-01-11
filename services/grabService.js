@@ -3,7 +3,7 @@ const { Swap, Users } = require("../connect.js");
 module.exports = {
 
     // G1 query: middleware verification of token here or in controller?
-    swapBook: async (submittedUserId, submittedSwapId) => {
+    grabBook: async (submittedUserId, submittedSwapId) => {
 
         let result = {
             message: null,
