@@ -14,7 +14,8 @@ router.post("/register", accountController.register);
 router.post("/login", accountController.login);
 
 // http://localhost:3000/search?title=Metro%202033 
-// space = %20
+// space === %20
+// to search for all title=%20
 router.get("/search", searchController.search);
 
 
