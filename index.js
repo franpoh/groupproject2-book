@@ -27,7 +27,8 @@ app.get('/test', async (req, res) => {
   const reviews = await Reviews.findAll();
   const genres = await Genres.findAll();
 
-  res.send(JSON.stringify([users, index, swap, reviews, genres]));
+  // res.send(JSON.stringify([users, index, swap, reviews, genres]));
+  res.json([reviews]); //AuntPyone testing
 });
 
 // Sign in routes (Register, Login) AND public user requests                  

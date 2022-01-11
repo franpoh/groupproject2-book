@@ -2,11 +2,15 @@ const express = require("express");
 const router = express.Router();
 
 
+
 const ReviewController = require("../controllers/reviewController");
 
 const reviewController = new ReviewController();
 
-router.post("/protected/:indexId/addReview", reviewController.addReview);
+router.post("/protected/addReview", reviewController.addReview);
+
+
+
 
 const GrabController = require("../controllers/grabController");
 

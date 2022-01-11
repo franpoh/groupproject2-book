@@ -1,5 +1,5 @@
 // const { where } = require("sequelize/dist");
-const { Index } = require("../connect.js");
+const { Index, Swap } = require("../connect.js");
 const { Sequelize } = require("sequelize");
 
 
@@ -10,6 +10,8 @@ module.exports = {
             status: null,
             data: null,
         };
+
+        // retrieves books from index database but user wont see availability or conditions of different books 
         const book = await Index.findAll({
             //findAll partial match
             where: {
@@ -25,7 +27,7 @@ module.exports = {
 
         result.data = book;
         result.status = 200;
-        result.message = `Book found for query: ${title} ...`
+        result.message = `Books found for under query: ${title} ...`
         return result;
     },
 };
