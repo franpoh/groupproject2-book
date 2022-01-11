@@ -5,6 +5,9 @@ const app = express();
 
 const generalRoutes = require("./routes/generalRoutes.js");
 
+const protectedRoutes = require("./routes/protectedRoutes.js");
+
+
 // Test connections
 testConnection();
 
@@ -27,8 +30,13 @@ app.get('/test', async (req, res) => {
   res.send(JSON.stringify([users, index, swap, reviews, genres]));
 });
 
-// Sign in routes (Register, Login)                 
+// Sign in routes (Register, Login) AND public user requests                  
 app.use(generalRoutes);
+// registered users options - requests
+app.use(protectedRoutes);
+
+// Registered user post-login routes
+app.use(protectedRoutes);
 
 // Port listening
 app.listen(process.env.PORT);
