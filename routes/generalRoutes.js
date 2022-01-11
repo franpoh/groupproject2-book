@@ -12,7 +12,11 @@ const searchController = new SearchController();
 
 router.post("/register", accountController.register);
 router.post("/login", accountController.login);
+
+// http://localhost:3000/search?title=Metro%202033 
+// space = %20
 router.get("/search", searchController.search);
+
 
 module.exports = router;
 
