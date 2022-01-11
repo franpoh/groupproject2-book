@@ -23,6 +23,10 @@ module.exports = function (sequelize) {
                 allowNull: false,
                 field: "author",
             },
+            // year: {
+            //     type: DataTypes.INTEGER,
+            //     field: "year" 
+            // },
             genreId: {
                 type: DataTypes.INTEGER,
                 field: "genre_id",

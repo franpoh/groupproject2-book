@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 
 const generalRoutes = require("./routes/generalRoutes.js");
+const protectedRoutes = require("./routes/protectedRoutes.js");
 
 // Test connections
 testConnection();
@@ -29,6 +30,7 @@ app.get('/test', async (req, res) => {
 
 // Sign in routes (Register, Login)                 
 app.use(generalRoutes);
+app.use(protectedRoutes);
 
 // Port listening
 app.listen(process.env.PORT);
