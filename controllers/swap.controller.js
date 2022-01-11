@@ -8,9 +8,17 @@ class SwapController {
         // req.body.userId - for user Id buying book
         // req.body.swapId - for id of specific book in inventory
 
-        console.log('swapBook Controller', req.body);
+        console.log('swapBook Controller', req.body, !req.body.userId, !req.body.swapId  );
 
-        if ((typeof req.body.userId !== 'number' && req.body.userId !== undefined) && (typeof req.body.swapId !== 'number' && req.body.swapId !== undefined)) {
+        // if userId or swapId missing
+        if (!req.body.userId || !req.body.swapId) {
+            res.status(400);
+            return res.json({
+                message: 'Incomplete data types submitted..'
+            });
+        };
+
+        if (typeof req.body.userId !== 'number' || typeof req.body.swapId !== 'number') {
             res.status(400);
             return res.json({
                 message: 'Incorrect data types submitted..'
