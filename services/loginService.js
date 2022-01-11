@@ -1,8 +1,6 @@
+require('dotenv').config();
 const bcrypt = require("bcrypt");
-
 const jwt = require("jsonwebtoken");
-const fs = require("fs");
-const privateKey = fs.readFileSync("./jwtRS256.key");
 
 const { Users } = require("../connect.js");
 
@@ -15,8 +13,6 @@ module.exports = {
         }
 
         const findEmail = await Users.findOne({ where: { email: email } });
-
-        console.log("Find Email: ", findEmail);
 
         if (!findEmail) {
             result.message = `${email} doesn't exist.`;
@@ -33,11 +29,11 @@ module.exports = {
         }
 
         const loginData = {
-            id: findEmail.dataValues.userId,
-            email: findEmail.dataValues.email
+            userId: findEmail.dataValues.userId,
+            username: findEmail.dataValues.username
         }
 
-        const loginToken = jwt.sign(loginData, privateKey, { algorithm: "RS256", expiresIn: "1d" });
+        const loginToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
 
         result.data = loginToken;
         result.status = 200;

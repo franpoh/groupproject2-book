@@ -4,6 +4,8 @@ const router = express.Router();
 const AccountController = require("../controllers/accountController");
 const SearchController = require("../controllers/searchController");
 
+const authenticateJwt = require("../authentication/authJwt");
+
 const accountController = new AccountController();
 const searchController = new SearchController();
 
@@ -14,5 +16,9 @@ router.get("/search", searchController.search);
 
 module.exports = router;
 
-// http://localhost:3000/search?title=metro 2033 bad request
-// http://localhost:3000/search?title=Metro 2033
+
+// req values passed from authenticateJwt to accountController.viewProfile
+// used as req.<variable>
+router.get("/profile", authenticateJwt, accountController.viewProfile);
+
+module.exports = router;
