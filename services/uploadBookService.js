@@ -2,7 +2,7 @@ const res = require("express/lib/response");
 const { Index, Swap } = require("../connect.js");
 
 module.exports = {
-    uploadbook: async (userid, booktitle, bookauthor, bookgenre) => {
+    uploadbook: async (userid, booktitle, bookauthor, bookgenre, usercomments) => {
         let result = {
             message: null,
             status: null,
@@ -43,7 +43,9 @@ module.exports = {
             const newSwap = await Swap.create({
                 userId: userid,
                 price: 1, 
-                indexId: library.dataValues.indexId 
+                indexId: library.dataValues.indexId,
+                availability: "YES",
+                comments: usercomments
                 });
 
             result.data = newSwap;
@@ -52,10 +54,15 @@ module.exports = {
             return result;
         }   
 
-        console.log("*****library*****", library);
-        const addToSwap = await Swap.create({ userId: userid, price: 1, indexId: library.dataValues.indexId });
+        const addToSwap = await Swap.create({
+            userId: userid,
+            price: 1, 
+            indexId: library.dataValues.indexId,
+            availability: "YES",
+            comments: usercomments
+        });
         console.log(`Swap Request Created: `, addToSwap instanceof Swap);
-        result.data = library;
+        result.data = addToSwap;
         result.status = 200;
         result.message = "Book successfully uploaded for swap!";
         return result;
