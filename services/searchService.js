@@ -1,4 +1,6 @@
+// const { where } = require("sequelize/dist");
 const { Index } = require("../connect.js");
+const { Sequelize } = require("sequelize");
 
 
 module.exports = {
@@ -8,10 +10,10 @@ module.exports = {
             status: null,
             data: null,
         };
-        const book = await Index.findOne({
+        const book = await Index.findAll({
             //findAll partial match
             where: {
-                title: title
+                title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('title')), 'LIKE', '%' + title + '%')
             }
         });
 
