@@ -1,24 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
-const AccountController = require("../controllers/accountController");
+const AccessController = require("../controllers/accessController");
 const SearchController = require("../controllers/searchController");
 
-const authenticateJwt = require("../authentication/authJwt");
-
-const accountController = new AccountController();
 const searchController = new SearchController();
+const accessController = new AccessController();
 
 
-router.post("/register", accountController.register);
-router.post("/login", accountController.login);
+router.post("/register", accessController.register);
+router.post("/login", accessController.login);
 router.get("/search", searchController.search);
-
-module.exports = router;
-
-
-// req values passed from authenticateJwt to accountController.viewProfile
-// used as req.<variable>
-router.get("/profile", authenticateJwt, accountController.viewProfile);
 
 module.exports = router;
