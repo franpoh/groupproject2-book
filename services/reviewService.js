@@ -1,7 +1,9 @@
 const { Reviews } = require("../connect.js");
 
 module.exports = {
+
     addReview: async (userid, indexid, rev) => {
+
         let result = {
             message: null,
             status: null,
@@ -19,6 +21,21 @@ module.exports = {
         //     review.review = rev;
         // }
 
+
+
+//         const review = await Reviews.findAll({
+//             where: {
+//                 indexId: indexId
+//             }
+//         })
+
+
+//         if (rev !== review.review) {
+//             review.review = rev;
+//         }
+
+//         await review.save();
+//         result.data = review;
         await newReview.save();
         result.data = newReview;
         result.status = 200;
