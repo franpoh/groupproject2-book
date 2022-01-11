@@ -11,10 +11,20 @@ module.exports = {
     };
 
     const review = await Reviews.findAll();
-    const newReview = await Reviews.findOrCreate({
-      review: rev,
-      userId: userid,
-      indexId: indexid
+    const [newReview, created] = await Reviews.findOrCreate({
+      where: {
+        review: rev,
+        userId: userid,
+        indexId: indexid
+      },
+      defaults: { // applied if not found
+        review: rev,
+        userId: userid,
+        indexId: indexid
+      }
+      // review: rev,
+      // userId: userid,
+      // indexId: indexid
     })
 
     if (rev === newReview.review) {
@@ -27,6 +37,10 @@ module.exports = {
       result.message = `Review entry for book ID ${newReview.indexId} already exists from user ID ${newReview.userId}`;
       result.status = 400;
       return result;
+    }
+
+    if (created) {
+
     }
 
     // if (rev !== review.review) {
@@ -48,7 +62,7 @@ module.exports = {
 
     //         await review.save();
     //         result.data = review;
-    await newReview.save();
+    // await newReview.save();
     result.data = newReview;
     result.status = 200;
     result.message = `review added`;;
