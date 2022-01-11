@@ -1,19 +1,7 @@
-const { Reviews, Index } = require("../connect.js");
+const { Index } = require("../connect.js");
+
 
 module.exports = {
-    addReview: async () => {
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        };
-
-
-
-
-        return result;
-    },
-
     search: async (title) => {
         let result = {
             message: null,
@@ -21,6 +9,7 @@ module.exports = {
             data: null,
         };
         const book = await Index.findOne({
+            //findAll partial match
             where: {
                 title: title
             }
@@ -37,5 +26,4 @@ module.exports = {
         result.message = `Book found for query: ${title} ...`
         return result;
     },
-
 };

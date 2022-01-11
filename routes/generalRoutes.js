@@ -2,15 +2,15 @@ const express = require("express");
 const router = express.Router();
 
 const AccountController = require("../controllers/accountController");
-const BooksController = require("../controllers/booksController");
+const SearchController = require("../controllers/searchController");
 
 const accountController = new AccountController();
-const booksController = new BooksController();
+const searchController = new SearchController();
 
 
 router.post("/register", accountController.register);
 router.post("/login", accountController.login);
-router.get("/search", booksController.search);
+router.get("/search", searchController.search);
 
 module.exports = router;
 
