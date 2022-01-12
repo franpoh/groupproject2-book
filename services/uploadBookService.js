@@ -1,19 +1,33 @@
 const res = require("express/lib/response");
-const { Index, Swap } = require("../connect.js");
+const { Index, Swap, Users } = require("../connect.js");
 
 module.exports = {
-    uploadbook: async (userid, booktitle, bookauthor, bookgenre, usercomments) => {
+    uploadbook: async (username, booktitle, bookauthor, bookgenre, usercomments) => {
         let result = {
             message: null,
             status: null,
             data: null,
         };
 
-        if (!userid || !booktitle || !bookauthor ){
+        if (!username || !booktitle || !bookauthor ){
             result.message = "Incomplete Request Parameters.";
             result.status = 404;
             return result;
         }
+
+        const findUserId = await Users.findOne({
+            where: { username: username}
+        });
+
+        if (findUserId===null) {
+            result.message = (`User ID for ${username} not found.`);
+            result.status = 404;
+            return result;
+            }
+        // console.log(findUserId instanceof Users);
+        // console.log(findUserId);
+        const userid = findUserId.dataValues.userId;
+        console.log("userid---------------", findUserId.userid);
 
         const [library, created] = await Index.findOrCreate({
             where: { 

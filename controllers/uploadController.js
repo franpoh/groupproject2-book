@@ -6,15 +6,15 @@ class BookController {
         console.log("Book Details: ", req.body);
         
         if (
-            typeof req.body.userId !== "number" || typeof req.body.title !== "string" || typeof req.body.author !== "string"
+            typeof req.body.username !== "string" || typeof req.body.title !== "string" || typeof req.body.author !== "string"
         ) {
-            console.log("typeof userId, " + typeof req.body.userId + "typeof title, " + typeof req.body.title + "typeof author, " + typeof req.body.author);
+            console.log("typeof username, " + typeof req.body.username + "typeof title, " + typeof req.body.title + "typeof author, " + typeof req.body.author);
             res.status(400);
             return res.json ({ message: "Incorrect Data Request provided to uploadbook"});
         }
 
-        const result = await uploadService.uploadbook(req.body.userId, req.body.title, req.body.author, req.body.genreId);
-        // const result = await swapService.uploadbook(req.body.userid, req.body.booktitle, req.body.bookauthor, req.body.bookyear, req.body.bookgenre);
+        const result = await uploadService.uploadbook(req.body.username, req.body.title, req.body.author, req.body.genreId);
+        // const result = await swapService.uploadbook(req.body.username, req.body.booktitle, req.body.bookauthor, req.body.bookyear, req.body.bookgenre);
 
         res.status(result.status);
 

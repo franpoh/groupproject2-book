@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const authenticateJwt = require("../authentication/authJwt");
 
 const ReviewController = require("../controllers/reviewController");
 
@@ -23,6 +24,6 @@ const UploadController = require ("../controllers/uploadController");
 
 const uploadController = new UploadController();
 
-router.post("/protected/uploadbook", uploadController.uploadbook);
+router.post("/protected/uploadbook", authenticateJwt, uploadController.uploadbook);
 
 module.exports = router;
