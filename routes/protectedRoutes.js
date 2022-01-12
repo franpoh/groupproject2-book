@@ -1,11 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-<<<<<<< HEAD
 const authenticateJwt = require("../authentication/authJwt");
 
-=======
->>>>>>> 9bbf6a17d4058c94efa533685cb6a34596baa6b5
 const ReviewController = require("../controllers/reviewController");
 const GrabController = require("../controllers/grabController");
 
@@ -27,11 +24,12 @@ router.get('/protected', (req, res) => {
 
 router.post('/protected/swap', grabController.grabBook);
 
+// Aaron - Upload Controller
 const UploadController = require ("../controllers/uploadController");
 
 const uploadController = new UploadController();
 
-router.post("/protected/uploadbook", authenticateJwt, uploadController.uploadbook);
+router.post("/protected/uploadbook", uploadController.uploadbook);
 
 // req values passed from authenticateJwt to accountController.viewProfile
 // used as req.<variable>
