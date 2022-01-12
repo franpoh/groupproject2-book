@@ -13,8 +13,6 @@ module.exports = {
         const user = await Users.findByPk(submittedUserId);
         const book = await Swap.findByPk(submittedSwapId);
 
-        // in rare case that submitted id is not the login id, also need to match id in token here?
-
         if (!user) {
             result.message = `User ID ${submittedUserId} is not found..`;
             result.status = 404;
@@ -30,7 +28,7 @@ module.exports = {
 
         // price of book = book.price
         // user available credits = user.points
-        if (user.points <= 0) {
+        if (user.points <= 0 || user.points === null || user.points === undefined) {
             // in case any book price somehow is zero
             result.message = `User ID ${submittedUserId} currently does not have valid points..`;
             result.status = 400;
