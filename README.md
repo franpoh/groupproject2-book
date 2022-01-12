@@ -6,6 +6,7 @@ username varchar (20) unique not null,
 email varchar (50) unique not null,
 password varchar not null,
 points int
+wishlist int[] // array of integers
 );
 
 create table "reviews" (
