@@ -20,7 +20,6 @@ module.exports = function (sequelize) {
                 validate: {
                     notEmpty: {
                         args: true,
-                        msg: "Username field is empty.",
                     },
                     len: { // length of string
                         args: [3, 20], // min, max
@@ -36,7 +35,6 @@ module.exports = function (sequelize) {
                 validate: {
                     notEmpty: {
                         args: true,
-                        msg: "Email field is empty.",
                     },
                     len: {
                         args: [5, 50],
@@ -51,7 +49,6 @@ module.exports = function (sequelize) {
                 validate: {
                     notEmpty: {
                         args: true,
-                        msg: "Password field is empty.",
                     },
                 },
                 field: "password",
@@ -59,6 +56,10 @@ module.exports = function (sequelize) {
             points: {
                 type: DataTypes.INTEGER,
                 field: "points",
+            },
+            wishlist: {
+                type: DataTypes.ARRAY(DataTypes.INTEGER), // array of integers
+                field: "wishlist",
             },
             createdAt: {
                 type: DataTypes.DATE,
