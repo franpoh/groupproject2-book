@@ -9,7 +9,7 @@ const reviewController = new ReviewController();
 const grabController = new GrabController();
 
 
-router.post("/protected/addReview", reviewController.addReview);
+router.post("/protected/:indexId/addReview", reviewController.addReview);
 
 // for grabbing book with credit
 router.post('/protected/swap', authenticateJwt, grabController.grabBook);
@@ -22,7 +22,7 @@ router.get('/protected', (req, res) => {
 
 router.post('/protected/swap', grabController.grabBook);
 
-const UploadController = require ("../controllers/uploadController");
+const UploadController = require("../controllers/uploadController");
 
 const uploadController = new UploadController();
 
