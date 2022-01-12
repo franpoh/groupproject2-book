@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const authenticateJwt = require("../authentication/authJwt");
+
 const ReviewController = require("../controllers/reviewController");
 const GrabController = require("../controllers/grabController");
 const AccountController = require("../controllers/accountController");
