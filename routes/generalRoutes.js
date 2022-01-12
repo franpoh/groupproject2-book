@@ -8,9 +8,9 @@ const searchController = new SearchController();
 const accessController = new AccessController();
 
 
-router.post("/register", accessController.register);
-router.post("/login", accessController.login);
-router.get("/search", searchController.search);
+router.post("/general/register", accessController.register);
+router.post("/general/login", accessController.login);
+router.get("/general/search", searchController.search); 
 
 
 module.exports = router;
