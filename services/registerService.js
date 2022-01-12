@@ -16,9 +16,10 @@ module.exports = {
         // try/catch function for catching Validation Errors
         try {
             const hash = bcrypt.hashSync(password, saltRounds);
-            // validation error is caught during Users.create, anything above or during will result in error
-            const user = await Users.create({ email: email, username: username, password: hash });
-            console.log("User Created: ", user instanceof Users);
+            
+            // validation error is caught during Users.create, as it is being pointed to the columns
+            const user = await Users.create({ email: email, username: username, password: hash, type: "USER" });
+
             result.data = JSON.stringify(user);
             result.status = 200;
             result.message = "Your registration is successful!";
@@ -27,18 +28,13 @@ module.exports = {
             // Check whether an object (error) is an instance of a specific class (ValidationError)
             if (error instanceof ValidationError) {
                 console.error("This is a validation error: ", error);
-
-                if (error.toString().includes("username")) {
-                    result.message = "Your username is invalid.";
-                } else if (error.toString().includes("email")) {
-                    result.message = "Your email is invalid.";
-                } else {
-                    result.message = "Your password is invalid.";
-                }
+                result.message = error.errors[0].message;
                 result.status = 400;
                 return result;
             } 
-            console.error("Other Errors", error);
+            result.message = error.errors[0].message;
+            result.status = 400;
+            return result;
         }
     }
 }
