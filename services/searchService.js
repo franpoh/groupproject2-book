@@ -13,7 +13,6 @@ module.exports = {
         };
 
         title = title.toLowerCase();
-        // retrieves books from index database but user wont see availability or conditions of different books 
         const swap = await Swap.findAll({
             where: {
                 availability: 'YES'
@@ -23,7 +22,6 @@ module.exports = {
                 as: 'Index',
                 where: {
                     title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('title')), 'LIKE', '%' + title + '%'),
-
                     // title: {
                     //    title // [Op.ne]: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('title')), 'LIKE', '%' + title + '%')
                     // }
@@ -37,7 +35,6 @@ module.exports = {
         //         title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('title')), 'LIKE', '%' + title + '%')
         //     }
         // });
-
         // if (!book) {
         //     result.message = `Book titled " ${title} " is not found in our database ...`;
         //     result.status = 404;
