@@ -9,7 +9,7 @@ class searchController {
 
         if (!title) {
             res.status(400);
-            return res.json({ message: "Incorrect request data" });
+            return res.json({ message: "invalid URL" });
         }
 
         const result = await searchService.search(req.query.title);
