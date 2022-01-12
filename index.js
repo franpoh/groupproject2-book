@@ -30,19 +30,16 @@ app.get('/test', async (req, res) => {
   const genres = await Genres.findAll();
 
   // res.send(JSON.stringify([users, index, swap, reviews, genres]));
-  res.json([index, reviews]); //AuntPyone testing
+  res.json([index, reviews, users]); //AuntPyone testing
 });
 
-// dev: delete reviews
+// auntpyone dev: delete reviews
 app.delete("/testDel/:reviewId", async (req, res) => {
   const index = Reviews.findByPk(req.params.reviewId);
-  await (await index).destroy(); //go to defined index line 67, delete 1 item
+  await (await index).destroy();
   res.status(200);
   return res.send("Delete successful");
-}
-  //   res.status(404);
-  // return res.send("Fruit not found");
-)
+})
 
 // Sign in routes (Register, Login) AND public user requests                  
 app.use(generalRoutes);

@@ -2,6 +2,7 @@ const { Reviews } = require("../connect.js");
 
 module.exports = {
 
+
   addReview: async (userid, indexid, rev) => {
 
     let result = {
@@ -10,97 +11,44 @@ module.exports = {
       data: null,
     };
 
-    const review = await Reviews.findAll();
-    const [newReview, created] = await Reviews.findOrCreate({
+    const review = await Reviews.findOne({
       where: {
-        review: rev,
-        userId: userid,
-        indexId: indexid
-      },
-      defaults: { // applied if not found
-        review: rev,
-        userId: userid,
-        indexId: indexid
+        indexId: indexid,
+        userId: userid
       }
-      // review: rev,
-      // userId: userid,
-      // indexId: indexid
-    })
+    });
 
-    if (rev === newReview.review) {
-      result.message = `${rev} is a duplicate. Unable to perfrom request`;
+    console.log(review);
+    if (review && rev === review.review) {
+      result.message = `Bad request: Duplicate entry for review`;
       result.status = 400;
       return result;
     }
 
-    if (userid === newReview.userId && indexid === newReview.indexId) {
-      result.message = `Review entry for book ID ${newReview.indexId} already exists from user ID ${newReview.userId}`;
-      result.status = 400;
-      return result;
+    if (rev !== review.review) {
+      review.review = rev;
     }
 
-    if (created) {
-      newReview.review = rev
-      newReview.userId = userid
-      newReview.indexId = indexid
-      result.data = newReview;
+    if (review === null) { //new user and new book => NULL => add review
+      const newEntry = await Reviews.create({
+        indexId: indexid,
+        userId: userid,
+        review: rev
+      })
+
+      result.data = newEntry;
       result.status = 200;
-      result.message = `....`;;
+      result.message = `Review added for book index ${indexid} by user id ${userid}`;
       return result;
     }
 
-    result.data = newReview;
+    await review.save();
+    result.data = review;
     result.status = 200;
-    result.message = `review added`;;
-
+    result.message = `Review edited for book index ${indexid} by user id ${userid}`;
     return result;
-  },
+
+  }
+
 };
 
-/*
-[
-  [
-    {
-      "reviewId": 1,
-      "review": "Lots of suspense and mystery, a fascinating read.",
-      "userId": 1,
-      "indexId": 2,
-      "createdAt": null,
-      "updatedAt": null
-    },
-    {
-      "reviewId": 2,
-      "review": "I am looking forward to the sequel!",
-      "userId": 2,
-      "indexId": 1,
-      "createdAt": null,
-      "updatedAt": null
-    }
-  ]
-]
-
-{
-"rev":"NO SEQUELS NEEDEDED!",
-"userId":2,
-"indexId":1
-}
-
-*/
-
-// FK reviews_id in index or swap database?
-
-    // if (rev !== review.review) {
-    //     review.review = rev;
-    // }
-    //         const review = await Reviews.findAll({
-    //             where: {
-    //                 indexId: indexId
-    //             }
-    //         })
-    //         if (rev !== review.review) {
-    //             review.review = rev;
-    //         }
-
-    //         await review.save();
-    //         result.data = review;
-    // await newReview.save();
