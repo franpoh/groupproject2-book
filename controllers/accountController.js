@@ -1,4 +1,4 @@
-const viewProfileService = require("../services/viewprofileService");
+const viewProfileService = require("../services/viewProfileService");
 const editProfileService = require("../services/editProfileService")
 
 class accountController {
