@@ -1,14 +1,15 @@
-const profileService = require("../services/profileService.js");
+const viewProfileService = require("../services/viewprofileService");
+const editProfileService = require("../services/editProfileService")
 
 class accountController {
     async viewProfile(req, res) {
-        const result = await profileService.viewProfile(req.username); // using values passed from authenticateJwt
+        const result = await viewProfileService.viewProfile(req.userId); // using values passed from authenticateJwt
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
     }
 
     async editProfile(req, res) {
-        const result = await profileService.editProfile(req.username, req.body.email, req.body.password);
+        const result = await editProfileService.editProfile(req.userId, req.body.email, req.body.password);
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
     }
