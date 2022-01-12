@@ -12,6 +12,10 @@ testConnection();
 // Parsing JSON
 app.use(express.json());
 
+// Adding middleware to all protected routes
+const authenticateJwt = require("./authentication/authJwt");
+app.use('/protected', authenticateJwt);
+
 // Main Page
 app.get('/', async (req, res) => {
   res.send("Welcome to the bookswap!");

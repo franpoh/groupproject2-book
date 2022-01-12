@@ -1,17 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const authenticateJwt = require("../authentication/authJwt");
-
-
 const ReviewController = require("../controllers/reviewController");
 
 const reviewController = new ReviewController();
 
 router.post("/protected/addReview", reviewController.addReview);
-
-
-
 
 const GrabController = require("../controllers/grabController");
 
@@ -32,10 +26,10 @@ router.post("/protected/uploadbook", uploadController.uploadbook);
 
 // req values passed from authenticateJwt to accountController.viewProfile
 // used as req.<variable>
-const AccountController = require("../controllers/accountController")
+const AccountController = require("../controllers/accountController");
 const accountController = new AccountController();
 
-router.get("/profile", authenticateJwt, accountController.viewProfile);
-router.put("/editprofile", authenticateJwt, accountController.editProfile);
+router.get("/protected/profile", accountController.viewProfile);
+router.put("/protected/editprofile", accountController.editProfile);
 
 module.exports = router;
