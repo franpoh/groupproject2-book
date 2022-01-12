@@ -2,13 +2,14 @@ const grabService = require("../services/grabService");
 
 class GrabController {
 
-    // G1 query: middleware verification of token here or in service?
     async grabBook(req, res) {
 
         // req.body.userId - for user Id buying book
         // req.body.swapId - for id of specific book in inventory
 
-        console.log('swapBook Controller', req.body, !req.body.userId, !req.body.swapId  );
+        const loginId = req.userId; // token's userId
+
+        console.log('swapBook Controller', loginId, req.body, !req.body.userId, !req.body.swapId  );
 
         // if userId or swapId missing
         if (!req.body.userId || !req.body.swapId) {
@@ -24,6 +25,15 @@ class GrabController {
                 message: 'Incorrect data types submitted..'
             });
         };
+
+        // in case submitted body userId do not match token userId
+        if (loginId !== req.body.userId) {
+            res.status(400);
+            return res.json({
+                message: 'Incorrect user ID submitted..'
+            });
+        };
+
 
         const result = await grabService.grabBook(req.body.userId, req.body.swapId);
         res.status(result.status);        
