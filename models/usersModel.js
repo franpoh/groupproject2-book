@@ -60,6 +60,10 @@ module.exports = function (sequelize) {
                 type: DataTypes.INTEGER,
                 field: "points",
             },
+            wishlist: {
+                type: DataTypes.ARRAY(DataTypes.INTEGER), // array of integers
+                field: "wishlist",
+            },
             createdAt: {
                 type: DataTypes.DATE,
                 field: "created_at",
