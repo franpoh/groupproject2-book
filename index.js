@@ -26,7 +26,7 @@ app.get('/test', async (req, res) => {
   const genres = await Genres.findAll();
 
   // res.send(JSON.stringify([users, index, swap, reviews, genres]));
-  res.json([reviews]); //AuntPyone testing
+  res.json([index, reviews]); //AuntPyone testing
 });
 
 // dev: delete reviews

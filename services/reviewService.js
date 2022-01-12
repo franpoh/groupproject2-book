@@ -40,29 +40,15 @@ module.exports = {
     }
 
     if (created) {
-
+      newReview.review = rev
+      newReview.userId = userid
+      newReview.indexId = indexid
+      result.data = newReview;
+      result.status = 200;
+      result.message = `....`;;
+      return result;
     }
 
-    // if (rev !== review.review) {
-    //     review.review = rev;
-    // }
-
-
-
-    //         const review = await Reviews.findAll({
-    //             where: {
-    //                 indexId: indexId
-    //             }
-    //         })
-
-
-    //         if (rev !== review.review) {
-    //             review.review = rev;
-    //         }
-
-    //         await review.save();
-    //         result.data = review;
-    // await newReview.save();
     result.data = newReview;
     result.status = 200;
     result.message = `review added`;;
@@ -101,5 +87,20 @@ module.exports = {
 
 */
 
-
 // FK reviews_id in index or swap database?
+
+    // if (rev !== review.review) {
+    //     review.review = rev;
+    // }
+    //         const review = await Reviews.findAll({
+    //             where: {
+    //                 indexId: indexId
+    //             }
+    //         })
+    //         if (rev !== review.review) {
+    //             review.review = rev;
+    //         }
+
+    //         await review.save();
+    //         result.data = review;
+    // await newReview.save();
