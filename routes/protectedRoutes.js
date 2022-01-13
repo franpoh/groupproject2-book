@@ -36,8 +36,6 @@ router.get('/protected', (req, res) => {
     return res.send('Calling on protected route..');
 });
 
-router.post('/protected/swap', grabController.grabBook);
-
 const UploadController = require("../controllers/uploadController");
 
 const uploadController = new UploadController();
