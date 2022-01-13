@@ -1,4 +1,5 @@
 const { sequelize, testConnection, Users, Index, Swap, Reviews, Genres } = require("./connect.js");
+const { protectedPermission, adminPermission } = require("./authentication/userPermissions");
 
 const express = require('express');
 const app = express();
@@ -14,7 +15,8 @@ app.use(express.json());
 
 // Adding middleware to all protected routes
 const authenticateJwt = require("./authentication/authJwt");
-app.use('/protected', authenticateJwt);
+app.use('/protected', authenticateJwt, protectedPermission);
+app.use('/protected/admin', adminPermission);
 
 // Main Page
 app.get('/', async (req, res) => {
@@ -30,7 +32,7 @@ app.get('/test', async (req, res) => {
   const genres = await Genres.findAll();
 
   // res.send(JSON.stringify([users, index, swap, reviews, genres]));
-  res.json([index, reviews, users]); //AuntPyone testing
+  res.json([index, users, swap, genres, reviews]); //AuntPyone testing
 });
 
 // auntpyone dev: delete reviews

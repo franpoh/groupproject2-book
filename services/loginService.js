@@ -12,15 +12,15 @@ module.exports = {
             data: null,
         }
 
-        const findEmail = await Users.findOne({ where: { email: email } });
+        const user = await Users.findOne({ where: { email: email } });
 
-        if (!findEmail) {
-            result.message = `${email} doesn't exist.`;
+        if (!user) {
+            result.message = "User not found. You have entered the wrong email, please try logging in again.";
             result.status = 400;
             return result;
         }
 
-        const passwordVerification = await bcrypt.compare(password, findEmail.dataValues.password);
+        const passwordVerification = await bcrypt.compare(password, user.password);
 
         if (!passwordVerification) {
             result.message = "You have entered the wrong password";
@@ -29,8 +29,8 @@ module.exports = {
         }
 
         const loginData = {
-            userId: findEmail.dataValues.userId,
-            username: findEmail.dataValues.username
+            userId: user.userId,
+            username: user.username
         }
 
         const loginToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
