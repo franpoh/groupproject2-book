@@ -13,8 +13,6 @@ module.exports = {
         const user = await Users.findByPk(submittedUserId);
         const book = await Swap.findByPk(submittedSwapId);
 
-        // in rare case that submitted id is not the login id, also need to match id in token here?
-
         if (!user) {
             result.message = `User ID ${submittedUserId} is not found..`;
             result.status = 404;
@@ -30,7 +28,7 @@ module.exports = {
 
         // price of book = book.price
         // user available credits = user.points
-        if (user.points <= 0) {
+        if (user.points <= 0 || user.points === null || user.points === undefined) {
             // in case any book price somehow is zero
             result.message = `User ID ${submittedUserId} currently does not have valid points..`;
             result.status = 400;
@@ -53,9 +51,15 @@ module.exports = {
 
         try {
 
-            await user.save();
+            // await user.save();
+            // switch to update in case
 
-            console.log('saving user');
+            await Users.update(
+                { points: user.points },
+                { where: { userId: user.userId }}
+            );
+
+            console.log('updating user');
             // User credit MUST be deducted successfully before proceeding to "remove" book from swap availability
 
         } catch(e) {
@@ -74,14 +78,29 @@ module.exports = {
         try {
 
             book.availability = "NO";
-            await book.save();
+
+            // await book.save();
+            // switch to update in case
+
+            await Swap.update(
+                { availability: book.availability },
+                { where: { swapId: book.swapId }}
+            );
     
             console.log('book no longer available: ', book);
 
         } catch(e) {
             // when NO fails, to restore user credit, problem here, if book removal fails and somehow restore credit also fails, user loses credit for nothing, need simultaneous transaction GTH but sequelize does not have real simultaneous transactions. Ref: https://sequelize.org/master/manual/transactions.html
+            
             user.points = user.points + book.price;
-            await user.save();
+            // await user.save();
+            // switch to update in case
+
+            await Users.update(
+                { points: user.points },
+                { where: { userId: user.userId }}
+            );
+
             result.data = user;
             result.message = `Transaction not complete, please try again..`;
             result.status = 400;
