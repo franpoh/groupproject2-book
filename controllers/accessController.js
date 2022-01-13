@@ -8,9 +8,9 @@ class accessController {
         let checkLength = new TextEncoder().encode(req.body.password).length;
         console.log("Checking byte length: ", checkLength);
 
-        if (req.body.password == undefined || checkLength > 72 || req.body.password.length < 5) {
+        if (!req.body.password || checkLength > 72 || req.body.password.length < 5) {
             res.status(400)
-            return res.send("Your password is invalid. Please ensure that it contains at least 5 charaters.");
+            return res.send("Your password is invalid. Please ensure that it contains at least 5 characters.");
         }
 
         const result = await registerService.register(req.body.email, req.body.username, req.body.password);
@@ -19,12 +19,12 @@ class accessController {
     }
 
     async login (req, res) {
-        if (req.body.email == undefined) {
+        if (!req.body.email) {
             res.status(400)
             return res.send("Your email is invalid.");
         }
 
-        if (req.body.password == undefined) {
+        if (!req.body.password) {
             res.status(400)
             return res.send("Your password is invalid.");
         }
