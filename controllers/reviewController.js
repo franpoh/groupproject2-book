@@ -12,19 +12,20 @@ class reviewController {
             typeof req.body.rev !== "string" ||
             typeof req.body.userId !== "number"
         ) {
-
             res.status(400);
             return res.json({ message: "Incorrect request data" });
-        }
+        };
+
+        if (!req.params.indexId || !req.body.rev || !req.body.userId) {
+            res.status(400);
+            return res.json({ message: 'Incomplete payload entries' });
+        };
 
         // add in check for jwt
         if (loginId !== req.body.userId) {
             res.status(400);
-            return res.json({
-                message: 'Incorrect user ID submitted..'
-            });
+            return res.json({ message: 'Incorrect user ID submitted' });
         };
-
 
         const result = await reviewService.addReview(req.body.userId, req.params.indexId, req.body.rev);
         res.status(result.status);
