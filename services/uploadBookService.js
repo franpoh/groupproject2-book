@@ -41,7 +41,7 @@ module.exports = {
             console.log(`User ${userid} requested to add book titled ${booktitle}, by author ${bookauthor} to library but it does not exist. Adding to index database...`);
             library.title = booktitle;
             library.author = bookauthor;
-            library.genre = bookgenre;
+            library.genreId = bookgenre;
             library.year = bookyear;
             const newIndex = await library.save();
             console.log("New Index Request Created: ", newIndex instanceof Index);
