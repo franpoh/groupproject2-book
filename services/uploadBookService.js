@@ -1,4 +1,3 @@
-const res = require("express/lib/response");
 const { Index, Swap, Users } = require("../connect.js");
 
 module.exports = {
@@ -74,8 +73,11 @@ module.exports = {
                 console.log("New User Points should be: ", user.dataValues.points);
                 const newPoints = user.dataValues.points;
 
-                await user.update ({ points: newPoints })
-                await user.save()
+                await Users.update ({
+                    points: newPoints }, 
+                    { where: { userId: userid }
+                }); 
+                // await user.save()
                 console.log("New User Points is now: ", user.dataValues.points);
 
                 if (user.dataValues.points !== expectedPoints) {
@@ -119,8 +121,11 @@ module.exports = {
             console.log("New User Points should be: ", user.dataValues.points);
             const newPoints = user.dataValues.points;
 
-            await user.update ({ points: newPoints })
-            await user.save()
+            await Users.update ({
+                points: newPoints }, 
+                { where: { userId: userid }
+            }); 
+            // await user.save()
             console.log("New User Points is now: ", user.dataValues.points);
 
             if (user.dataValues.points !== expectedPoints) {

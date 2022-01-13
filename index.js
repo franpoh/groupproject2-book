@@ -32,7 +32,7 @@ app.get('/test', async (req, res) => {
   const genres = await Genres.findAll();
 
   // res.send(JSON.stringify([users, index, swap, reviews, genres]));
-  res.json([index, reviews, users]); //AuntPyone testing
+  res.json([index, users, swap, genres, reviews]); //AuntPyone testing
 });
 
 // auntpyone dev: delete reviews

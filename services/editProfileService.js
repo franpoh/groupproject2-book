@@ -6,7 +6,7 @@ const { ValidationError } = require("sequelize"); // Validation Error is a class
 const { Users } = require("../connect.js");
 
 module.exports = {
-    editProfile: async (userId, email, password) => {
+    editProfile: async (userId, email, oldPassword, newPassword) => {
         let result = {
             message: null,
             status: null,
@@ -21,12 +21,20 @@ module.exports = {
             return result;
         }
 
+        const passwordVerification = await bcrypt.compare(oldPassword, user.password);
+
+        if (!passwordVerification) {
+            result.message = "You have entered the wrong password.";
+            result.status = 400;
+            return result;
+        }
+
         try {
-            let newEmail = email === undefined ? user.email : email;
-            let newPassword = password === undefined ? user.password : bcrypt.hashSync(password, saltRounds);
+            let newEmail = !email ? user.email : email;
+            let newPwd = !newPassword ? user.password : bcrypt.hashSync(newPassword, saltRounds);
 
             user.email = newEmail;
-            user.password = newPassword;
+            user.password = newPwd;
             await user.save();
             result.status = 200;
             result.data = JSON.stringify(user);

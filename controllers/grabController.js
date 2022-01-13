@@ -9,7 +9,7 @@ class GrabController {
 
         const loginId = req.userId; // token's userId
 
-        console.log('swapBook Controller', loginId, req.body, !req.body.userId, !req.body.swapId  );
+        console.log('grabBook Controller', loginId, req.body, !req.body.userId, !req.body.swapId  );
 
         // if userId or swapId missing
         if (!req.body.userId || !req.body.swapId) {
@@ -33,7 +33,6 @@ class GrabController {
                 message: 'Incorrect user ID submitted..'
             });
         };
-
 
         const result = await grabService.grabBook(req.body.userId, req.body.swapId);
         res.status(result.status);        
