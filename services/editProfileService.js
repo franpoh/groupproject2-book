@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+const { ValidationError } = require("sequelize"); // Validation Error is a class item
+
 const { Users } = require("../connect.js");
 
 module.exports = {
@@ -19,15 +21,27 @@ module.exports = {
             return result;
         }
 
-        let newEmail = email === undefined ? user.email : email;
-        let newPassword = password === undefined ? user.password : bcrypt.hashSync(password, saltRounds);
+        try {
+            let newEmail = email === undefined ? user.email : email;
+            let newPassword = password === undefined ? user.password : bcrypt.hashSync(password, saltRounds);
 
-        user.email = newEmail;
-        user.password = newPassword;
-        await user.save();
-        result.status = 200;
-        result.data = JSON.stringify(user);
-        result.message = "Profile updated!"
-        return result;
+            user.email = newEmail;
+            user.password = newPassword;
+            await user.save();
+            result.status = 200;
+            result.data = JSON.stringify(user);
+            result.message = "Profile updated!"
+            return result;
+        } catch (error) {
+            if (error instanceof ValidationError) {
+                console.error("This is a validation error: ", error);
+                result.message = error.errors[0].message;
+                result.status = 400;
+                return result;
+            }
+            result.message = error.errors[0].message;
+            result.status = 400;
+            return result;
+        }
     }
 }

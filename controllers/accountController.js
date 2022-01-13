@@ -9,6 +9,14 @@ class accountController {
     }
 
     async editProfile(req, res) {
+        let checkLength = new TextEncoder().encode(req.body.password).length;
+        console.log("Checking byte length: ", checkLength);
+
+        if (req.body.password == undefined || checkLength > 72 || req.body.password.length < 5) {
+            res.status(400)
+            return res.send("Your password is invalid. Please ensure that it contains at least 5 charaters.");
+        }
+        
         const result = await editProfileService.editProfile(req.userId, req.body.email, req.body.password);
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
