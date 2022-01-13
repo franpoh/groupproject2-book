@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken"); // Import
 
 module.exports = function (req, res, next) {
     const authHeader = req.headers['authorization']; // Bearer <token>
+
     // if we have an authHeader, then return the token portion of authHeader, otherwise return undefined
     const token = authHeader && authHeader.split(' ')[1]; // splitting Bearer from <token>
 
@@ -20,6 +21,7 @@ module.exports = function (req, res, next) {
 
         req.username = user.username; // eg cmdrshep
         req.userId = user.userId // eg 5
+
         next();
     });
 }

@@ -1,4 +1,5 @@
 const { sequelize, testConnection, Users, Index, Swap, Reviews, Genres } = require("./connect.js");
+const { protectedPermission, adminPermission } = require("./authentication/userPermissions");
 
 const express = require('express');
 const app = express();
@@ -14,7 +15,8 @@ app.use(express.json());
 
 // Adding middleware to all protected routes
 const authenticateJwt = require("./authentication/authJwt");
-app.use('/protected', authenticateJwt);
+app.use('/protected', authenticateJwt, protectedPermission);
+app.use('/protected/admin', adminPermission);
 
 // Main Page
 app.get('/', async (req, res) => {
@@ -33,16 +35,13 @@ app.get('/test', async (req, res) => {
   res.json([index, users, swap, genres, reviews]); //AuntPyone testing
 });
 
-// dev: delete reviews
+// auntpyone dev: delete reviews
 app.delete("/testDel/:reviewId", async (req, res) => {
   const index = Reviews.findByPk(req.params.reviewId);
-  await (await index).destroy(); //go to defined index line 67, delete 1 item
+  await (await index).destroy();
   res.status(200);
   return res.send("Delete successful");
-}
-  //   res.status(404);
-  // return res.send("Fruit not found");
-)
+})
 
 // Sign in routes (Register, Login) AND public user requests                  
 app.use(generalRoutes);
