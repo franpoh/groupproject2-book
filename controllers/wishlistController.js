@@ -9,7 +9,7 @@ class WishlistController {
 
         const loginId = req.userId; // token's userId
 
-        console.log('addToWish Controller', loginId, req.body, !req.body.userId, !req.body.indexId  );
+        console.log('addToWish Controller', loginId, req.body, !req.body.userId, !req.body.indexId);
 
         // if userId or indexId missing
         if (!req.body.userId || !req.body.indexId) {
@@ -35,7 +35,7 @@ class WishlistController {
         };
 
         const result = await wishlistSerivce.addToWish(req.body.userId, req.body.indexId);
-        res.status(result.status);        
+        res.status(result.status);
 
         return res.json({
             data: result.data,
@@ -48,7 +48,7 @@ class WishlistController {
 
         const loginId = req.userId; // token's userId
 
-        console.log('addToWish Controller', loginId, req.body, !req.body.userId, !req.body.indexId  );
+        console.log('addToWish Controller', loginId, req.body, !req.body.userId, !req.body.indexId);
 
         // if userId or indexId missing
         if (!req.body.userId || !req.body.indexId) {
@@ -74,13 +74,28 @@ class WishlistController {
         };
 
         const result = await wishlistSerivce.delFrWish(req.body.userId, req.body.indexId);
-        res.status(result.status);        
+        res.status(result.status);
 
         return res.json({
             data: result.data,
             message: result.message 
         });
 
+    };
+
+    async checkMyWishlist(req, res) {       
+
+        const loginId = req.userId; // token's userId
+
+        console.log('checkMyWishlist Controller', loginId, req.body); // body should be empty for checkMyWishlist        
+
+        const result = await wishlistSerivce.checkMyWishlist(loginId);
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message 
+        });
     };
 
 };

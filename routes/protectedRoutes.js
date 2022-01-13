@@ -27,6 +27,8 @@ router.post('/protected/grab', grabController.grabBook);
 router.post('/protected/addwish', wishlistController.addToWish);
 // for removing book from user's wishlist
 router.post('/protected/delwish', wishlistController.delFrWish);
+// for check user's wishlist
+router.get('/protected/wishlist', wishlistController.checkMyWishlist);
 
 
 // G1 100122: for testing only. Also query some real life examples use session unique URIs, is it due prevent bookmark/copied URL + cached data + long expiry? eg . /e6xxh61s/swap

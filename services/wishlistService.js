@@ -1,4 +1,4 @@
-const { Index, Users } = require("../connect.js");
+const { Index, Users, Swap } = require("../connect.js");
 
 module.exports = {
 
@@ -136,11 +136,71 @@ module.exports = {
             result.status = 200;
             return result;
 
+        } else {
+            result.data = user;
+            result.message = `There are no items inside your wishlist..`;
+            result.status = 404;
+            return result;
+        };
+    },
+
+    //For user to check his wishlist if books in swap inventory available
+
+    checkMyWishlist: async (submittedUserId) => {
+
+        let result = {
+            message: null,
+            status: null,
+            data: null,
         };
 
-        result.message = `Unknown error`;
-        result.status = 400;
+        const user = await Users.findByPk(submittedUserId);
+
+        if (!user) {
+            result.message = `User ID ${submittedUserId} is not found..`;
+            result.status = 404;
+            return result;
+        };
+
+        if (user.wishlist === null) {
+            user.wishlist = [];
+            result.data = user;
+            result.message = `There are no items inside your wishlist..`;
+            result.status = 404;
+            return result;
+        };
+
+        if (user.wishlist.length === 0) {
+            result.data = user;
+            result.message = `There are no items inside your wishlist..`;
+            result.status = 404;
+            return result;
+        };
+
+        // check swap inventory based on wishlist
+
+        const swapRelatedWish = await Swap.findAll({
+            where: {
+                indexId: user.wishlist,
+                availability: 'YES'
+            }
+        }); // this format might not be useful.. might need nested array loop to tie to individual indexId
+
+        console.log(swapRelatedWish, swapRelatedWish.length);
+
+        // if swap items related = 0
+        if (swapRelatedWish.length === 0) {
+            result.message = `Wishlist related books for purchase is zero..`;
+            result.data = swapRelatedWish;
+            result.status = 200;
+            return result;
+        };
+
+        result.message = `Wishlist related books for purchase..`;
+        result.data = swapRelatedWish;
+        result.status = 200;
         return result;
+
     }
 
 };
