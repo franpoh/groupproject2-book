@@ -18,7 +18,8 @@ module.exports = {
       }
     });
 
-    if (review === null) { //new user and new book => NULL => add review
+    if (review === null) {
+      //new user and new book => NULL => add review
       const newEntry = await Reviews.create({
         indexId: indexid,
         userId: userid,
@@ -30,6 +31,7 @@ module.exports = {
       result.message = `Review added for book index ${indexid} by user id ${userid}`;
       return result;
     }
+
     console.log(review);
     if (review && rev === review.review) {
       result.message = `Bad request: Duplicate entry for review`;
@@ -40,8 +42,6 @@ module.exports = {
     if (rev !== review.review) {
       review.review = rev;
     }
-
-
 
     await review.save();
     result.data = review;
