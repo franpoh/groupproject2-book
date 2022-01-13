@@ -5,7 +5,7 @@ class reviewController {
     async addReview(req, res) {
 
 
-        const loginId = req.userId;
+        const loginId = req.userId; //session token 
         console.log(typeof req.params.indexId, typeof req.body.rev, typeof req.body.userId)
         if (
             typeof req.params.indexId !== "string" ||
@@ -21,10 +21,15 @@ class reviewController {
             return res.json({ message: 'Incomplete payload entries' });
         };
 
-        // add in check for jwt
+        if (req.params.indexId !== res.indexId) {
+            res.status(404);
+            return res.json({ message: "invalid indexId" });
+        }
+
+        // check payload against token
         if (loginId !== req.body.userId) {
             res.status(400);
-            return res.json({ message: 'Incorrect user ID submitted' });
+            return res.json({ message: 'Incorrect user ID in session submitted' });
         };
 
         const result = await reviewService.addReview(req.body.userId, req.params.indexId, req.body.rev);
