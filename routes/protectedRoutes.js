@@ -45,7 +45,7 @@ router.get("/protected/viewprofile", accountController.viewProfile);
 router.put("/protected/editprofile", accountController.editProfile);
 
 // actions that need admin permissions
-// edit user type - USER, ADMIN or BANNED
+// edit user type to USER, ADMIN or BANNED
 router.put("/protected/admin/edituser", adminController.editUserType);
 
 module.exports = router;
