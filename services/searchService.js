@@ -29,6 +29,7 @@ module.exports = {
             }
         })
 
+        // search from INDEX database WHERE title = ???
         // const book = await Index.findAll({
         //     //findAll partial match
         //     where: {
@@ -49,7 +50,7 @@ module.exports = {
 
         result.data = swap;
         result.status = 200;
-        result.message = `Books found for under query: ${title} ...`
+        result.message = `Books found with keywords: " ${title} "`
         return result;
     },
 };
