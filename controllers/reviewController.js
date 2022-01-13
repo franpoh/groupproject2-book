@@ -21,6 +21,11 @@ class reviewController {
             return res.json({ message: 'Incomplete payload entries' });
         };
 
+        if (req.params.indexId !== res.indexId) {
+            res.status(404);
+            return res.json({ message: "invalid indexId" });
+        }
+
         // check payload against token
         if (loginId !== req.body.userId) {
             res.status(400);
