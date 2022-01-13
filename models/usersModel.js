@@ -13,33 +13,49 @@ module.exports = function (sequelize) {
             },
             username: {
                 type: DataTypes.STRING,
-                unique: true,
-                allowNull: false,
+                allowNull: false, // still needed, notNull sets the message
+                unique: { // unique is not a validation but a constraint and thus is placed outside
+                    args: true,
+                    msg: 'Username is already in use.'
+                },
                 // the properties stated within have to come back true, or it will throw ValidationError
                 // Catch error example in corresponding service files
                 validate: {
+                    notNull: {
+                        args: true,
+                        msg: 'You need to enter a username.'
+                    },
                     notEmpty: {
                         args: true,
+                        msg: 'You need to enter a username.'
                     },
                     len: { // length of string
-                        args: [3, 20], // min, max
-                        msg: "Username has insufficient/too many characters." // msg will show in console
-                    },
+                        args: [3, 10], // min, max
+                        msg: 'Your username needs to be between 3 to 10 characters.'
+                    }
                 },
                 field: "username",
             },
             email: {
                 type: DataTypes.STRING,
-                unique: true,
                 allowNull: false,
+                unique: {
+                    args: true,
+                    msg: 'Email is already in use.'
+                },
                 validate: {
+                    notNull: {
+                        args: true,
+                        msg: 'You need to enter a email.'
+                    },
                     notEmpty: {
                         args: true,
+                        msg: 'You need to enter a email.'
                     },
-                    len: {
-                        args: [5, 50],
-                        msg: "Email has insufficient/too many characters."
-                    },
+                    isEmail: {
+                        args: true,
+                        msg: 'You need to enter a valid email.'
+                    }
                 },
                 field: "email",
             },
@@ -47,9 +63,14 @@ module.exports = function (sequelize) {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
+                    notNull: {
+                        args: true,
+                        msg: 'You need to enter a email.'
+                    },
                     notEmpty: {
                         args: true,
-                    },
+                        msg: 'You need to enter a password.'
+                    }
                 },
                 field: "password",
             },
@@ -60,6 +81,11 @@ module.exports = function (sequelize) {
             wishlist: {
                 type: DataTypes.ARRAY(DataTypes.INTEGER), // array of integers
                 field: "wishlist",
+            },
+            type: {
+                type: DataTypes.STRING, // ADMIN, USER, BANNED
+                allowNull: false,
+                field: "type",
             },
             createdAt: {
                 type: DataTypes.DATE,

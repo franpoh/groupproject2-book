@@ -1,12 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
+const authenticateJwt = require("../authentication/authJwt");
+
 const ReviewController = require("../controllers/reviewController");
 const GrabController = require("../controllers/grabController");
+const AccountController = require("../controllers/accountController");
+const AdminController = require("../controllers/adminController");
 
 
 const reviewController = new ReviewController();
 const grabController = new GrabController();
+const accountController = new AccountController();
+const adminController = new AdminController();
 
 
 router.post("/protected/:indexId/addReview", reviewController.addReview);
@@ -28,12 +34,11 @@ const uploadController = new UploadController();
 
 router.post("/protected/uploadbook", uploadController.uploadbook);
 
-// req values passed from authenticateJwt to accountController.viewProfile
-// used as req.<variable>
-const AccountController = require("../controllers/accountController");
-const accountController = new AccountController();
-
-router.get("/protected/profile", accountController.viewProfile);
+// user account actions
+router.get("/protected/viewprofile", accountController.viewProfile);
 router.put("/protected/editprofile", accountController.editProfile);
+
+// actions that need admin permissions
+router.put("/protected/admin/edituser", adminController.editUserType);
 
 module.exports = router;
