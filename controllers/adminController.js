@@ -19,9 +19,7 @@ class AdminController {
             return res.send("The user type is invalid. Please input 'user', 'ban', or 'admin'.");
         }
 
-        const editUsername = req.body.username.toString();
-
-        const result = await userTypeService.editUserType(editUsername, req.body.type, req.body.password, req.userId);
+        const result = await userTypeService.editUserType(req.body.username.toString(), req.body.type, req.body.password.toString(), req.userId);
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
     }   
