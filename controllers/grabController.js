@@ -34,7 +34,6 @@ class GrabController {
             });
         };
 
-
         const result = await grabService.grabBook(req.body.userId, req.body.swapId);
         res.status(result.status);        
 

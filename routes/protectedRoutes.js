@@ -15,12 +15,13 @@ const wishlistController = new WishlistController();
 router.post("/protected/addReview", reviewController.addReview);
 
 // for grabbing book with credit
-router.post('/protected/swap', grabController.grabBook);
+router.post('/protected/grab', grabController.grabBook);
 
 // for adding book to user's wishlist
 router.post('/protected/addwish', wishlistController.addToWish);
 // for removing book from user's wishlist
 router.post('/protected/delwish', wishlistController.delFrWish);
+
 
 // G1 100122: for testing only. Also query some real life examples use session unique URIs, is it due prevent bookmark/copied URL + cached data + long expiry? eg . /e6xxh61s/swap
 router.get('/protected', (req, res) => {
