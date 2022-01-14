@@ -13,7 +13,7 @@ class accessController {
             return res.send("Your password is invalid. Please ensure that it contains at least 5 characters.");
         }
 
-        const result = await registerService.register(req.body.email, req.body.username, req.body.password);
+        const result = await registerService.register(req.body.email.toString(), req.body.username.toString(), req.body.password.toString());
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
     }
@@ -29,7 +29,7 @@ class accessController {
             return res.send("Your password is invalid.");
         }
 
-        const result = await loginService.login(req.body.email, req.body.password);
+        const result = await loginService.login(req.body.email.toString(), req.body.password.toString());
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
     }

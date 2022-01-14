@@ -24,7 +24,7 @@ class accountController {
             return res.send("Your password is invalid.");
         }
         
-        const result = await editProfileService.editProfile(req.userId, req.body.email, req.body.oldPassword, req.body.newPassword);
+        const result = await editProfileService.editProfile(req.userId, req.body.email.toString(), req.body.oldPassword.toString(), req.body.newPassword.toString());
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
     }
