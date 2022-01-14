@@ -1,4 +1,4 @@
-const { Reviews } = require("../connect.js");
+const { Reviews, Index } = require("../connect.js");
 
 module.exports = {
 
@@ -10,6 +10,18 @@ module.exports = {
       status: null,
       data: null,
     };
+
+    const index = await Index.findOne({
+      where: {
+        indexId: indexid
+      }
+    });
+
+    if (index === null) {
+      result.message = `Bad request: Book ID "${indexid}" does not exist in the database`;
+      result.status = 400;
+      return result;
+    }
 
     const review = await Reviews.findOne({
       where: {
