@@ -4,6 +4,8 @@ const { protectedPermission, adminPermission } = require("./authentication/userP
 const express = require('express');
 const app = express();
 
+const cors = require('cors');
+
 const generalRoutes = require("./routes/generalRoutes.js");
 const protectedRoutes = require("./routes/protectedRoutes.js");
 
@@ -18,21 +20,7 @@ const authenticateJwt = require("./authentication/authJwt");
 app.use('/protected', authenticateJwt, protectedPermission);
 app.use('/protected/admin', adminPermission);
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested, Content-Type, Accept Authorization"
-  )
-  if (req.method === "OPTIONS") {
-    res.header(
-      "Access-Control-Allow-Methods",
-      "POST, PUT, PATCH, GET, DELETE"
-    )
-    return res.status(200).json({})
-  }
-  next()
-})
+app.use(cors());
 
 // Main Page
 app.get('/', async (req, res) => {
