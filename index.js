@@ -2,7 +2,6 @@ const { sequelize, testConnection, Users, Index, Swap, Reviews, Genres } = requi
 const { protectedPermission, adminPermission } = require("./authentication/userPermissions");
 
 const express = require('express');
-const cors = require("cors");
 const app = express();
 
 const generalRoutes = require("./routes/generalRoutes.js");
@@ -18,7 +17,22 @@ app.use(express.json());
 const authenticateJwt = require("./authentication/authJwt");
 app.use('/protected', authenticateJwt, protectedPermission);
 app.use('/protected/admin', adminPermission);
-app.use(cors());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested, Content-Type, Accept Authorization"
+  )
+  if (req.method === "OPTIONS") {
+    res.header(
+      "Access-Control-Allow-Methods",
+      "POST, PUT, PATCH, GET, DELETE"
+    )
+    return res.status(200).json({})
+  }
+  next()
+})
 
 // Main Page
 app.get('/', async (req, res) => {
