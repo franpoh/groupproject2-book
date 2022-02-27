@@ -2,6 +2,7 @@ const { sequelize, testConnection, Users, Index, Swap, Reviews, Genres } = requi
 const { protectedPermission, adminPermission } = require("./authentication/userPermissions");
 
 const express = require('express');
+const cors = require("cors");
 const app = express();
 
 const generalRoutes = require("./routes/generalRoutes.js");
@@ -17,6 +18,7 @@ app.use(express.json());
 const authenticateJwt = require("./authentication/authJwt");
 app.use('/protected', authenticateJwt, protectedPermission);
 app.use('/protected/admin', adminPermission);
+app.use(cors());
 
 // Main Page
 app.get('/', async (req, res) => {
