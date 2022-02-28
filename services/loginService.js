@@ -33,9 +33,13 @@ module.exports = {
             username: user.username
         }
 
-        const loginToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
+        const accessToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
+        const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET);
 
-        result.data = loginToken;
+        result.data = {
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+        };
         result.status = 200;
         result.message = "Your login is successful!";
         return result;
