@@ -12,7 +12,7 @@ module.exports = function (req, res, next) {
                     res.status(403); // token no longer valid
                     res.send("Please login again.")
                 } else {
-                    const accessToken = jwt.sign({ userId: user.userId, username: user.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
+                    const accessToken = jwt.sign({ userId: user.userId, username: user.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
                     res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: "None", secure: true });
 
                     req.username = user.username;
