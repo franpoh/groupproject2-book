@@ -10,19 +10,19 @@ const cookieParser = require('cookie-parser');
 const generalRoutes = require("./routes/generalRoutes.js");
 const protectedRoutes = require("./routes/protectedRoutes.js");
 
+app.use(cors());
+
 // Test connections 
 testConnection();
 
 // Parsing JSON
 app.use(express.json());
 
+// to read body of request
+app.use(express.urlencoded({ extended: false }))
+
 // Parsing Cookies
 app.use(cookieParser());
-
-// to read body of request
-// app.use(express.urlencoded({ extended: false }))
-
-app.use(cors());
 
 // Adding middleware to all protected routes
 const authenticateJwt = require("./authentication/authJwt");
