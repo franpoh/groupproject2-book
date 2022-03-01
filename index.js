@@ -22,12 +22,7 @@ app.use(cookieParser());
 // to read body of request
 // app.use(express.urlencoded({ extended: false }))
 
-app.use(cors(
-  {
-    credentials: true,
-    origin: 'http://localhost:3000'
-  }
-));
+app.use(cors());
 
 // Adding middleware to all protected routes
 const authenticateJwt = require("./authentication/authJwt");
