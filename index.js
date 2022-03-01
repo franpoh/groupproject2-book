@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(cors(
   {
     credentials: true,
-    origin: "https://book-libraryshop.herokuapp.com",
+    origin: 'http://localhost:3000'
   }
 ));
 
