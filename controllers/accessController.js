@@ -33,7 +33,7 @@ class accessController {
         res.status(result.status);
         res.cookie('refreshToken', result.data.refreshToken, { httpOnly: true }); 
         res.cookie('accessToken', result.data.accessToken, { httpOnly: true }); 
-        return res.json({ data: result.data.accessToken, message: result.message });
+        return res.json({ message: result.message });
     }
 }
 

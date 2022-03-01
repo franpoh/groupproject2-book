@@ -10,7 +10,10 @@ const cookieParser = require('cookie-parser');
 const generalRoutes = require("./routes/generalRoutes.js");
 const protectedRoutes = require("./routes/protectedRoutes.js");
 
-app.use(cors());
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+}
 
 // Test connections 
 testConnection();
@@ -18,8 +21,7 @@ testConnection();
 // Parsing JSON
 app.use(express.json());
 
-// to read body of request
-app.use(express.urlencoded({ extended: false }))
+app.use(cors(corsOptions));
 
 // Parsing Cookies
 app.use(cookieParser());
