@@ -17,7 +17,7 @@ module.exports = {
         }
 
         result.status = 200;
-        result.data = JSON.stringify(user);
+        result.data = user;
         result.message = "Welcome to your profile!";
         return result;
     }
