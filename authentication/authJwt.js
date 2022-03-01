@@ -41,6 +41,8 @@ module.exports = function (req, res, next) {
         req.username = user.username; // eg cmdrshep
         req.userId = user.userId // eg 5
 
+        console.log("authJwt", req.username, req.userId)
+
         next();
     });
 }
