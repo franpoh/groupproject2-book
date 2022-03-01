@@ -1,5 +1,6 @@
 require('dotenv').config();
 const bcrypt = require("bcrypt");
+const res = require('express/lib/response');
 const jwt = require("jsonwebtoken");
 
 const { Users } = require("../connect.js");
@@ -34,11 +35,11 @@ module.exports = {
         }
 
         const accessToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
-        const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET);
+        const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1y" });
 
         result.data = {
-            accessToken: accessToken,
-            refreshToken: refreshToken,
+            accessToken: accessToken, 
+            refreshToken: refreshToken, 
         };
         result.status = 200;
         result.message = "Your login is successful!";

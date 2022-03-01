@@ -31,7 +31,9 @@ class accessController {
 
         const result = await loginService.login(req.body.email.toString(), req.body.password.toString());
         res.status(result.status);
-        return res.json({ data: result.data, message: result.message });
+        res.cookie('refreshToken', result.data.refreshToken, { httpOnly: true }); 
+        res.cookie('accessToken', result.data.accessToken, { httpOnly: true }); 
+        return res.json({ data: result.data.accessToken, message: result.message });
     }
 }
 

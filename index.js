@@ -5,22 +5,36 @@ const express = require('express');
 const app = express();
 
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const generalRoutes = require("./routes/generalRoutes.js");
 const protectedRoutes = require("./routes/protectedRoutes.js");
 
-// Test connections
+// Test connections 
 testConnection();
 
 // Parsing JSON
 app.use(express.json());
 
+// Parsing Cookies
+app.use(cookieParser());
+
+// to read body of request
+// app.use(express.urlencoded({ extended: false }))
+
+app.use(cors(
+  // {
+  //   credentials: true,
+  //   origin: "http://localhost:3000",
+  // }
+));
+
 // Adding middleware to all protected routes
 const authenticateJwt = require("./authentication/authJwt");
-app.use('/protected', authenticateJwt, protectedPermission);
-app.use('/protected/admin', adminPermission);
+const refreshToken = require("./authentication/refresh-token");
 
-app.use(cors());
+app.use('/protected', refreshToken, authenticateJwt, protectedPermission);
+app.use('/protected/admin', adminPermission);
 
 // Main Page
 app.get('/', async (req, res) => {
