@@ -31,6 +31,11 @@ module.exports = function (sequelize) {
                 type: DataTypes.INTEGER,
                 field: "genre_id",
             },
+            imageURL: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                field: "image_url",
+            },
             createdAt: {
                 type: DataTypes.DATE,
                 field: "created_at",
