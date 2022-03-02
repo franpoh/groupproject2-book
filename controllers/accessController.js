@@ -13,19 +13,16 @@ class accessController {
         }
 
         const result = await registerService.register(req.body.email.toString(), req.body.username.toString(), req.body.password.toString());
-        res.status(result.status);
-        return res.json({ data: result.data, message: result.message });
+        return res.status(result.status).json({ message: result.message });
     }
 
     async login (req, res) {
         if (!req.body.email) {
-            res.status(400)
-            return res.send("Your email is invalid.");
+            return res.status(400).json({ message: "Your email is invalid." });
         }
 
         if (!req.body.password) {
-            res.status(400)
-            return res.send("Your password is invalid.");
+            return res.status(400).json({ message: "Your password is invalid." });
         }
 
         const result = await loginService.login(req.body.email.toString(), req.body.password.toString());
