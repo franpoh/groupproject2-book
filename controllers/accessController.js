@@ -30,11 +30,10 @@ class accessController {
         if (result.status == 200) {
             res.cookie('refreshToken', result.data.refreshToken, { httpOnly: true, sameSite: "None", secure: true });
             res.cookie('accessToken', result.data.accessToken, { httpOnly: true, sameSite: "None", secure: true });
+            return res.status(result.status).json({ message: result.message });
         } else if (result.status == 400) {
-            return;
+            return res.status(result.status).json({ message: result.message });
         }
-
-        return res.status(result.status).json({ message: result.message });
     }
 }
 
