@@ -20,7 +20,6 @@ module.exports = {
             // validation error is caught during Users.create, as it is being pointed to the columns
             const user = await Users.create({ email: email, username: username, password: hash, type: "USER" });
 
-            result.data = JSON.stringify(user);
             result.status = 200;
             result.message = "Your registration is successful!";
             return result;
