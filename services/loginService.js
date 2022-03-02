@@ -1,6 +1,6 @@
 require('dotenv').config();
 const bcrypt = require("bcrypt");
-const res = require('express/lib/response');
+
 const jwt = require("jsonwebtoken");
 
 const { Users } = require("../connect.js");
@@ -13,61 +13,35 @@ module.exports = {
             data: null,
         }
 
-        // try {
-        //     const passwordVerification = await bcrypt.compare(password, user.password);
-        //     const user = await Users.findOne({ where: { email: email } });
-
-        //     if (user && passwordVerification) {
-        //         const accessToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
-        //         const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
-
-        //         result.data = {
-        //             accessToken: accessToken,
-        //             refreshToken: refreshToken,
-        //         };
-        //         result.status = 200;
-        //         result.message = "Your login is successful!";
-        //         return result;
-        //     }
-        // } catch (error) {
-        //     console.log("login in API", error);
-        //     result.message = "You have entered the wrong everything";
-        //     result.status = 400;
-        //     return result;
-        // }
-
         const user = await Users.findOne({ where: { email: email } });
-        console.log("login user", user);
+
+        const passwordVerification = await bcrypt.compare(password, user.password);
 
         if (!user) {
             result.message = "You have entered the wrong email.";
             result.status = 400;
             return result;
-        }
-
-        const passwordVerification = await bcrypt.compare(password, user.password);
-        console.log("login pass", passwordVerification);
-
-        if (!passwordVerification) {
+        } else if (!passwordVerification) {
             result.message = "You have entered the wrong password";
             result.status = 400;
             return result;
+        } else {
+            const loginData = {
+                userId: user.userId,
+                username: user.username
+            }
+
+            const accessToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
+            const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+
+            result.data = {
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+            };
+
+            result.status = 200;
+            result.message = "Your login is successful!";
+            return result;
         }
-
-        const loginData = {
-            userId: user.userId,
-            username: user.username
-        }
-
-        const accessToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
-        const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
-
-        result.data = {
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-        };
-        result.status = 200;
-        result.message = "Your login is successful!";
-        return result;
     }
 }
