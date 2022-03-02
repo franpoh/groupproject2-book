@@ -12,7 +12,7 @@ router.post("/general/register", accessController.register);
 router.post("/general/login", accessController.login);
 router.get("/general/search", searchController.search); 
 
-// router.get("/general/:indexId/detail", searchController.detail);
+router.get("/general/detail", searchController.detail);
 
 
 module.exports = router;
