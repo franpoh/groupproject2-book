@@ -13,7 +13,7 @@ module.exports = {
             data: null,
         }
 
-        // const user = await Users.findOne({ where: { email: email } });
+        const user = await Users.findOne({ where: { email: email } });
 
         // if (!user) {
         //     result.message = "You have entered the wrong email.";
@@ -23,11 +23,11 @@ module.exports = {
 
         const passwordVerification = await bcrypt.compare(password, user.password);
 
-        if (!passwordVerification) {
-            result.message = "You have entered the wrong password";
-            result.status = 400;
-            return result;
-        }
+        // if (!passwordVerification) {
+        //     result.message = "You have entered the wrong password";
+        //     result.status = 400;
+        //     return result;
+        // }
 
         const loginData = {
             userId: user.userId,
