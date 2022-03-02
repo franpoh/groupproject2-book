@@ -23,11 +23,11 @@ module.exports = {
 
         const passwordVerification = await bcrypt.compare(password, user.password);
 
-        // if (!passwordVerification) {
-        //     result.message = "You have entered the wrong password";
-        //     result.status = 400;
-        //     return result;
-        // }
+        if (!passwordVerification) {
+            result.message = "You have entered the wrong password";
+            result.status = 400;
+            return result;
+        }
 
         const loginData = {
             userId: user.userId,
