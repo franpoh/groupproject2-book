@@ -27,10 +27,10 @@ class accessController {
 
         const result = await loginService.login(req.body.email.toString(), req.body.password.toString());
 
-        if (result.status === 200) {
+        if (result.status == 200) {
             res.cookie('refreshToken', result.data.refreshToken, { httpOnly: true, sameSite: "None", secure: true });
             res.cookie('accessToken', result.data.accessToken, { httpOnly: true, sameSite: "None", secure: true });
-        } else if (result.status === 400) {
+        } else if (result.status == 400) {
             return;
         }
 
