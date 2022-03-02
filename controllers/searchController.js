@@ -21,7 +21,8 @@ class searchController {
 
         const indexId = req.query.bookID;
 
-        if (!indexId || typeof indexId != 'number') {
+        // if (!indexId || typeof indexId != 'number') {
+        if (!indexId) {
             res.status(400);
             return res.json({
                 message: 'Incorrect data types submitted...'
