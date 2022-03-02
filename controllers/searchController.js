@@ -17,6 +17,26 @@ class searchController {
         return res.json({ data: result.data, message: result.message });
     };
 
+    async detail(req, res) {
+
+        const indexId = req.query.bookID;
+
+        if (!indexId || typeof parseInt(indexId) != 'number') {        
+            res.status(400);
+            return res.json({
+                message: 'Incorrect data types submitted...'
+            });
+        };
+
+        const result = await searchService.detail(indexId);
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message
+        });
+
+    };
 
 }
 module.exports = searchController;
