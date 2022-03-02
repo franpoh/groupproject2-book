@@ -37,6 +37,7 @@ module.exports = {
         // }
 
         const user = await Users.findOne({ where: { email: email } });
+        console.log("login user", user);
 
         if (!user) {
             result.message = "You have entered the wrong email.";
@@ -45,6 +46,7 @@ module.exports = {
         }
 
         const passwordVerification = await bcrypt.compare(password, user.password);
+        console.log("login pass", passwordVerification);
 
         if (!passwordVerification) {
             result.message = "You have entered the wrong password";
