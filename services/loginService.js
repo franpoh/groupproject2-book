@@ -13,7 +13,7 @@ module.exports = {
             data: null,
         }
 
-        let p = new Promise((resolve, reject) => {
+        let p = new Promise(async (resolve, reject) => {
             const user = await Users.findOne({ where: { email: email } });
             const passwordVerification = await bcrypt.compare(password, user.password);
             if (user && passwordVerification) {
@@ -46,9 +46,5 @@ module.exports = {
             result.status = 400;
             return result;
         })
-
-        result.status = 200;
-        result.message = "Your login is successful!";
-        return result;
     }
 }
