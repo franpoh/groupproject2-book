@@ -1,7 +1,7 @@
 const { DataTypes, Model } = require("sequelize");
 
 module.exports = function (sequelize) {
-    class Index extends Model {}
+    class Index extends Model { }
 
     Index.init(
         {
