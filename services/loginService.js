@@ -14,7 +14,6 @@ module.exports = {
         }
 
         const user = await Users.findOne({ where: { email: email } });
-
         const passwordVerification = await bcrypt.compare(password, user.password);
 
         if (!user) {
@@ -25,7 +24,7 @@ module.exports = {
             result.message = "You have entered the wrong password";
             result.status = 400;
             return result;
-        } else {
+        } else if (user && passwordVerification) {
             const loginData = {
                 userId: user.userId,
                 username: user.username
