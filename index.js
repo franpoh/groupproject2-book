@@ -11,7 +11,7 @@ const generalRoutes = require("./routes/generalRoutes.js");
 const protectedRoutes = require("./routes/protectedRoutes.js");
 
 const corsOptions = {
-  origin: "http://localhost:3000/",
+  origin: "http://localhost:3000",
   credentials: true,
 }
 
