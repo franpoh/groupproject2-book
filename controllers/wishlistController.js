@@ -98,6 +98,17 @@ class WishlistController {
         });
     };
 
+    // G1 testing only
+    async getUsers(req, res) {
+        const result = await wishlistSerivce.getUsers();
+        res.status(result.status);
+
+        return res.json({
+            data: result.data,
+            message: result.message 
+        });
+    };
+
 };
 
 module.exports = WishlistController;

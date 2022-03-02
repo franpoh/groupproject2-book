@@ -35,6 +35,10 @@ router.get('/protected', (req, res) => {
     return res.send('Calling on protected route..');
 });
 
+// G1 020322: for testing only.
+router.get('/protected/getusers', wishlistController.getUsers);
+
+
 router.post("/protected/uploadbook", uploadController.uploadbook);
 
 // user account actions

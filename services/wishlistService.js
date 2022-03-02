@@ -201,6 +201,25 @@ module.exports = {
         result.status = 200;
         return result;
 
+    },
+
+    // G1 testing only
+
+    getUsers: async (submittedUserId) => {
+
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        };
+
+        const users = await Users.findAll();
+
+        result.message = `Wishlist users`;
+        result.data = users;
+        result.status = 200;
+        return result;
+
     }
 
 };
