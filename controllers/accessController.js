@@ -9,7 +9,7 @@ class accessController {
         console.log("Checking byte length: ", checkLength);
 
         if (!req.body.password || checkLength > 72 || req.body.password.length < 5) {
-            return res.status(400).json({ message: "Your password is invalid. Please ensure that it contains at least 5 characters." });
+            return res.status(400).json({ message: "Ensure password contains at least 5 characters." });
         }
 
         const result = await registerService.register(req.body.email.toString(), req.body.username.toString(), req.body.password.toString());

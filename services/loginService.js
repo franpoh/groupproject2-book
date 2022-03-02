@@ -16,7 +16,7 @@ module.exports = {
         const user = await Users.findOne({ where: { email: email } });
 
         if (!user) {
-            result.message = "User not found. You have entered the wrong email, please try logging in again.";
+            result.message = "You have entered the wrong email.";
             result.status = 400;
             return result;
         }
