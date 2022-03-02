@@ -13,7 +13,31 @@ module.exports = {
             data: null,
         }
 
+        // try {
+        //     const passwordVerification = await bcrypt.compare(password, user.password);
+        //     const user = await Users.findOne({ where: { email: email } });
+
+        //     if (user && passwordVerification) {
+        //         const accessToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
+        //         const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+
+        //         result.data = {
+        //             accessToken: accessToken,
+        //             refreshToken: refreshToken,
+        //         };
+        //         result.status = 200;
+        //         result.message = "Your login is successful!";
+        //         return result;
+        //     }
+        // } catch (error) {
+        //     console.log("login in API", error);
+        //     result.message = "You have entered the wrong everything";
+        //     result.status = 400;
+        //     return result;
+        // }
+
         const user = await Users.findOne({ where: { email: email } });
+        console.log("login user", user);
 
         if (!user) {
             result.message = "You have entered the wrong email.";
@@ -22,6 +46,7 @@ module.exports = {
         }
 
         const passwordVerification = await bcrypt.compare(password, user.password);
+        console.log("login pass", passwordVerification);
 
         if (!passwordVerification) {
             result.message = "You have entered the wrong password";
@@ -38,8 +63,8 @@ module.exports = {
         const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
 
         result.data = {
-            accessToken: accessToken, 
-            refreshToken: refreshToken, 
+            accessToken: accessToken,
+            refreshToken: refreshToken,
         };
         result.status = 200;
         result.message = "Your login is successful!";
