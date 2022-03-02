@@ -25,6 +25,8 @@ module.exports = {
             result.status = 400;
             return result;
         } else if (user && passwordVerification) {
+            console.log("TEST", user, passwordVerification);
+            
             const loginData = {
                 userId: user.userId,
                 username: user.username
