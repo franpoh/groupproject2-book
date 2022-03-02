@@ -47,7 +47,10 @@ module.exports = {
 
         try {
             const user = await Users.findOne({ where: { email: email } });
-            const passwordVerification = await bcrypt.compare(password, user.password);
+
+            if (user) {
+                const passwordVerification = await bcrypt.compare(password, user.password);
+            }
 
             const loginData = {
                 userId: user.userId,
@@ -65,7 +68,7 @@ module.exports = {
             result.message = "Your login is successful!";
             return result;
         } catch (error) {
-            result.message = error;
+            result.message = "There was an error";
             result.status = 400;
             return result;
         }
