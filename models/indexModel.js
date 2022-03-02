@@ -31,12 +31,6 @@ module.exports = function (sequelize) {
                 type: DataTypes.INTEGER,
                 field: "genre_id",
             },
-            imageURL: {
-                type: DataTypes.STRING,
-                unique: true,
-                allowNull: false,
-                field: "imageURL",
-            },
             createdAt: {
                 type: DataTypes.DATE,
                 field: "created_at",
