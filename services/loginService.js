@@ -13,37 +13,75 @@ module.exports = {
             data: null,
         }
 
-        const user = await Users.findOne({ where: { email: email } });
-        const passwordVerification = await bcrypt.compare(password, user.password);
+        // const user = await Users.findOne({ where: { email: email } });
+        // const passwordVerification = await bcrypt.compare(password, user.password);
 
-        if (!user) {
+        let p = new Promise((resolve, reject) => {
+            const user = await Users.findOne({ where: { email: email } });
+            if (user) {
+                resolve(user);
+            } else if (!user) {
+                reject(error)
+            }
+        });
+
+        p.then((user) => {
+            const passwordVerification = await bcrypt.compare(password, user.password);
+            if (passwordVerification) {
+                const loginData = {
+                    userId: user.userId,
+                    username: user.username
+                }
+        
+                const accessToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
+                const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+        
+                result.data = {
+                    accessToken: accessToken,
+                    refreshToken: refreshToken,
+                };
+                result.status = 200;
+                result.message = "Your login is successful!";
+                return result;
+            } else if (!passwordVerification) {
+                result.message = "You have entered the wrong password";
+                result.status = 400;
+                return result;
+            }
+        }).catch((error) => {
             result.message = "User not found. You have entered the wrong email, please try logging in again.";
             result.status = 400;
             return result;
-        }
+        });
 
-        if (!passwordVerification) {
-            result.message = "You have entered the wrong password";
-            result.status = 400;
-            return result;
-        }
+        // if (!user) {
+        //     result.message = "User not found. You have entered the wrong email, please try logging in again.";
+        //     result.status = 400;
+        //     return result;
+        // }
 
-        if (user && passwordVerification) {
-            const loginData = {
-                userId: user.userId,
-                username: user.username
-            }
+        // if (!passwordVerification) {
+        //     result.message = "You have entered the wrong password";
+        //     result.status = 400;
+        //     return result;
+        // }
+
+        // if (user && passwordVerification) {
+        //     const loginData = {
+        //         userId: user.userId,
+        //         username: user.username
+        //     }
     
-            const accessToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
-            const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+        //     const accessToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
+        //     const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
     
-            result.data = {
-                accessToken: accessToken,
-                refreshToken: refreshToken,
-            };
-            result.status = 200;
-            result.message = "Your login is successful!";
-            return result;
-        }
+        //     result.data = {
+        //         accessToken: accessToken,
+        //         refreshToken: refreshToken,
+        //     };
+        //     result.status = 200;
+        //     result.message = "Your login is successful!";
+        //     return result;
+        // }
     }
 }
