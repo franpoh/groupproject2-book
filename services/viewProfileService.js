@@ -1,4 +1,4 @@
-const { Users, Swap, Reviews } = require("../connect.js");
+const { Users, Swap, Reviews, Index } = require("../connect.js");
 
 module.exports = {
     viewProfile: async (userId) => {
@@ -16,7 +16,7 @@ module.exports = {
             return result;
         }
 
-        const reviews = await Reviews.findAll({ where: { userId: userId } });
+        const reviews = await Reviews.findAll({ where: { userId: userId }, include: { Index } });
         const swap = await Swap.findAll({ where: { userId: userId } });
 
         result.data = {
