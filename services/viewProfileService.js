@@ -1,4 +1,4 @@
-const { Users } = require("../connect.js");
+const { Users, Swap, Reviews } = require("../connect.js");
 
 module.exports = {
     viewProfile: async (userId) => {
@@ -8,7 +8,7 @@ module.exports = {
             data: null,
         }
 
-        const user = await Users.findByPk(userId);
+        const user = await Users.findOne(userId, { include: [Swap, Reviews] });
 
         if (!user) {
             result.message = "User not found. Please try logging in again.";
