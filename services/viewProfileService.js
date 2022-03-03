@@ -17,7 +17,7 @@ module.exports = {
         }
 
         const reviews = await Reviews.findAll();
-        const swap = await Swap.findAll({ where: { userId: userId } });
+        const swap = await Swap.findAll({ where: { userId: userId }, include: "Index" });
 
         result.data = {
             user: user,
