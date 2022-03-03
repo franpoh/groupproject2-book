@@ -182,7 +182,7 @@ module.exports = {
         const swapRelatedWish = await Swap.findAll({
             where: {
                 // indexId: user.wishlist,
-                indexId: [7, 21],
+                indexId: 7,
                 availability: 'YES'
             }
         }); // this format might not be useful.. might need nested array loop to tie to individual indexId
