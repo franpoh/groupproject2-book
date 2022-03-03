@@ -8,7 +8,7 @@ module.exports = {
             data: null,
         }
 
-        const user = await Users.findOne(userId, { include: [Swap, Reviews] });
+        const user = await Users.findByPk(userId, { include: [Swap, Reviews] });
 
         if (!user) {
             result.message = "User not found. Please try logging in again.";
