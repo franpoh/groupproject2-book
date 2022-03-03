@@ -8,7 +8,7 @@ module.exports = {
             data: null,
         }
 
-        const user = await Users.findByPk(userId, { include: [Swap, Reviews] });
+        const user = await Users.findByPk(userId);
 
         if (!user) {
             result.message = "User not found. Please try logging in again.";
@@ -16,8 +16,16 @@ module.exports = {
             return result;
         }
 
+        const reviews = await Reviews.findAll({ where: { userId: userId } });
+        const swap = await Swap.findAll({ where: { userId: userId } });
+
+        result.data = {
+            user: user,
+            reviews: reviews,
+            swap: swap,
+        }
+
         result.status = 200;
-        result.data = user;
         result.message = "Welcome to your profile!";
         return result;
     }
