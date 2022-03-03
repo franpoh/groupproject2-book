@@ -87,7 +87,7 @@ class WishlistController {
 
         // const loginId = req.userId; // token's userId
 
-        // console.log('checkMyWishlist Controller', loginId, req.body.userId); // body should be empty for checkMyWishlist but amended to use body.userId due webapp
+        // console.log('checkMyWishlist Controller', loginId, req.body.userId); // body should be empty for checkMyWishlist but amended to use body.userId due webapp etc etc
 
         const result = await wishlistSerivce.checkMyWishlist(parseInt(req.body.userId));
         res.status(result.status);
