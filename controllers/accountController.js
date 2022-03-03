@@ -15,11 +15,11 @@ class accountController {
         if (!req.body.newPassword) {
             console.log("There is no new password.")
         } else if (checkLength > 72 || req.body.newPassword.length < 5) {
-            return res.status(400).json("Your password should contain at least 5 characters.");
+            return res.status(400).json({ message: "Your password should contain at least 5 characters." });
         }
 
         if (!req.body.oldPassword) {
-            return res.status(400).json("Your password is invalid.");
+            return res.status(400).json({ message: "Your password is invalid." });
         }
         
         const result = await editProfileService.editProfile(req.userId, req.body.email.toString(), req.body.oldPassword.toString(), req.body.newPassword.toString());
