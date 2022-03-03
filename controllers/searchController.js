@@ -21,7 +21,7 @@ class searchController {
 
         const indexId = req.query.bookID;
 
-        if (!indexId || typeof parseInt(indexId) != 'number') {        
+        if (!indexId || typeof parseInt(indexId) != 'number') {
             res.status(400);
             return res.json({
                 message: 'Incorrect data types submitted...'
@@ -36,6 +36,20 @@ class searchController {
             message: result.message
         });
 
+    };
+
+    async searchIndex(req, res) {
+
+        const title = req.query.title;
+
+        if (!title) {
+            res.status(400);
+            return res.json({ message: "invalid URL" });
+        }
+
+        const result = await searchService.searchIndex(req.query.title);
+        res.status(result.status);
+        return res.json({ data: result.data, message: result.message });
     };
 
 }
