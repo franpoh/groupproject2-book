@@ -197,7 +197,8 @@ module.exports = {
         };
 
         result.message = `Wishlist related books for purchase..`;
-        result.data = swapRelatedWish;
+        result.data = user.wishlist;
+        // result.data = swapRelatedWish;
         result.status = 200;
         return result;
 
