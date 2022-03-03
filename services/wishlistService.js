@@ -213,7 +213,7 @@ module.exports = {
             data: null,
         };
 
-        const users = await Users.findAll();
+        const users = await Swap.findAll();
 
         result.message = `Wishlist users`;
         result.data = users;
