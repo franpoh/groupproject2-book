@@ -86,9 +86,10 @@ class WishlistController {
     async checkMyWishlist(req, res) {       
 
         const loginId = req.userId; // token's userId
+        
 
         if (typeof req.body.indexId !== 'number') {
-            res.status(400);
+            res.status(411);
             return res.json({
                 message: `Incorrect data types submitted..${req.body.indexId}...${typeof req.body.indexId !== 'number'}`
             });
