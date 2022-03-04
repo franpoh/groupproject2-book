@@ -87,17 +87,15 @@ class WishlistController {
 
         const loginId = req.userId; // token's userId
         
-        let sendIndexID = req.body.indexId.toString();
-        const test = req.body.indexId;
+        // let sendIndexID = req.body.indexId.toString();
+        // const test = req.body.indexId;
 
         
         res.status(200);
         return res.json({
             data: {
-                data: {
-                    key1: test,
-                    key2: sendIndexID,
-                    key3: test,
+                data: {                   
+                    key2: req.body,
                 }                
             },
             message: 'result.message '
