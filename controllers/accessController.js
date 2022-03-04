@@ -29,8 +29,8 @@ class accessController {
         const result = await loginService.login(req.body.email.toString(), req.body.password.toString());
 
         if (result.status == 200) {
-            res.cookie('refreshToken', refreshToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
-            res.cookie('accessToken', accessToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
+            res.cookie('refreshToken', req.cookie.refreshToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
+            res.cookie('accessToken', req.cookie.accessToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
             return res.status(result.status).json({ message: result.message });
         } else if (result.status == 400) {
             return res.status(result.status).json({ message: result.message });
