@@ -91,28 +91,28 @@ class WishlistController {
         // const test = req.body.indexId;
 
         
-        res.status(200);
-        return res.json({
-            data: {
-                data: {                   
-                    key2: req.body,
-                }                
-            },
-            message: 'result.message '
-        });
+        // res.status(200);
+        // return res.json({
+        //     data: {
+        //         data: {                   
+        //             key2: req.body,
+        //         }                
+        //     },
+        //     message: 'result.message '
+        // });
         
 
-        if (typeof sendIndexID !== 'number') {
-            res.status(411);
-            return res.json({
-                message: `Incorrect data types submitted..${sendIndexID}...${typeof sendIndexID}`
-            });
-        };
+        // if (typeof sendIndexID !== 'number') {
+        //     res.status(411);
+        //     return res.json({
+        //         message: `Incorrect data types submitted..${sendIndexID}...${typeof sendIndexID}`
+        //     });
+        // };
 
         // console.log('checkMyWishlist Controller', loginId, req.body.userId); // body should be empty for checkMyWishlist but amended to use body.userId due webapp etc etc
 
-        // const result = await wishlistSerivce.checkMyWishlist(parseInt(req.body.userId));
-        const result = await wishlistSerivce.checkMyWishlist(loginId, sendIndexID);
+        const result = await wishlistSerivce.checkMyWishlist(parseInt(req.body.userId));
+        // const result = await wishlistSerivce.checkMyWishlist(loginId, sendIndexID);
         res.status(result.status);
 
         return res.json({
