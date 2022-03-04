@@ -96,7 +96,8 @@ class WishlistController {
             data: {
                 data: {
                     key1: test,
-                    key2: sendIndexID
+                    key2: sendIndexID,
+                    key3: test,
                 }                
             },
             message: 'result.message '
