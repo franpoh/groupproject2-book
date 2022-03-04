@@ -146,7 +146,7 @@ module.exports = {
 
     //For user to check his wishlist if books in swap inventory available
 
-    checkMyWishlist: async (submittedUserId, submittedIndexId, c) => {
+    checkMyWishlist: async (submittedUserId) => {
 
         let result = {
             message: null,
@@ -154,28 +154,28 @@ module.exports = {
             data: null,
         };
 
-        // const user = await Users.findByPk(submittedUserId);
+        const user = await Users.findByPk(submittedUserId);
 
-        // if (!user) {
-        //     result.message = `User ID ${submittedUserId} is not found..`;
-        //     result.status = 404;
-        //     return result;
-        // };
+        if (!user) {
+            result.message = `User ID ${submittedUserId} is not found..`;
+            result.status = 404;
+            return result;
+        };
 
-        // if (user.wishlist === null) {
-        //     user.wishlist = [];
-        //     result.data = user;
-        //     result.message = `There are no items inside your wishlist..`;
-        //     result.status = 404;
-        //     return result;
-        // };
+        if (user.wishlist === null) {
+            user.wishlist = [];
+            result.data = user;
+            result.message = `There are no items inside your wishlist..`;
+            result.status = 404;
+            return result;
+        };
 
-        // if (user.wishlist.length === 0) {
-        //     result.data = user;
-        //     result.message = `There are no items inside your wishlist..`;
-        //     result.status = 404;
-        //     return result;
-        // };
+        if (user.wishlist.length === 0) {
+            result.data = user;
+            result.message = `There are no items inside your wishlist..`;
+            result.status = 404;
+            return result;
+        };
 
         // check swap inventory based on wishlist
 
@@ -184,8 +184,8 @@ module.exports = {
             result.message = `Wishlist related books for purchase..`;
             result.data = { 
                 data : {
-                    type: [(typeof submittedUserId), (typeof submittedIndexId), (typeof c)],
-                    data: [ submittedUserId, submittedIndexId, c ]
+                    type: user.userId,
+                    data: user.wishlist
                 }
             };
             result.status = 200;
