@@ -10,8 +10,8 @@ module.exports = {
             const { accessToken, refreshToken } = req.cookies;
 
             console.log("TESTING LOGOUT");
-            res.clearCookie('refreshToken', {domain: "https://book-libraryshop.herokuapp.com", path: "/logout"});
-            res.clearCookie('accessToken', {domain: "https://book-libraryshop.herokuapp.com", path: "/logout"});
+            res.clearCookie('refreshToken', {domain: "https://book-libraryshop.herokuapp.com", path: "/protected/logout"});
+            res.clearCookie('accessToken', {domain: "https://book-libraryshop.herokuapp.com", path: "/protected/logout"});
             
             result.status = 204;
             result.message = "Your logout is successful!";
