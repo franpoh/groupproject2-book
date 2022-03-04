@@ -26,31 +26,6 @@ class accountController {
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
     }
-
-    async verify(req, res) {
-        
-        const loginId = req.userId; // token's userId
-
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        result.data = {
-            status: loginId
-        };
-        result.message = 'Testing verify'
-        result.status = 200;
-
-        res.status(result.status);
-
-        return res.status(result.status).json({ 
-            data: result.data, 
-            message: result.message 
-        });
-    };
-
 }
 
 module.exports = accountController;
