@@ -88,13 +88,13 @@ class WishlistController {
         const loginId = req.userId; // token's userId
         
         const sendIndexID = parseInt(req.body.indexId);
+        const test = req.body.indexId;
 
         
         res.status(200);
         return res.json({
-            data: { data: {
-                // sendIndexID: sendIndexID,
-                indexId: (req.body.indexId)
+            data: { data: {                
+                test: test
                 }
             },
             message: 'result.message '
