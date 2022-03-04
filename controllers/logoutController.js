@@ -1,5 +1,3 @@
-const logoutService = require("../services/logoutService");
-
 class logoutController {
     async logout(req, res) {
         try {
