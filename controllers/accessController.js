@@ -1,5 +1,6 @@
 const registerService = require("../services/registerService.js");
 const loginService = require("../services/loginService.js");
+const logoutService = require("../services/logoutService.js");
 
 class accessController {
     async register(req, res) {
@@ -34,6 +35,12 @@ class accessController {
         } else if (result.status == 400) {
             return res.status(result.status).json({ message: result.message });
         }
+    }
+
+    async logout(req, res) {
+        const result = await logoutService.logout();
+        res.status(result.status);
+        return res.json({ data: result.data, message: result.message });
     }
 }
 
