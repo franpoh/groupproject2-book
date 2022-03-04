@@ -32,13 +32,14 @@ module.exports = {
         try {
             let newEmail = !email ? user.email : email;
             let newPwd = !newPassword ? user.password : bcrypt.hashSync(newPassword, saltRounds);
+            let newMsg = !newPassword ? "Profile Updated!" : "Password Updated! Logging you out..."
 
             user.email = newEmail;
             user.password = newPwd;
             await user.save();
             result.status = 200;
             result.data = JSON.stringify(user);
-            result.message = "Profile updated!"
+            result.message = newMsg;
             return result;
         } catch (error) {
             if (error instanceof ValidationError) {
