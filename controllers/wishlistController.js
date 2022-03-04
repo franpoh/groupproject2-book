@@ -90,7 +90,7 @@ class WishlistController {
         const sendIndexID = parseInt(req.body.indexId);
 
         
-        res.status(411);
+        res.status(200);
         return res.json({
             data: { data: sendIndexID},
             message: 'result.message '
