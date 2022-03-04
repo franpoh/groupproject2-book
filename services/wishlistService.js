@@ -179,28 +179,45 @@ module.exports = {
 
         // check swap inventory based on wishlist
 
-        const swapRelatedWish = await Swap.findAll({
-            where: {
-                indexId: submittedIndexId,
-                // indexId: 5,
-                // availability: 'YES'
-            }
-        }); // this format might not be useful.. might need nested array loop to tie to individual indexId
+        if(typeof submittedIndexId !== 'number') {
 
-        console.log(swapRelatedWish, swapRelatedWish.length);
-
-        // if swap items related = 0
-        if (swapRelatedWish.length === 0) {
-            result.message = `Wishlist related books for purchase is zero..`;
-            result.data = swapRelatedWish;
+            result.message = `Wishlist related books for purchase..`;
+            result.data = { 
+                data : {
+                    type: (typeof submittedIndexId !== 'number'),
+                    data: submittedIndexId
+                }
+            };
             result.status = 200;
             return result;
+
         };
 
-        result.message = `Wishlist related books for purchase..`;
-        result.data = swapRelatedWish;
-        result.status = 200;
-        return result;
+        /////////
+        // const swapRelatedWish = await Swap.findAll({
+        //     where: {
+        //         indexId: submittedIndexId,
+        //         // indexId: 5,
+        //         // availability: 'YES'
+        //     }
+        // }); // this format might not be useful.. might need nested array loop to tie to individual indexId
+
+        // console.log(swapRelatedWish, swapRelatedWish.length);
+
+        // // if swap items related = 0
+        // if (swapRelatedWish.length === 0) {
+        //     result.message = `Wishlist related books for purchase is zero..`;
+        //     result.data = swapRelatedWish;
+        //     result.status = 200;
+        //     return result;
+        // };
+
+        // result.message = `Wishlist related books for purchase..`;
+        // result.data = swapRelatedWish;
+        // result.status = 200;
+        // return result;
+
+        /////////
 
     },
 
