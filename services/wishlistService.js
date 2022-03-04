@@ -184,8 +184,8 @@ module.exports = {
             result.message = `Wishlist related books for purchase..`;
             result.data = { 
                 data : {
-                    type: (typeof submittedIndexId !== 'number'),
-                    data: submittedIndexId
+                    type: [(typeof submittedUserId), (typeof submittedIndexId)],
+                    data: [ submittedUserId, submittedIndexId]
                 }
             };
             result.status = 200;
