@@ -3,15 +3,7 @@ const logoutService = require("../services/logoutService");
 class logoutController {
     async logout(req, res) {
         // const result = await logoutService.logout(req.cookies);
-
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
         try {
-            console.log("TESTING LOGOUT", req.cookies);
             const { accessToken, refreshToken } = req.cookies;
 
             res.clearCookie('refreshToken', refreshToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
