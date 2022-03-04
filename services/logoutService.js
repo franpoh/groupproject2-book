@@ -8,8 +8,8 @@ module.exports = {
 
         try {
             console.log("TESTING LOGOUT");
-            res.clearCookie('refreshToken', { httpOnly: true, sameSite: "None", secure: true, domain: "book-libraryshop.herokuapp.com", path: "/" });
-            res.clearCookie('accessToken', { httpOnly: true, sameSite: "None", secure: true, domain: "book-libraryshop.herokuapp.com", path: "/" });
+            res.clearCookie('refreshToken', {domain: "book-libraryshop.herokuapp.com", path: "/"}, {httpOnly: true, sameSite: "None", secure: true});
+            res.clearCookie('accessToken', {domain: "book-libraryshop.herokuapp.com", path: "/"}, {httpOnly: true, sameSite: "None", secure: true});
             
             result.status = 204;
             result.message = "Your logout is successful!";
