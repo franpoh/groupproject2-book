@@ -53,7 +53,7 @@ router.get("/protected/viewprofile", accountController.viewProfile);
 router.put("/protected/editprofile", accountController.editProfile);
 
 // logout of account
-router.delete("/protected/logout", logoutController.logout);
+router.post("/protected/logout", logoutController.logout);
 
 // actions that need admin permissions
 // edit user type to USER, ADMIN or BANNED
