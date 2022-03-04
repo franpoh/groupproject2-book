@@ -1,4 +1,4 @@
-const { Users, Swap, Reviews, Index } = require("../connect.js");
+const { Users, Swap, Reviews } = require("../connect.js");
 
 module.exports = {
     viewProfile: async (userId) => {
