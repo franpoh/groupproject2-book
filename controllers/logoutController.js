@@ -18,10 +18,10 @@ class logoutController {
         // }
 
         let p = await new Promise ((resolve, reject) => {
-            const { accessToken, refreshToken } = req.cookies;
+            // const { accessToken, refreshToken } = req.cookies;
 
-            res.clearCookie('refreshToken', refreshToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
-            res.clearCookie('accessToken', accessToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
+            res.clearCookie('refreshToken');
+            res.clearCookie('accessToken');
 
             console.log("Checking for cookies: ", req.cookies)
 
