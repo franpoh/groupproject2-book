@@ -14,6 +14,7 @@ router.get("/general/search", searchController.search);
 
 router.get("/general/detail", searchController.detail);
 router.get("/general/searchIndex", searchController.searchIndex);
+router.get("/general/searchSwap", searchController.searchSwapByIndex);
 
 
 module.exports = router;

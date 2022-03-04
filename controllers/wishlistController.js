@@ -41,7 +41,7 @@ class WishlistController {
 
         console.log('addToWish Controller', loginId, receivedIndexId);
 
-        // if userId or indexId missing
+        // if indexId missing
         if (!receivedIndexId) {
             res.status(400);
             return res.json({

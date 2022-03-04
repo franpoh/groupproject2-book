@@ -83,6 +83,27 @@ module.exports = {
         return result;
 
 
+    },
+
+    searchSwapByIndex: async (submittedIndexId) => {
+
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        };
+
+        const swapForIndex = await Swap.findAll({
+            where: {                
+                indexId: submittedIndexId,
+                availability: 'YES'
+            }
+        });
+
+        result.data = swapForIndex;
+        result.status = 200;
+        result.message = `Swap available for purchase`;
+        return result;
     }
 
 };

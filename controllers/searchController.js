@@ -52,5 +52,32 @@ class searchController {
         return res.json({ data: result.data, message: result.message });
     };
 
+    async searchSwapByIndex(req, res) {
+
+        const receivedIndexId = parseInt(req.query.indexId);
+
+        // if indexId missing
+        if (!receivedIndexId) {
+            res.status(400);
+            return res.json({
+                message: 'Incomplete data types submitted..'
+            });
+        };
+
+        if (typeof receivedIndexId !== 'number') {
+            res.status(400);
+            return res.json({
+                message: 'Incorrect data types submitted..'
+            });
+        };
+
+        const result = await searchService.searchSwapByIndex(receivedIndexId);
+        res.status(result.status);
+        return res.json({
+            data: result.data,
+            message: result.message
+        });
+    };
+
 }
 module.exports = searchController;
