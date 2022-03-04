@@ -6,22 +6,18 @@ module.exports = {
             data: null,
         }
 
-        let p = new Promise((resolve, reject) => {
-            // res.clearCookie('refreshToken');
-            // res.clearCookie('accessToken');
+        try {
             console.log("TESTING LOGOUT");
-            resolve("Your logout is successful!");
-            reject("Your logout is unsuccessful!");
-        })
-
-        p.then((msg) => {
+            res.clearCookie('refreshToken');
+            res.clearCookie('accessToken');
+            
             result.status = 204;
-            result.message = msg;
+            result.message = "Your logout is successful!";
             return result;
-        }).catch((err) => {
+        } catch (err) {
             result.status = 400;
-            result.message = err;
+            result.message = "Your logout is unsuccessful!";
             return result;
-        })
+        }
     }
 }
