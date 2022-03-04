@@ -7,9 +7,9 @@ module.exports = {
         }
 
         let p = new Promise((resolve, reject) => {
-            res.clearCookie('refreshToken');
-            res.clearCookie('accessToken');
-            
+            // res.clearCookie('refreshToken');
+            // res.clearCookie('accessToken');
+            console.log("TESTING LOGOUT");
             resolve("Your logout is successful!");
             reject("Your logout is unsuccessful!");
         })
