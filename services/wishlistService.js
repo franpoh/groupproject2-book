@@ -146,7 +146,7 @@ module.exports = {
 
     //For user to check his wishlist if books in swap inventory available
 
-    checkMyWishlist: async (submittedUserId, submittedIndexId) => {
+    checkMyWishlist: async (submittedUserId) => {
 
         let result = {
             message: null,
@@ -181,7 +181,7 @@ module.exports = {
         const swapRelatedWish = await Swap.findAll({
             where: {                
                 indexId: user.wishlist,
-                availability: 'YES'
+                // availability: 'YES' // allow frontend to decide what to show
             }
         }); // this format might not be useful.. might need nested array loop to tie to individual indexId
 
@@ -195,9 +195,8 @@ module.exports = {
             return result;
         };
 
-        result.message = `Wishlist related books for purchase..`;
-        result.data = {submittedIndexId};
-        // result.data = swapRelatedWish;
+        result.message = `Wishlist related books for purchase..`;        
+        result.data = swapRelatedWish;
         result.status = 200;
         return result;
     },
