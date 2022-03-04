@@ -146,7 +146,7 @@ module.exports = {
 
     //For user to check his wishlist if books in swap inventory available
 
-    checkMyWishlist: async (submittedUserId) => {
+    checkMyWishlist: async (submittedUserId, submittedIndexId) => {
 
         let result = {
             message: null,
@@ -179,19 +179,19 @@ module.exports = {
 
         // check swap inventory based on wishlist
 
-        if(typeof submittedIndexId !== 'number') {
+        // if(typeof submittedIndexId !== 'number') {
 
             result.message = `Wishlist related books for purchase..`;
             result.data = { 
                 data : {
-                    type: [(typeof submittedUserId)],
-                    data: [ submittedUserId]
+                    type: [(typeof submittedUserId), (typeof submittedIndexId)],
+                    data: [ submittedUserId, submittedIndexId ]
                 }
             };
             result.status = 200;
             return result;
 
-        };
+        // };
 
         /////////
         // const swapRelatedWish = await Swap.findAll({
