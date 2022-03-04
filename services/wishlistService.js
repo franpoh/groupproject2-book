@@ -154,28 +154,28 @@ module.exports = {
             data: null,
         };
 
-        const user = await Users.findByPk(submittedUserId);
+        // const user = await Users.findByPk(submittedUserId);
 
-        if (!user) {
-            result.message = `User ID ${submittedUserId} is not found..`;
-            result.status = 404;
-            return result;
-        };
+        // if (!user) {
+        //     result.message = `User ID ${submittedUserId} is not found..`;
+        //     result.status = 404;
+        //     return result;
+        // };
 
-        if (user.wishlist === null) {
-            user.wishlist = [];
-            result.data = user;
-            result.message = `There are no items inside your wishlist..`;
-            result.status = 404;
-            return result;
-        };
+        // if (user.wishlist === null) {
+        //     user.wishlist = [];
+        //     result.data = user;
+        //     result.message = `There are no items inside your wishlist..`;
+        //     result.status = 404;
+        //     return result;
+        // };
 
-        if (user.wishlist.length === 0) {
-            result.data = user;
-            result.message = `There are no items inside your wishlist..`;
-            result.status = 404;
-            return result;
-        };
+        // if (user.wishlist.length === 0) {
+        //     result.data = user;
+        //     result.message = `There are no items inside your wishlist..`;
+        //     result.status = 404;
+        //     return result;
+        // };
 
         // check swap inventory based on wishlist
 
