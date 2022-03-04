@@ -113,7 +113,7 @@ class WishlistController {
 
         const test = parseInt(req.body.userId)
 
-        const result = await wishlistSerivce.checkMyWishlist(req.query.userId, loginId);
+        const result = await wishlistSerivce.checkMyWishlist(req.query.userId, loginId, req.body.userId);
         // const result = await wishlistSerivce.checkMyWishlist(loginId);
         res.status(result.status);
 

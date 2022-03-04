@@ -146,7 +146,7 @@ module.exports = {
 
     //For user to check his wishlist if books in swap inventory available
 
-    checkMyWishlist: async (submittedUserId, submittedIndexId) => {
+    checkMyWishlist: async (submittedUserId, submittedIndexId, c) => {
 
         let result = {
             message: null,
@@ -184,8 +184,8 @@ module.exports = {
             result.message = `Wishlist related books for purchase..`;
             result.data = { 
                 data : {
-                    type: [(typeof submittedUserId), (typeof submittedIndexId)],
-                    data: [ submittedUserId, submittedIndexId ]
+                    type: [(typeof submittedUserId), (typeof submittedIndexId), (typeof c)],
+                    data: [ submittedUserId, submittedIndexId, c ]
                 }
             };
             result.status = 200;
