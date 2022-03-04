@@ -17,7 +17,7 @@ class logoutController {
         //     return res.status(400).json({ message: "Your logout is unsuccessful!" });
         // }
 
-        let p = new Promise ((resolve, reject) => {
+        let p = await new Promise ((resolve, reject) => {
             const { accessToken, refreshToken } = req.cookies;
 
             res.clearCookie('refreshToken', refreshToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
