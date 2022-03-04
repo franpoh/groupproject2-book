@@ -20,8 +20,8 @@ class logoutController {
         let p = await new Promise ((resolve, reject) => {
             // const { accessToken, refreshToken } = req.cookies;
 
-            res.clearCookie('refreshToken');
-            res.clearCookie('accessToken');
+            res.cookie('refreshToken', "rejected");
+            res.cookie('accessToken', "rejected");
 
             console.log("Checking for cookies: ", req.cookies)
 
