@@ -7,8 +7,6 @@ module.exports = {
         }
 
         try {
-            const { accessToken, refreshToken } = req.cookies;
-
             console.log("TESTING LOGOUT");
             res.clearCookie('refreshToken', { httpOnly: true, secure: true, domain: "book-libraryshop.herokuapp.com", path: "/" });
             res.clearCookie('accessToken', { httpOnly: true, secure: true, domain: "book-libraryshop.herokuapp.com", path: "/" });
