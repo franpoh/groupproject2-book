@@ -113,8 +113,8 @@ class WishlistController {
 
         // const test = parseInt(req.body.userId)
 
-        // const result = await wishlistSerivce.checkMyWishlist(loginId, req.body.userId);
-        const result = await wishlistSerivce.checkMyWishlist(loginId);
+        const result = await wishlistSerivce.checkMyWishlist(loginId, req.body.indexId);
+        // const result = await wishlistSerivce.checkMyWishlist(loginId);
         res.status(result.status);
 
         return res.json({
