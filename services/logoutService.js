@@ -1,6 +1,3 @@
-const cookieParser = require("cookie-parser");
-const res = require("express/lib/response");
-
 module.exports = {
     logout: async () => {
         let result = {
