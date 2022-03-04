@@ -95,7 +95,7 @@ class WishlistController {
         return res.json({
             data: {
                 data: {
-                    key1: req.body.indexId,
+                    key1: test,
                     key2: sendIndexID
                 }                
             },
