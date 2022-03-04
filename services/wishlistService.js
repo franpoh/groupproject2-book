@@ -146,7 +146,7 @@ module.exports = {
 
     //For user to check his wishlist if books in swap inventory available
 
-    checkMyWishlist: async (submittedUserId, submittedIndexId) => {
+    checkMyWishlist: async (submittedUserId) => {
 
         let result = {
             message: null,
