@@ -1,6 +1,5 @@
 const registerService = require("../services/registerService.js");
 const loginService = require("../services/loginService.js");
-const logoutService = require("../services/logoutService.js");
 
 class accessController {
     async register(req, res) {
@@ -29,17 +28,12 @@ class accessController {
         const result = await loginService.login(req.body.email.toString(), req.body.password.toString());
 
         if (result.status == 200) {
-            res.cookie('refreshToken', refreshToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
-            res.cookie('accessToken', accessToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
+            res.cookie('refreshToken', result.data.refreshToken, { httpOnly: true, sameSite: "None", secure: true });
+            res.cookie('accessToken', result.data.accessToken, { httpOnly: true, sameSite: "None", secure: true });
             return res.status(result.status).json({ message: result.message });
         } else if (result.status == 400) {
             return res.status(result.status).json({ message: result.message });
         }
-    }
-
-    async logout(req, res) {
-        const result = await logoutService.logout();
-        return res.status(result.status).json({ data: result.data, message: result.message });
     }
 }
 

@@ -7,7 +7,6 @@ const WishlistController = require("../controllers/wishlistController");
 const AccountController = require("../controllers/accountController");
 const AdminController = require("../controllers/adminController");
 const UploadController = require("../controllers/uploadController");
-// const AccessController = require("../controllers/accessController");
 const LogoutController = require("../controllers/logoutController");
 
 
@@ -17,7 +16,6 @@ const wishlistController = new WishlistController();
 const accountController = new AccountController();
 const adminController = new AdminController();
 const uploadController = new UploadController();
-// const accessController = new AccessController();
 const logoutController = new LogoutController();
 
 
@@ -56,7 +54,7 @@ router.put("/protected/editprofile", accountController.editProfile);
 router.get("/protected/verify", accountController.verify);
 
 // logout of account
-router.delete("/protected/logout", logoutController.logout);
+router.post("/protected/logout", logoutController.logout);
 
 // actions that need admin permissions
 // edit user type to USER, ADMIN or BANNED

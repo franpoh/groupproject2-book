@@ -1,9 +1,18 @@
-const logoutService = require("../services/logoutService");
-
 class logoutController {
     async logout(req, res) {
-        const result = await logoutService.logout();
-        return res.status(result.status).json({ data: result.data, message: result.message });
+
+        try {
+            const { accessToken, refreshToken } = req.cookies;
+
+            res.clearCookie('refreshToken', {httpOnly: true, sameSite: "None", secure: true});
+            res.clearCookie('accessToken', {httpOnly: true, sameSite: "None", secure: true});
+            
+            res.status(200);
+            return res.json({ message: "Your logout is successful!" });
+        } catch (err) {
+            res.status(400);
+            return res.json({ message: "Your logout is unsuccessful!" });
+        }
     }
 }
 
