@@ -52,6 +52,9 @@ router.get("/protected/viewprofile", accountController.viewProfile);
 // edit email and/or password
 router.put("/protected/editprofile", accountController.editProfile);
 
+// verify login/guest
+router.get("/protected/verify", accountController.verify);
+
 // logout of account
 router.delete("/protected/logout", logoutController.logout);
 
