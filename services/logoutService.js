@@ -1,5 +1,5 @@
 module.exports = {
-    login: async (cookies) => {
+    logout: async (cookies) => {
         let result = {
             message: null,
             status: null,
@@ -14,11 +14,11 @@ module.exports = {
             
             result.status = 204;
             result.message = "Your logout is successful!";
-            return result
+            return result;
         } catch (err) {
             result.status = 400;
             result.message = "Your logout is unsuccessful!";
-            return result
+            return result;
         }
     }
 }
