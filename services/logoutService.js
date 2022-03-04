@@ -1,5 +1,5 @@
 module.exports = {
-    logout: async () => {
+    logout: async (cookies) => {
         let result = {
             message: null,
             status: null,
