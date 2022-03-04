@@ -87,11 +87,12 @@ class WishlistController {
 
         const loginId = req.userId; // token's userId
         
+        const sendIndexID = parseInt(req.body.indexId);
 
-        if (typeof req.body.indexId !== 'number') {
+        if (typeof sendIndexID !== 'number') {
             res.status(411);
             return res.json({
-                message: `Incorrect data types submitted..${req.body.indexId}...${typeof req.body.indexId !== 'number'}`
+                message: `Incorrect data types submitted..${sendIndexID}...${typeof sendIndexID}`
             });
         };
 
