@@ -179,7 +179,7 @@ module.exports = {
 
         // check swap inventory based on wishlist
 
-        if(typeof submittedIndexId !== 'number') {
+        // if(typeof submittedIndexId !== 'number') {
 
             result.message = `Wishlist related books for purchase..`;
             result.data = { 
@@ -191,7 +191,7 @@ module.exports = {
             result.status = 200;
             return result;
 
-        };
+        // };
 
         /////////
         // const swapRelatedWish = await Swap.findAll({
