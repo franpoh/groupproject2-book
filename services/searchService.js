@@ -62,29 +62,24 @@ module.exports = {
 
     },
 
-    searchIndex: async (title) => {
+    searchIndex: async () => {
         let result = {
             message: null,
             status: null,
             data: null,
         };
 
-        title = title.toLowerCase();
-        const index = await Index.findAll({
-            where: {
-                title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('title')), 'LIKE', '%' + title + '%'),
-            }
-        })
-
-        if (index.length === 0) {
-            result.message = `Book titled " ${title} " is not found in our database ...`;
-            result.status = 404;
-            return result;
-        }
+        // title = title.toLowerCase();
+        const index = await Index.findAll();
+        // const index = await Index.findAll({
+        //     where: {
+        //         title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('title')), 'LIKE', '%' + title + '%'),
+        //     }
+        // })
 
         result.data = index;
         result.status = 200;
-        result.message = `Books found with keywords: " ${title} "`
+        result.message = `Books found`
         return result;
 
 

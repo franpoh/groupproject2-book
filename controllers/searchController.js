@@ -40,14 +40,14 @@ class searchController {
 
     async searchIndex(req, res) {
 
-        const title = req.query.title;
+        // const title = req.query.title;
 
-        if (!title) {
-            res.status(400);
-            return res.json({ message: "invalid URL" });
-        }
+        // if (!title) {
+        //     res.status(400);
+        //     return res.json({ message: "invalid URL" });
+        // }
 
-        const result = await searchService.searchIndex(req.query.title);
+        const result = await searchService.searchIndex();
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
     };
