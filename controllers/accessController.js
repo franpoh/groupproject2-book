@@ -39,8 +39,7 @@ class accessController {
 
     async logout(req, res) {
         const result = await logoutService.logout();
-        res.status(result.status);
-        return res.json({ data: result.data, message: result.message });
+        return res.status(result.status).json({ data: result.data, message: result.message });
     }
 }
 

@@ -1,6 +1,3 @@
-const cookieParser = require("cookie-parser");
-const res = require("express/lib/response");
-
 module.exports = {
     logout: async () => {
         let result = {
@@ -9,11 +6,20 @@ module.exports = {
             data: null,
         }
 
-        res.clearCookie('refreshToken');
-        res.clearCookie('accessToken');
+        try {
+            const { accessToken, refreshToken } = req.cookies;
 
-        result.status = 204;
-        result.message = "Your logout is successful!";
-        return result;
+            console.log("TESTING LOGOUT");
+            res.clearCookie('refreshToken', refreshToken, { httpOnly: true, sameSite: "None", secure: true });
+            res.clearCookie('accessToken', accessToken, { httpOnly: true, sameSite: "None", secure: true });
+            
+            result.status = 204;
+            result.message = "Your logout is successful!";
+            return result;
+        } catch (err) {
+            result.status = 400;
+            result.message = "Your logout is unsuccessful!";
+            return result;
+        }
     }
 }
