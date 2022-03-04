@@ -182,7 +182,8 @@ module.exports = {
             where: {                
                 indexId: user.wishlist,
                 // availability: 'YES' // allow frontend to decide what to show
-            }
+            },
+            include: "Index"
         }); // this format might not be useful.. might need nested array loop to tie to individual indexId
 
         console.log(swapRelatedWish, swapRelatedWish.length);
