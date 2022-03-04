@@ -94,7 +94,7 @@ class WishlistController {
         res.status(200);
         return res.json({
             data: {                
-                test: test                
+                "test" : test                
             },
             message: 'result.message '
         });
