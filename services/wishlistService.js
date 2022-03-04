@@ -181,7 +181,7 @@ module.exports = {
 
         const swapRelatedWish = await Swap.findAll({
             where: {
-                indexId: parseInt(submittedIndexId),
+                indexId: submittedIndexId,
                 // indexId: 5,
                 // availability: 'YES'
             }
