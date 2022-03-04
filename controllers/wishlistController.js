@@ -47,33 +47,26 @@ class WishlistController {
     async delFrWish(req, res) {
 
         const loginId = req.userId; // token's userId
+        const receivedIndexId = parseInt(req.body.indexId);
 
-        console.log('addToWish Controller', loginId, req.body, !req.body.userId, !req.body.indexId);
+        console.log('addToWish Controller', loginId, receivedIndexId);
 
         // if userId or indexId missing
-        if (!req.body.userId || !req.body.indexId) {
+        if (!receivedIndexId) {
             res.status(400);
             return res.json({
                 message: 'Incomplete data types submitted..'
             });
         };
 
-        if (typeof req.body.userId !== 'number' || typeof req.body.indexId !== 'number') {
+        if (typeof receivedIndexId !== 'number') {
             res.status(400);
             return res.json({
                 message: 'Incorrect data types submitted..'
             });
         };
 
-        // in case submitted body userId do not match token userId
-        if (loginId !== req.body.userId) {
-            res.status(400);
-            return res.json({
-                message: 'Incorrect user ID submitted..'
-            });
-        };
-
-        const result = await wishlistSerivce.delFrWish(req.body.userId, req.body.indexId);
+        const result = await wishlistSerivce.delFrWish(loginId, receivedIndexId);
         res.status(result.status);
 
         return res.json({
