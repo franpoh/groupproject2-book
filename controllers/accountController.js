@@ -28,17 +28,23 @@ class accountController {
     }
 
     async verify(req, res) {
-        
-        const loginId = req.userId; // token's userId
 
         let result = {
             message: null,
             status: null,
             data: null,
-        }
+        };
+        
+        // const loginId = req.userId; // token's userId
+
+        // if (typeof req.userId === 'undefined') {
+
+        // };
+
+        
 
         result.data = {
-            status: loginId
+            status: typeof req.userId
         };
         result.message = 'Testing verify'
         result.status = 200;
