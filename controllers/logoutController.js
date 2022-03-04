@@ -7,7 +7,7 @@ class logoutController {
             res.clearCookie('refreshToken', refreshToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
             res.clearCookie('accessToken', accessToken, {path: "/", domain: "book-libraryshop.herokuapp.com", httpOnly: true, sameSite: "None", secure: true});
             
-            res.status(204);
+            res.status(200);
             return res.json({ message: "Your logout is successful!" });
         } catch (err) {
             res.status(400);
