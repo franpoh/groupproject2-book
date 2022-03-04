@@ -42,7 +42,7 @@ module.exports = {
             refreshToken: refreshToken,
         };
         result.status = 200;
-        result.message = "Your login is successful! Redirecting...";
+        result.message = "Login is successful! Redirecting...";
         return result;
     }
 }
