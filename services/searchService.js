@@ -1,5 +1,5 @@
 // const { where } = require("sequelize/dist");
-const { Index, Swap } = require("../connect.js");
+const { Index, Swap, Users } = require("../connect.js");
 const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 
@@ -97,6 +97,10 @@ module.exports = {
             where: {                
                 indexId: submittedIndexId,
                 availability: 'YES'
+            },
+            include: {
+                model: Users,
+                attributes: [ 'username' ]
             }
         });
 
