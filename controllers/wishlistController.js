@@ -87,7 +87,7 @@ class WishlistController {
 
         const loginId = req.userId; // token's userId
         
-        const sendIndexID = parseInt(req.body.indexId);
+        const sendIndexID = req.body.indexId.toString();
         const test = req.body.indexId;
 
         
