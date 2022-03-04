@@ -92,7 +92,10 @@ class WishlistController {
         
         res.status(200);
         return res.json({
-            data: { data: sendIndexID},
+            data: {
+                sendIndexID: sendIndexID,
+                indexId: req.body.indexId
+            },
             message: 'result.message '
         });
         
