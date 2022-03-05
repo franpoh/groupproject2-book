@@ -138,7 +138,7 @@ module.exports = {
             }
         })
 
-        if (byIndex === null) {
+        if (paramsId === 0) {
             result.data = review;
             result.message = `reviews retrieved`;
             result.status = 200;
