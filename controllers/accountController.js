@@ -15,7 +15,7 @@ class accountController {
         if (!req.body.newPassword) {
             console.log("There is no new password.")
         } else if (checkLength > 72 || req.body.newPassword.length < 5) {
-            return res.status(400).json({ message: "Your password should contain at least 5 characters." });
+            return res.status(400).json({ message: "Password should contain at least 5 chars." });
         }
 
         if (!req.body.oldPassword) {
