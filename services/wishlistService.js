@@ -211,8 +211,8 @@ module.exports = {
             data: null,
         };
 
-//         swap 33, 32
-        let swapTT = 32;
+//         swap 33,
+        let swapTT = 33;
 
         // const users = await Swap.findAll();
 
