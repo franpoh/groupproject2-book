@@ -48,12 +48,14 @@ module.exports = {
         };
 
         const book = await Index.findByPk(submittedIndexId, {
-            include: {
-                model: Genres,
-                attributes: [ 'genre' ]
-            }
+            include: [
+                {
+                    model: Genres,
+                    attributes: [ 'genre' ]
+                },
+            ]
         });
-
+       
         if (!book) {
             result.message = `Book ID ${submittedIndexId} is not found..`;
             result.status = 404;
