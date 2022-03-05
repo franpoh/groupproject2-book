@@ -217,11 +217,12 @@ module.exports = {
 
         let swapTT = 3
 
+        // const users = await Swap.findAll();
+
+        let book = await Swap.findByPk(swapTT);
+
         try {
-
-            // const users = await Swap.findAll();
-
-            let book = await Swap.findByPk(swapTT);
+            
             book.availability = "YES";
             await Swap.update(
                 { availability: book.availability },
