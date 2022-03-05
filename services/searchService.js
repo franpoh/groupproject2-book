@@ -80,6 +80,7 @@ module.exports = {
 
         // title = title.toLowerCase();
         const index = await Index.findAll();
+
         // const index = await Index.findAll({
         //     where: {
         //         title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('title')), 'LIKE', '%' + title + '%'),
@@ -124,23 +125,29 @@ module.exports = {
         return result;
     },
 
-    allReviews: async () => {
+    allReviews: async (paramsId) => {
         let result = {
             message: null,
             status: null,
             data: null,
         };
         const review = await Reviews.findAll();
+        const byIndex = await Reviews.findAll({
+            where: {
+                indexId: paramsId
+            }
+        })
 
-        if (!review) {
-            result.message = `reviws data not found in database`;
-            result.status = 404;
+        if (!byIndex) {
+            result.data = review;
+            result.message = `reviews retrieved`;
+            result.status = 200;
             return result;
         };
 
-        result.data = review;
+        result.data = byIndex;
         result.status = 200;
-        result.message = `reviews retrieved`
+        result.message = `reviews of book index ${paramsId}`
         return result;
 
     },
