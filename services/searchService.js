@@ -138,7 +138,7 @@ module.exports = {
             }
         })
 
-        if (!paramsId) {
+        if (paramsId === "%20") {
             result.data = review;
             result.message = `reviews retrieved`;
             result.status = 200;
