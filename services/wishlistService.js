@@ -222,29 +222,11 @@ module.exports = {
             // const users = await Swap.findAll();
 
             let book = await Swap.findByPk(swapTT);
-            book.availability = "NO";
+            book.availability = "YES";
             await Swap.update(
                 { availability: book.availability },
                 { where: { swapId: swapTT }}
             );
-
-            swapTT = 32;
-            book = await Swap.findByPk(swapTT);
-            book.availability = "NO";
-            await Swap.update(
-                { availability: book.availability },
-                { where: { swapId: swapTT }}
-            );
-
-            swapTT = 33;
-            book = await Swap.findByPk(swapTT);
-            book.availability = "NO";
-            await Swap.update(
-                { availability: book.availability },
-                { where: { swapId: swapTT }}
-            );
-
-
 
         } catch(error) {
             result.message = `Wishlist users`;
