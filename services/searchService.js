@@ -1,5 +1,5 @@
 // const { where } = require("sequelize/dist");
-const { Index, Swap, Users } = require("../connect.js");
+const { Index, Swap, Users, Genres, Reviews } = require("../connect.js");
 const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 
@@ -47,7 +47,16 @@ module.exports = {
             data: null,
         };
 
-        const book = await Index.findByPk(submittedIndexId);
+        // const book = await Index.findByPk(submittedIndexId, {
+        const book = await Index.findAll({
+            where: {
+                indexId: submittedIndexId,
+            },
+            include: {
+                model: Genres,
+                attributes: ['genre']
+            },
+        });
 
         if (!book) {
             result.message = `Book ID ${submittedIndexId} is not found..`;
@@ -76,6 +85,11 @@ module.exports = {
         //         title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('title')), 'LIKE', '%' + title + '%'),
         //     }
         // })
+        if (!index) {
+            result.message = `Index data not found in database`;
+            result.status = 404;
+            return result;
+        };
 
         result.data = index;
         result.status = 200;
@@ -94,13 +108,13 @@ module.exports = {
         };
 
         const swapForIndex = await Swap.findAll({
-            where: {                
+            where: {
                 indexId: submittedIndexId,
                 availability: 'YES'
             },
             include: {
                 model: Users,
-                attributes: [ 'username' ]
+                attributes: ['username']
             }
         });
 
@@ -108,6 +122,26 @@ module.exports = {
         result.status = 200;
         result.message = `Swap available for purchase`;
         return result;
-    }
+    },
 
+    allReviews: async () => {
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        };
+        const review = await Reviews.findAll();
+
+        if (!review) {
+            result.message = `reviws data not found in database`;
+            result.status = 404;
+            return result;
+        };
+
+        result.data = review;
+        result.status = 200;
+        result.message = `reviews retrieved`
+        return result;
+
+    },
 };

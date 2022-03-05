@@ -27,9 +27,16 @@ module.exports = {
         };
 
         // price of book = book.price
+        if (book.price <= 0 || book.price === null || book.price === undefined) {
+            // in case book price somehow is zero or lower
+            result.message = `Book ID ${submittedSwapId} currently is not available for purchase..`;
+            result.status = 400;
+            return result;
+        };
+
         // user available credits = user.points
         if (user.points <= 0 || user.points === null || user.points === undefined) {
-            // in case any book price somehow is zero
+            // in case user credit somehow is zero or lower
             result.message = `User ID ${submittedUserId} currently does not have valid points..`;
             result.status = 400;
             return result;

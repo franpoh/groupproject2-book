@@ -203,8 +203,7 @@ module.exports = {
     },
 
     // G1 testing only
-
-    getUsers: async (submittedUserId) => {
+    getUsers: async (submittedSwapId) => {
 
         let result = {
             message: null,
@@ -212,13 +211,35 @@ module.exports = {
             data: null,
         };
 
-        const users = await Swap.findAll();
+        let swapTT = submittedSwapId;
+
+        // const users = await Swap.findAll();
+
+        let book = await Swap.findByPk(swapTT);
+
+        try {
+
+            book.availability = "YES";
+            await Swap.update(
+                { availability: book.availability },
+                { where: { swapId: swapTT }}
+            );
+
+        } catch(error) {
+            result.message = `Wishlist users`;
+            result.data = book;
+            result.status = 405;
+            return result;
+
+        };           
 
         result.message = `Wishlist users`;
-        result.data = users;
+        // result.data = users;
+        result.data = book;
         result.status = 200;
         return result;
 
     }
+    // G1 testing only
 
 };
