@@ -53,8 +53,7 @@ module.exports = {
                 indexId: submittedIndexId
             },
             include: {
-                    model: Genres,
-                    attributes: [ 'genre' ]
+                    model: Genres,                    
             },
         });
        
