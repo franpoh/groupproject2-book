@@ -16,7 +16,7 @@ module.exports = {
         const user = await Users.findByPk(userId);
 
         if (!user) {
-            result.message = "User not found. Please try logging in again.";
+            result.message = "User not found, try logging in again.";
             result.status = 404;
             return result;
         }

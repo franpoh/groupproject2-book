@@ -52,6 +52,10 @@ Swap.belongsTo(Index, {
     foreignKey:"indexId"
 });
 
+Swap.belongsTo(Users, {
+    foreignKey:"userIdPurchased"
+});
+
 module.exports = {
     sequelize,
     testConnection,
