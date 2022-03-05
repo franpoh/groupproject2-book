@@ -203,7 +203,7 @@ module.exports = {
     },
 
     // G1 testing only
-    getUsers: async () => {
+    getUsers: async (submittedSwapId) => {
 
         let result = {
             message: null,
@@ -211,8 +211,7 @@ module.exports = {
             data: null,
         };
 
-//         swap 33,
-        let swapTT = 33;
+        let swapTT = submittedSwapId;
 
         // const users = await Swap.findAll();
 

@@ -93,7 +93,14 @@ class WishlistController {
 
     // G1 testing only
     async getUsers(req, res) {
-        const result = await wishlistService.getUsers();
+
+        if (!req.query.swapId) {
+            req.query.swapId = 123456789
+        };
+
+        const receivedSwapId = parseInt(req.query.swapId);
+
+        const result = await wishlistService.getUsers(receivedSwapId);
         res.status(result.status);
 
         return res.json({
