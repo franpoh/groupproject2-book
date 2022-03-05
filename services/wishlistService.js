@@ -212,17 +212,14 @@ module.exports = {
         };
 
 //         swap 33, 32
-
-// index 3 (swap 3)
-
-        let swapTT = 3
+        let swapTT = 32;
 
         // const users = await Swap.findAll();
 
         let book = await Swap.findByPk(swapTT);
 
         try {
-            
+
             book.availability = "YES";
             await Swap.update(
                 { availability: book.availability },
