@@ -1,5 +1,5 @@
 // const { where } = require("sequelize/dist");
-const { Index, Swap, Users } = require("../connect.js");
+const { Index, Swap, Users, Genres } = require("../connect.js");
 const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 
@@ -48,12 +48,13 @@ module.exports = {
         };
 
         // const book = await Index.findByPk(submittedIndexId, {
-        const book = await Index.findOne({
+        const book = await Index.findAll({
             where: {
-                indexId: submittedIndexId
+                indexId: submittedIndexId,
             },
             include: {
-                    model: Genres,                    
+                model: Genres,
+                attributes: [ 'genre' ]
             },
         });
        
