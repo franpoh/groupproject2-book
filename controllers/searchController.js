@@ -40,13 +40,6 @@ class searchController {
 
     async searchIndex(req, res) {
 
-        // const title = req.query.title;
-
-        // if (!title) {
-        //     res.status(400);
-        //     return res.json({ message: "invalid URL" });
-        // }
-
         const result = await searchService.searchIndex();
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
@@ -77,6 +70,12 @@ class searchController {
             data: result.data,
             message: result.message
         });
+    };
+
+    async allReviews(req, res) {
+        const result = await searchService.allReviews();
+        res.status(result.status);
+        return res.json({ data: result.data, message: result.message });
     };
 
 }
