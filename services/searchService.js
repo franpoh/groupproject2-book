@@ -47,7 +47,12 @@ module.exports = {
             data: null,
         };
 
-        const book = await Index.findByPk(submittedIndexId);
+        const book = await Index.findByPk(submittedIndexId, {
+            include: {
+                model: Genres,
+                attributes: [ 'genre' ]
+            }
+        });
 
         if (!book) {
             result.message = `Book ID ${submittedIndexId} is not found..`;
