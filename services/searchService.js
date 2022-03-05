@@ -47,13 +47,15 @@ module.exports = {
             data: null,
         };
 
-        const book = await Index.findByPk(submittedIndexId, {
-            include: [
-                {
+        // const book = await Index.findByPk(submittedIndexId, {
+        const book = await Index.findOne({
+            where: {
+                indexId: submittedIndexId
+            },
+            include: {
                     model: Genres,
                     attributes: [ 'genre' ]
-                },
-            ]
+            },
         });
        
         if (!book) {
