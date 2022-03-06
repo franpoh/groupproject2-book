@@ -125,14 +125,26 @@ module.exports = {
             //     // }
             // }
         });
+        try {
+            if (swapForIndex.length !== 0){
+                let xx;
+                for(xx=0; xx < swapForIndex.length; xx++){
+                    const matchUserName = await Users.findByPk(swapForIndex[xx].userId);
+                    (swapForIndex[xx])['username'] = matchUserName.username;
+                };
 
-        if (swapForIndex.length !== 0){
-            let xx;
-            for(xx=0; xx < swapForIndex.length; xx++){
-                const matchUserName = await Users.findByPk(swapForIndex[xx].userId);
-                (swapForIndex[xx])['username'] = matchUserName.username;
+                result.data = swapForIndex;
+                result.status = 200;
+                result.message = `Swap available for purchase ${swapForIndex[0].username}`;
+                return result;
             };
+        } catch(error) {
+            result.status = 403;
+            result.message = `Swap error: ${error}`;
+            return result;
+
         };
+        
 
         result.data = swapForIndex;
         result.status = 200;
