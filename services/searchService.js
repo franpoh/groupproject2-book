@@ -135,6 +135,10 @@ module.exports = {
         const byIndex = await Reviews.findAll({
             where: {
                 indexId: paramsId
+            },
+            include: {
+                model: Users,
+                attributes: ['username']
             }
         })
 
