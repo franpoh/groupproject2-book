@@ -118,9 +118,9 @@ module.exports = {
             },
             include: {
                 model: Users,                
-                where: {
-                    user_id: { [Op.col] : 'Swap.user_id' }
-                }
+                // where: {
+                //     user_id: { [Op.col] : 'Swap.user_id' }
+                // }
             }
         });
 
