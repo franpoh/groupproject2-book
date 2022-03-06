@@ -116,12 +116,12 @@ module.exports = {
                 indexId: submittedIndexId,
                 availability: 'YES'
             },
-            include: {
-                model: Users,                
-                // where: { // not working
-                //     user_id: { [Op.col] : 'Swap.user_id' }
-                // }
-            }
+            // include: {
+            //     model: Users,                
+            //     // where: { // not working
+            //     //     user_id: { [Op.col] : 'Swap.user_id' }
+            //     // }
+            // }
         });
 
         result.data = swapForIndex;
