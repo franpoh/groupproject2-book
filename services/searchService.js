@@ -136,7 +136,7 @@ module.exports = {
                     const matchUserName = await Users.findByPk(swapForIndex[xx].userId);
                     // (swapForIndex[xx])['username'] = matchUserName.username;                    
                     // testArray[xx] = { data: testArray[xx], username: matchUserName.username };
-                    testArray[xx] = { data: testArray[xx] };
+                    testArray[xx] = { data: swapForIndex[xx] };
                     testArray[xx].data.username = matchUserName.username;
                     
                 };
@@ -147,7 +147,7 @@ module.exports = {
                 return result;
             };
         } catch(error) {
-            result.status = 405;
+            result.status = 404;
             result.message = `Swap error: ${error}`;
             return result;
 
