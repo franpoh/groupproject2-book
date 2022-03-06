@@ -126,7 +126,7 @@ module.exports = {
 
         result.data = swapForIndex;
         result.status = 200;
-        result.message = `Swap available for purchase`;
+        result.message = `Swap available for purchase ${swapForIndex.data.userId}`;
         return result;
     },
 
