@@ -118,7 +118,10 @@ module.exports = {
             },
             include: {
                 model: Users,
-                attributes: [ 'user_id', 'username' ],
+                attributes: {
+                    exclude: [ 'user_id_purchased' ]
+                },
+                // attributes: [ 'user_id', 'username' ],
                 where: {
                     user_id: { [Op.col] : 'Swap.user_id' }
                 }
