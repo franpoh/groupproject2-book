@@ -115,7 +115,10 @@ module.exports = {
             },
             include: {
                 model: Users,
-                // attributes: ['username']
+                attributes: ['username'],
+                where: {
+                    userId: { $col: 'Swap.user_id' }
+                }
             }
         });
 
