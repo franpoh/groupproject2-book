@@ -5,7 +5,7 @@ class reviewController {
     async addReview(req, res) {
 
         // if tokenId or body missing
-        if (!req.userId || !req.body.rev) {
+        if (!req.userId || !req.body.indexId || !req.body.rev) {
             res.status(400);
             return res.json({
                 message: 'Incomplete data types submitted..'
@@ -13,8 +13,9 @@ class reviewController {
         };
 
         const loginId = req.userId; //session token
-        const receivedRev = req.body.rev
-        console.log(typeof req.params.indexId, typeof receivedRev)
+        const receivedIndexId = req.body.indexId;
+        const receivedRev = req.body.rev;
+        console.log(typeof receivedIndexId, typeof receivedRev)
 
         // if (
         //     typeof req.params.indexId !== "string" ||
@@ -31,7 +32,7 @@ class reviewController {
 
         // testing
         res.status(400);        
-        const result = await reviewService.addReview(req.body.userId, req.params.indexId, req.body.rev);
+        // const result = await reviewService.addReview(req.body.userId, req.params.indexId, req.body.rev);
         
         return res.json({
             data: {
