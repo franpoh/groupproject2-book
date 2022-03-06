@@ -187,4 +187,25 @@ module.exports = {
         return result;
 
     },
+
+    allGenres: async () => {
+        let result = {
+            message: null,
+            status: null,
+            data: null
+        };
+
+        try {
+            const allGenres = await Genres.findAll();
+            result.data = allGenres;
+            result.message = "All Genres Retrieved";
+            result.status = 200;
+            return result;
+        } catch(err) {
+            result.status = 404;
+            result.message = `Genre Retrieval Error: ${error}`;
+            return result;
+        };
+
+    }
 };
