@@ -127,13 +127,19 @@ module.exports = {
         });
         try {
             if (swapForIndex.length !== 0){
+
                 let xx;
+
+                let testArray = [];
+
                 for(xx=0; xx < swapForIndex.length; xx++){
                     const matchUserName = await Users.findByPk(swapForIndex[xx].userId);
                     (swapForIndex[xx])['username'] = matchUserName.username;
+                    testArray.push(swapForIndex[xx]);
+                    
                 };
 
-                result.data = swapForIndex;
+                result.data = testArray;
                 result.status = 200;
                 result.message = `Swap available for purchase ${swapForIndex[0].username}`;
                 return result;
