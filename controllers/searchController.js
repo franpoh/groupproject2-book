@@ -87,5 +87,11 @@ class searchController {
         return res.json({ data: result.data, message: result.message });
     };
 
+    async searchGenres(req, res) {
+
+        const result = await searchService.allGenres()
+        res.status(result.status);
+        return res.json({data: result.data, message: result.message});
+    }
 }
 module.exports = searchController;

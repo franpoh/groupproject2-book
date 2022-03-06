@@ -16,6 +16,7 @@ router.get("/general/detail", searchController.detail);
 router.get("/general/searchIndex", searchController.searchIndex);
 router.get("/general/searchSwap", searchController.searchSwapByIndex);
 router.get("/general/reviews", searchController.allReviews);
+router.get("/general/genres", searchController.searchGenres);
 
 
 module.exports = router;
