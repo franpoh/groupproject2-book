@@ -31,7 +31,7 @@ class reviewController {
         // return res.json({ data: result.data, message: result.message });
 
         // testing
-        res.status(400);        
+        res.status(200);        
         // const result = await reviewService.addReview(req.body.userId, req.params.indexId, req.body.rev);
         
         return res.json({
