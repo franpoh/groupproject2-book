@@ -130,7 +130,7 @@ module.exports = {
             let xx;
             for(xx=0; xx < swapForIndex.length; xx++){
                 const matchUserName = await Users.findByPk(swapForIndex[xx].userId);
-                swapForIndex[xx] = { ...swapForIndex[xx], username : matchUserName.username};
+                swapForIndex[xx]['username'] = matchUserName.username;
             };
         };
 
