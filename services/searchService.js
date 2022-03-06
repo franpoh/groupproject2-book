@@ -135,7 +135,7 @@ module.exports = {
                 for(xx=0; xx < swapForIndex.length; xx++){
                     const matchUserName = await Users.findByPk(swapForIndex[xx].userId);
                     // (swapForIndex[xx])['username'] = matchUserName.username;                    
-                    testArray[xx] = { data: testArray[xx], username: matchUserName.username };
+                    testArray[xx] = { data: swapForIndex[xx], username: matchUserName.username };
                 };
 
                 result.data = testArray;
