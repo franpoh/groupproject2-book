@@ -85,12 +85,15 @@ module.exports = {
         try {
 
             book.availability = "NO";
+            book.userIdPurchased = submittedUserId;
 
             // await book.save();
             // switch to update in case
 
             await Swap.update(
-                { availability: book.availability },
+                {   availability: book.availability,
+                    userIdPurchased: book.userIdPurchased
+                },
                 { where: { swapId: book.swapId }}
             );
     

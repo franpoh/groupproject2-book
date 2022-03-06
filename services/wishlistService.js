@@ -211,31 +211,30 @@ module.exports = {
             data: null,
         };
 
-        let swapTT = submittedSwapId;
+        const users = await Swap.findAll();
 
-        // const users = await Swap.findAll();
+        // let swapTT = submittedSwapId;
+        // let book = await Swap.findByPk(swapTT);
 
-        let book = await Swap.findByPk(swapTT);
+        // try {
 
-        try {
+        //     book.availability = "YES";
+        //     await Swap.update(
+        //         { availability: book.availability },
+        //         { where: { swapId: swapTT }}
+        //     );
 
-            book.availability = "YES";
-            await Swap.update(
-                { availability: book.availability },
-                { where: { swapId: swapTT }}
-            );
+        // } catch(error) {
+        //     result.message = `Wishlist users`;
+        //     result.data = book;
+        //     result.status = 405;
+        //     return result;
 
-        } catch(error) {
-            result.message = `Wishlist users`;
-            result.data = book;
-            result.status = 405;
-            return result;
-
-        };           
+        // };           
 
         result.message = `Wishlist users`;
-        // result.data = users;
-        result.data = book;
+        result.data = users;
+        // result.data = book;
         result.status = 200;
         return result;
 
