@@ -110,7 +110,7 @@ module.exports = {
 
         const swapForIndex = await Swap.findAll({
             attributes: {
-                exclude: ['user_id_purchased']
+                exclude: [ 'user_id_purchased' ]
             } ,
             where: {
                 indexId: submittedIndexId,
@@ -118,7 +118,10 @@ module.exports = {
             },
             include: {
                 model: Users,
-                attributes: [ 'user_id', 'username' ],
+                attributes: {
+                    exclude: [ 'user_id_purchased' ],
+                    include: [ 'user_id', 'username' ]
+                },
                 // where: {
                 //     user_id: { [Op.col] : 'Swap.user_id' }
                 // }
