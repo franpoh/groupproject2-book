@@ -18,11 +18,13 @@ module.exports = {
 
         const reviews = await Reviews.findAll({ where: { userId: userId }, include: "Index" });
         const swap = await Swap.findAll({ where: { userId: userId }, include: "Index" });
+        const purchaseHistory = await Swap.findAll({ where: { userIdPurchased: userId }, include: "Index" });
 
         result.data = {
             user: user,
             reviews: reviews,
             swap: swap,
+            purchaseHistory: purchaseHistory,
         }
 
         result.status = 200;
