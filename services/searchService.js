@@ -80,6 +80,7 @@ module.exports = {
 
         // title = title.toLowerCase();
         const index = await Index.findAll();
+
         // const index = await Index.findAll({
         //     where: {
         //         title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('title')), 'LIKE', '%' + title + '%'),
@@ -108,40 +109,103 @@ module.exports = {
         };
 
         const swapForIndex = await Swap.findAll({
+            // not working
+            // attributes: {
+            //     exclude: [ 'user_id_purchased' ]
+            // } ,
             where: {
                 indexId: submittedIndexId,
                 availability: 'YES'
             },
-            include: {
-                model: Users,
-                attributes: ['username']
-            }
+            // not working
+            // include: {
+            //     model: Users,                
+            //     // where: {
+            //     //     user_id: { [Op.col] : 'Swap.user_id' }
+            //     // }
+            // }
         });
+        try {
+            if (swapForIndex.length !== 0){
+
+                let xx;
+
+                let testArray = [];
+
+                for(xx=0; xx < swapForIndex.length; xx++){
+                    const matchUserName = await Users.findByPk(swapForIndex[xx].userId);
+                    // (swapForIndex[xx])['username'] = matchUserName.username;                    
+                    testArray[xx] = { data: swapForIndex[xx], username: matchUserName.username };
+                };
+
+                result.data = testArray;
+                result.status = 200;
+                result.message = `Swap available for purchase`;
+                return result;
+            };
+        } catch(error) {
+            result.status = 404;
+            result.message = `Swap error: ${error}`;
+            return result;
+
+        };
+        
 
         result.data = swapForIndex;
         result.status = 200;
-        result.message = `Swap available for purchase`;
+        result.message = `Swap available for purchase is Zero`;
         return result;
     },
 
-    allReviews: async () => {
+    allReviews: async (paramsId) => {
         let result = {
             message: null,
             status: null,
             data: null,
         };
         const review = await Reviews.findAll();
+        const byIndex = await Reviews.findAll({
+            where: {
+                indexId: paramsId
+            },
+            include: {
+                model: Users,
+                attributes: ['username']
+            }
+        })
 
-        if (!review) {
-            result.message = `reviws data not found in database`;
-            result.status = 404;
+        if (paramsId === 0) {
+            result.data = review;
+            result.message = `reviews retrieved`;
+            result.status = 200;
             return result;
         };
 
-        result.data = review;
+        result.data = byIndex;
         result.status = 200;
-        result.message = `reviews retrieved`
+        result.message = `reviews of book index ${paramsId}`
         return result;
 
     },
+
+    allGenres: async () => {
+        let result = {
+            message: null,
+            status: null,
+            data: null
+        };
+
+        try {
+            const allGenres = await Genres.findAll();
+            result.data = allGenres;
+            result.message = "All Genres Retrieved";
+            result.status = 200;
+            return result;
+        } catch(err) {
+            result.status = 404;
+            result.message = `Genre Retrieval Error: ${error}`;
+            return result;
+        };
+
+    }
 };

@@ -19,7 +19,7 @@ const uploadController = new UploadController();
 const logoutController = new LogoutController();
 
 
-router.post("/protected/:indexId/addReview", reviewController.addReview);
+router.post("/protected/addReview", reviewController.addReview);
 
 // for grabbing book with credit
 router.post('/protected/grab', grabController.grabBook);

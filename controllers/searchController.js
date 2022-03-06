@@ -73,10 +73,25 @@ class searchController {
     };
 
     async allReviews(req, res) {
-        const result = await searchService.allReviews();
+        const indexId = parseInt(req.query.indexId);
+
+        if (typeof parseInt(indexId) != 'number') {
+            res.status(400);
+            return res.json({
+                message: 'Incorrect data types submitted...'
+            });
+        };
+
+        const result = await searchService.allReviews(indexId);
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
     };
 
+    async searchGenres(req, res) {
+
+        const result = await searchService.allGenres()
+        res.status(result.status);
+        return res.json({data: result.data, message: result.message});
+    }
 }
 module.exports = searchController;
