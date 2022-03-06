@@ -109,24 +109,34 @@ module.exports = {
         };
 
         const swapForIndex = await Swap.findAll({
-            // attributes: { // not working
+            // not working
+            // attributes: {
             //     exclude: [ 'user_id_purchased' ]
             // } ,
             where: {
                 indexId: submittedIndexId,
                 availability: 'YES'
             },
+            // not working
             // include: {
             //     model: Users,                
-            //     // where: { // not working
+            //     // where: {
             //     //     user_id: { [Op.col] : 'Swap.user_id' }
             //     // }
             // }
         });
 
+        if (swapForIndex.length !== 0){
+            let xx;
+            for(xx=0; xx < swapForIndex.length; xx++){
+                const matchUserName = await Users.findByPk(swapForIndex[xx].userId);
+                swapForIndex[xx].username = matchUserName.username;
+            };
+        };
+
         result.data = swapForIndex;
         result.status = 200;
-        result.message = `Swap available for purchase ${swapForIndex[0].userId}`;
+        result.message = `Swap available for purchase ${swapForIndex[0].username}`;
         return result;
     },
 
