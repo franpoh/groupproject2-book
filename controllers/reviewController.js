@@ -4,32 +4,43 @@ const reviewService = require("../services/reviewService.js");
 class reviewController {
     async addReview(req, res) {
 
-
-        const loginId = req.userId; //session token 
-        console.log(typeof req.params.indexId, typeof req.body.rev, typeof req.body.userId)
-        if (
-            typeof req.params.indexId !== "string" ||
-            typeof req.body.rev !== "string" ||
-            typeof req.body.userId !== "number"
-        ) {
+        // if tokenId or body missing
+        if (!req.userId || !req.body.rev) {
             res.status(400);
-            return res.json({ message: "Incorrect request data" });
+            return res.json({
+                message: 'Incomplete data types submitted..'
+            });
         };
 
-        if (!req.params.indexId || !req.body.rev || !req.body.userId) {
-            res.status(400);
-            return res.json({ message: 'Incomplete payload entries' });
-        };
+        const loginId = req.userId; //session token
+        const receivedRev = req.body.rev
+        console.log(typeof req.params.indexId, typeof receivedRev)
 
-        // check payload against token
-        if (loginId !== req.body.userId) {
-            res.status(400);
-            return res.json({ message: 'Incorrect user ID in session submitted' });
-        };
+        // if (
+        //     typeof req.params.indexId !== "string" ||
+        //     typeof req.body.rev !== "string" ||
+        //     typeof req.body.userId !== "number"
+        // ) {
+        //     res.status(400);
+        //     return res.json({ message: "Incorrect request data" });
+        // };      
 
+        // const result = await reviewService.addReview(req.body.userId, req.params.indexId, req.body.rev);
+        // res.status(result.status);
+        // return res.json({ data: result.data, message: result.message });
+
+        // testing
+        res.status(400);        
         const result = await reviewService.addReview(req.body.userId, req.params.indexId, req.body.rev);
-        res.status(result.status);
-        return res.json({ data: result.data, message: result.message });
+        
+        return res.json({
+            data: {
+                paramIndex: typeof req.params.indexId,
+                revType: typeof receivedRev
+            },
+            message: 'testing the type of data received'
+        });
+        // testing
     };
 
 }
