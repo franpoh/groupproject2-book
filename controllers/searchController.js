@@ -88,16 +88,10 @@ class searchController {
     };
 
     async searchGenres(req, res) {
-        const genreName = (req.query.genreName);
-
-        if (typeof genreName != 'string'){
-            res.status(400);
-            return res.json({
-                message: 'Bad Request, please enter a genre name.'
-            });
-        };
 
         const result = await searchService.allGenres()
+        res.status(result.status);
+        return res.json({data: result.data, message: result.message});
     }
 }
 module.exports = searchController;
