@@ -109,16 +109,16 @@ module.exports = {
         };
 
         const swapForIndex = await Swap.findAll({
-            attributes: {
-                exclude: [ 'user_id' ]
-            } ,
+            // attributes: { // not working
+            //     exclude: [ 'user_id_purchased' ]
+            // } ,
             where: {
                 indexId: submittedIndexId,
                 availability: 'YES'
             },
             include: {
                 model: Users,                
-                // where: {
+                // where: { // not working
                 //     user_id: { [Op.col] : 'Swap.user_id' }
                 // }
             }
