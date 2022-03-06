@@ -36,7 +36,7 @@ class reviewController {
         
         return res.json({
             data: {
-                paramIndex: typeof req.params.indexId,
+                paramIndex: typeof receivedIndexId,
                 revType: typeof receivedRev
             },
             message: 'testing the type of data received'
