@@ -117,7 +117,7 @@ module.exports = {
                 model: Users,
                 attributes: ['username'],
                 where: {
-                    userId: { $col: 'Swap.user_id' }
+                    user_id: { $col: 'Swap.user_id' }
                 }
             }
         });
