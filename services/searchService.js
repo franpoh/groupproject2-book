@@ -147,7 +147,7 @@ module.exports = {
                 return result;
             };
         } catch(error) {
-            result.status = 403;
+            result.status = 405;
             result.message = `Swap error: ${error}`;
             return result;
 
