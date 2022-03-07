@@ -29,10 +29,10 @@ module.exports = function (sequelize) {
                 type: DataTypes.INTEGER,
                 field: "user_id",
                 allowNull: false,
-                // references: {
-                //     model: "Users",
-                //     key: "userId"
-                // }
+                references: {
+                    model: "Users",
+                    key: "userId"
+                }
             },
             availability: {
                 type: DataTypes.STRING, // YES or NO
