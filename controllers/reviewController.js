@@ -23,7 +23,14 @@ class reviewController {
         ) {
             res.status(400);
             return res.json({ message: "Incorrect request data" });
-        };      
+        };
+
+        if (
+            receivedRev === ''
+        ) { // block if rev submitted is empty string
+            res.status(400);
+            return res.json({ message: "Incorrect request data.." });
+        };
 
         const result = await reviewService.addReview(loginId, receivedIndexId, receivedRev);
         res.status(result.status);
