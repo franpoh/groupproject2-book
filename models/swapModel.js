@@ -1,6 +1,6 @@
 const { DataTypes, Model } = require("sequelize");
 
-// const { Users } = require("../connect.js");
+const { Users } = require("../connect.js");
 
 module.exports = function (sequelize) {
     class Swap extends Model {}
@@ -32,8 +32,8 @@ module.exports = function (sequelize) {
                 field: "user_id",
                 allowNull: false,
                 references: {
-                    model: "users",
-                    key: "user_id"
+                    model: Users,
+                    key: "userId"
                 }
             },
             availability: {
