@@ -24,7 +24,7 @@ module.exports = {
             user: user,
             reviews: reviews,
             swap: swap,
-            purchaseHistory: purchaseHistory,
+            // purchaseHistory: purchaseHistory,
         }
 
         result.status = 200;
