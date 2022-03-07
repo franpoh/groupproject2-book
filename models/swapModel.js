@@ -1,5 +1,7 @@
 const { DataTypes, Model } = require("sequelize");
 
+// const { Users } = require("../connect.js");
+
 module.exports = function (sequelize) {
     class Swap extends Model {}
 
@@ -29,10 +31,10 @@ module.exports = function (sequelize) {
                 type: DataTypes.INTEGER,
                 field: "user_id",
                 allowNull: false,
-                // references: {
-                //     model: "Users",
-                //     key: "userId"
-                // }
+                references: {
+                    model: "users",
+                    key: "user_id"
+                }
             },
             availability: {
                 type: DataTypes.STRING, // YES or NO

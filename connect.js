@@ -45,8 +45,8 @@ Reviews.belongsTo(Index, {
 });
 
 Swap.belongsTo(Users, {
-    foreignKey:"userId"
-    // as: 'userIdTest'
+    // foreignKey:"userId"
+    as: 'userIdTest'
 });
 
 Swap.belongsTo(Index, {
