@@ -53,6 +53,7 @@ Swap.belongsTo(Index, {
 });
 
 Swap.belongsTo(Users, {
+    as: 'userIdPurchased',
     foreignKey:"userIdPurchased"
 });
 
