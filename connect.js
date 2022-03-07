@@ -45,17 +45,11 @@ Reviews.belongsTo(Index, {
 });
 
 Swap.belongsTo(Users, {
-    // foreignKey:"userId"
-    as: 'userTest',
     foreignKey: "userId"
 });
 
 Swap.belongsTo(Index, {
     foreignKey:"indexId"
-});
-
-Swap.belongsTo(Users, {
-    foreignKey:"userIdPurchased"
 });
 
 module.exports = {
