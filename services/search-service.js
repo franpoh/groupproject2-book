@@ -85,23 +85,29 @@ module.exports = {
         };
 
         const filtered = await Index.findAll({
+            where: {
+                [Op.or]: [
+                {title: booktitle},
+                {author: bookauthor}
+                ]
+            }
         });
 
-        // if (booktitle && bookauthor=='') {
-        //     result.message = `Retrieving books with books titled ${booktitle}`
-        //     result.status = 200;
-        //     result.data = filtered;
-        //     return result;
-        // };
+        if (booktitle!='' && bookauthor=='') {
+            result.message = `Retrieving books with books titled ${booktitle}`
+            result.status = 200;
+            result.data = filtered;
+            return result;
+        };
 
-        // if (bookauthor && booktitle=='') {
-        //     result.message = `Retrieving books with authors named ${bookauthor}`
-        //     result.status = 200;
-        //     result.data = filtered;
-        //     return result;
-        // };
+        if (bookauthor!='' && booktitle=='') {
+            result.message = `Retrieving books with authors named ${bookauthor}`
+            result.status = 200;
+            result.data = filtered;
+            return result;
+        };
 
-        // result.message = `Retrieving books with books titled ${booktitle} by authors named ${bookauthor}`
+        result.message = `Retrieving books with books titled ${booktitle} by authors named ${bookauthor}`
         result.status=200;
         result.data = filtered;
         return result;
