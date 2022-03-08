@@ -1,4 +1,5 @@
 const { Index, Users, Swap } = require("../connect.js");
+const Constants = require("../constants/index.js");
 
 module.exports = {
 
@@ -181,7 +182,7 @@ module.exports = {
         const swapRelatedWish = await Swap.findAll({
             where: {                
                 indexId: user.wishlist,
-                // availability: 'YES' // allow frontend to decide what to show
+                // availability: Constants.AVAIL_YES // allow frontend to decide what to show
             },
             include: "Index"
         }); // this format might not be useful.. might need nested array loop to tie to individual indexId
@@ -218,7 +219,7 @@ module.exports = {
 
         // try {
 
-        //     book.availability = "YES";
+        //     book.availability = Constants.AVAIL_YES;
         //     await Swap.update(
         //         { availability: book.availability },
         //         { where: { swapId: swapTT }}

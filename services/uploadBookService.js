@@ -1,4 +1,5 @@
 const { Index, Swap, Users } = require("../connect.js");
+const Constants = require("../constants/index.js");
 
 module.exports = {
 
@@ -64,7 +65,7 @@ module.exports = {
                 userId: userid,
                 price: 1, 
                 indexId: library.dataValues.indexId,
-                availability: "YES",
+                availability: Constants.AVAIL_YES,
                 comments: usercomments
                 });
             
@@ -128,7 +129,7 @@ module.exports = {
             userId: userid,
             price: 1, 
             indexId: library.dataValues.indexId,
-            availability: "YES",
+            availability: Constants.AVAIL_YES,
             comments: usercomments
         });
         console.log(`Swap Request Created: `, addToSwap instanceof Swap);
