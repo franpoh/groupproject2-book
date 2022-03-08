@@ -36,13 +36,13 @@ module.exports = {
         }
 
         if (type === "ban") {
-            editUser.type = Constants.USER_BANNED;
+            editUser.type = "BANNED";
             result.message = "User has been set to 'BANNED'.";
         } else if (type === "user") {
-            editUser.type = Constants.USER_USER;
+            editUser.type = "USER";
             result.message = "User has been set to 'USER'.";
         } else if (type === "admin") {
-            editUser.type = Constants.USER_ADMIN;
+            editUser.type = "ADMIN";
             result.message = "User has been set to 'ADMIN'.";
         }
 

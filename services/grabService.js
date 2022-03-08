@@ -21,7 +21,7 @@ module.exports = {
         };
 
         // in case submitted book does not exist in inventory OR book has just been bought by another concurrent user
-        if (!book || book.availability === Constants.AVAIL_NO) {
+        if (!book || book.availability === "NO") {
             result.message = `Book ID ${submittedSwapId} is not found or no longer available..`;
             result.status = 404;
             return result;
@@ -85,7 +85,7 @@ module.exports = {
         // attempt to change target book availability in swap inventory
         try {
 
-            book.availability = Constants.AVAIL_NO;
+            book.availability = "NO";
             book.userIdPurchased = submittedUserId;
 
             // await book.save();
