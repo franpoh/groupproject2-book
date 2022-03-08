@@ -12,6 +12,8 @@ const Constants = {
     AVAIL_RESERVED: 'RESERVED',
     AVAIL_COLLECTED: 'COLLECTED',
 
-};
+
+
+}
 
 export default Constants;
