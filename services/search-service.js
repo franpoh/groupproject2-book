@@ -90,6 +90,10 @@ module.exports = {
                 {title: booktitle},
                 {author: bookauthor}
                 ]
+            },
+            defaults: {
+                title: booktitle,
+                author: bookauthor
             }
         });
 
