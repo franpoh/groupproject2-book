@@ -71,7 +71,7 @@ module.exports = {
 
     },
 
-    searchIndexByParams: async (bookTitle, bookAuthor) => {
+    searchIndexByParams: async (booktitle, bookauthor) => {
         let result = {
             message: null,
             status: null,
@@ -80,36 +80,36 @@ module.exports = {
 
         const filtered = await Index.findAll({
             where: {
-                title: bookTitle,
-                author: bookAuthor
+                title: booktitle,
+                author: bookauthor
             },
             defaults: {
-                title: null,
-                author: null,
+                title: booktitle,
+                author: bookauthor,
             }
         });
 
-        if (!bookTitle && !bookAuthor) {
+        if (!booktitle && !bookauthor) {
             result.message = `Please provide at least one parameter to retrieve info`
             result.status=404;
             return result
         };
 
-        if (bookTitle && !bookAuthor) {
-            result.message = `Retrieving books with books titled ${bookTitle}`
+        if (booktitle && !bookauthor) {
+            result.message = `Retrieving books with books titled ${booktitle}`
             result.status = 200;
             result.data = filtered;
             return result;
         };
 
         if (bookAuthor && !bookTitle) {
-            result.message = `Retrieving books with authors named ${bookAuthor}`
+            result.message = `Retrieving books with authors named ${bookauthor}`
             result.status = 200;
             result.data = filtered;
             return result;
         };
 
-        result.message = `Retrieving books with books titled ${bookTitle} by authors named ${bookAuthor}`
+        result.message = `Retrieving books with books titled ${booktitle} by authors named ${bookauthor}`
         result.status=200;
         result.data = filtered;
         return result;
