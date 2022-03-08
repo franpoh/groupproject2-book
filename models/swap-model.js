@@ -35,9 +35,9 @@ module.exports = function (sequelize) {
                 field: "availability",
                 allowNull: false,
             },
-            userPurchased: {
+            purchasedId: {
                 type: DataTypes.INTEGER,
-                field: "user_id_purchased",
+                field: "purchased_id",
             },
             createdAt: {
                 type: DataTypes.DATE,
