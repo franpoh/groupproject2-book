@@ -1,5 +1,5 @@
-const registerService = require("../services/registerService.js");
-const loginService = require("../services/loginService.js");
+const registerService = require("../services/register-service.js");
+const loginService = require("../services/login-service.js");
 
 class accessController {
     async register(req, res) {

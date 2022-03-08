@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const AccessController = require("../controllers/accessController");
-const SearchController = require("../controllers/searchController");
+const AccessController = require("../controllers/access-controller");
+const SearchController = require("../controllers/search-controller");
 
 const searchController = new SearchController();
 const accessController = new AccessController();
