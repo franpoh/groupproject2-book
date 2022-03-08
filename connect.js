@@ -48,9 +48,7 @@ Reviews.belongsTo(Index, {
 //     foreignKey: "userId"
 // });
 
-Users.hasMany(Swap, {
-    foreignKey:"userId"
-});
+Users.hasMany(Swap);
 
 Swap.belongsTo(Users);
 
