@@ -78,7 +78,7 @@ module.exports = {
             data: null,
         };
 
-        if (!booktitle && !bookauthor) {
+        if (booktitle=='' && bookauthor=='') {
             result.message = `Please provide at least one parameter to retrieve info`
             result.status=404;
             return result
@@ -93,14 +93,14 @@ module.exports = {
             }
         });
 
-        if (booktitle && !bookauthor) {
+        if (booktitle && bookauthor=='') {
             result.message = `Retrieving books with books titled ${booktitle}`
             result.status = 200;
             result.data = filtered;
             return result;
         };
 
-        if (bookAuthor && !bookTitle) {
+        if (bookauthor && booktitle=='') {
             result.message = `Retrieving books with authors named ${bookauthor}`
             result.status = 200;
             result.data = filtered;
