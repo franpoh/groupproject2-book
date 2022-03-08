@@ -78,22 +78,20 @@ module.exports = {
             data: null,
         };
 
-        const filtered = await Index.findAll({
-            where: {
-                title: booktitle,
-                author: bookauthor
-            },
-            defaults: {
-                title: booktitle,
-                author: bookauthor,
-            }
-        });
-
         if (!booktitle && !bookauthor) {
             result.message = `Please provide at least one parameter to retrieve info`
             result.status=404;
             return result
         };
+
+        const filtered = await Index.findAll({
+            where: {
+                [Op.or]: [
+                {title: booktitle},
+                {author: bookauthor}
+                ]
+            }
+        });
 
         if (booktitle && !bookauthor) {
             result.message = `Retrieving books with books titled ${booktitle}`
