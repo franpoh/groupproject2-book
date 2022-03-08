@@ -14,8 +14,8 @@ const Constants = {
     AVAIL_COLLECTED: "COLLECTED",
 
     // JWT tokens
-    ACCESS_TOKEN: "refreshToken",
-    REFRESH_TOKEN: "accessToken",
+    ACCESS_TOKEN: "accessToken",
+    REFRESH_TOKEN: "refreshToken",
 }
 
 module.exports = Constants
