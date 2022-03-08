@@ -1,5 +1,5 @@
 modules.export = {
-    Constants = {
+    Constants: {
 
         // user type constants
         USER_BANNED: 'BANNED',
