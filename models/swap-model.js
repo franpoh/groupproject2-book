@@ -35,7 +35,7 @@ module.exports = function (sequelize) {
                 field: "availability",
                 allowNull: false,
             },
-            userIdPurchased: {
+            userPurchased: {
                 type: DataTypes.INTEGER,
                 field: "user_id_purchased",
             },
