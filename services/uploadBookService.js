@@ -70,6 +70,7 @@ module.exports = {
                 });
             
             console.log(`Swap Request Created: `, addToSwap instanceof Swap);
+            console.log(`Constants.AVAIL_YES`, Constants.AVAIL_YES);        // what is this
             console.log('New Swap ID: ', addToSwap.dataValues.swapId);
 
             //if swap id for new swap is created, give points.
@@ -133,6 +134,7 @@ module.exports = {
             comments: usercomments
         });
         console.log(`Swap Request Created: `, addToSwap instanceof Swap);
+        console.log(`Constants.AVAIL_YES`, Constants.AVAIL_YES);        // what is this
         console.log('New Swap ID: ', addToSwap.dataValues.swapId);
 
         //if swap id for new swap is created, give points.
