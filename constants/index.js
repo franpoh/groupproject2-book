@@ -12,6 +12,10 @@ const Constants = {
     // reserved for further dev
     AVAIL_RESERVED: "RESERVED",
     AVAIL_COLLECTED: "COLLECTED",
+
+    // JWT tokens
+    ACCESS_TOKEN: "refreshToken",
+    REFRESH_TOKEN: "accessToken",
 }
 
 module.exports = Constants
