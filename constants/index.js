@@ -1,4 +1,4 @@
-modules.export = {
+module.exports = {
     Constants: {
 
         // user type constants
