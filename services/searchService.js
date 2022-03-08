@@ -3,6 +3,7 @@ const { Index, Swap, Users, Genres, Reviews } = require("../connect.js");
 const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 const { Constants } = require("../constants/index.js");
+const res = require("express/lib/response");
 
 module.exports = {
     search: async (title) => {
@@ -69,6 +70,50 @@ module.exports = {
         result.status = 200;
         return result;
 
+    },
+
+    searchIndexByParams: async () => {
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        };
+
+        const filtered = await Index.findAll({
+            where: {
+                title: bookTitle,
+                author: bookAuthor
+            },
+            defaults: {
+                title: null,
+                author: null,
+            }
+        });
+
+        if (!bookTitle && !bookAuthor) {
+            result.message = `Please provide at least one parameter to retrieve info`
+            result.status=404;
+            return result
+        };
+
+        if (bookTitle && !bookAuthor) {
+            result.message = `Retrieving books with books titled ${bookTitle}`
+            result.status = 200;
+            result.data = filtered;
+            return result;
+        };
+
+        if (bookAuthor && !bookTitle) {
+            result.message = `Retrieving books with authors named ${bookAuthor}`
+            result.status = 200;
+            result.data = filtered;
+            return result;
+        };
+
+        result.message = `Retrieving books with books titled ${bookTitle} by authors named ${bookAuthor}`
+        result.status=200;
+        result.data = filtered;
+        return result;
     },
 
     searchIndex: async () => {
