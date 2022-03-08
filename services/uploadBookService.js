@@ -65,7 +65,7 @@ module.exports = {
                 userId: userid,
                 price: 1, 
                 indexId: library.dataValues.indexId,
-                availability: 'YES',
+                availability: "YES",
                 comments: usercomments
                 });
             
