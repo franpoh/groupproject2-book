@@ -38,6 +38,18 @@ class searchController {
 
     };
 
+    async searchIndexByParams(req, res) {
+        const bookAuthor = req.body.bookAuthor;
+        const bookTitle = req.body.bookTitle;
+
+        const result = await searchService.searchIndexByParams(bookTitle, bookAuthor)
+        res.status(result.status);
+        return res.json ({
+            data: result.data,
+            message: result.message
+        });
+    };
+
     async searchIndex(req, res) {
 
         const result = await searchService.searchIndex();

@@ -71,7 +71,7 @@ module.exports = {
 
     },
 
-    searchIndexByParams: async () => {
+    searchIndexByParams: async (bookTitle, bookAuthor) => {
         let result = {
             message: null,
             status: null,
