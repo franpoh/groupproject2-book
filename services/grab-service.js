@@ -86,7 +86,7 @@ module.exports = {
         try {
 
             book.availability = Constants.AVAIL_NO;
-            book.userIdPurchased = submittedUserId;
+            book.purchasedId = submittedUserId;
 
             // await book.save();
             // switch to update in case
@@ -94,7 +94,7 @@ module.exports = {
             await Swap.update(
                 {
                     availability: book.availability,
-                    userIdPurchased: book.userIdPurchased
+                    purchasedId: book.purchasedId
                 },
                 { where: { swapId: book.swapId } }
             );
