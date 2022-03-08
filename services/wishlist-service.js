@@ -11,6 +11,7 @@ module.exports = {
             data: null,
         };
 
+        Constants.USER_BANNED
         const user = await Users.findByPk(submittedUserId);
         const book = await Index.findByPk(submittedIndexId);
 
@@ -50,11 +51,11 @@ module.exports = {
         try {
 
             await Users.update(
-                { wishlist: user.wishlist},
-                { where: { userId: user.userId  }}
+                { wishlist: user.wishlist },
+                { where: { userId: user.userId } }
             );
 
-        } catch(e) {
+        } catch (e) {
 
             console.log('User wishlist save in wishlist service failed: ', e);
             result.message = `Addition to wishlist for User ID ${submittedUserId} failed, please try again later..`;
@@ -120,18 +121,18 @@ module.exports = {
             try {
 
                 await Users.update(
-                    { wishlist: user.wishlist},
-                    { where: { userId: user.userId  }}
+                    { wishlist: user.wishlist },
+                    { where: { userId: user.userId } }
                 );
-                
-            } catch(e) {
-    
+
+            } catch (e) {
+
                 console.log('User wishlist save in wishlist service failed: ', e);
                 result.message = `Removal from wishlist for User ID ${submittedUserId} failed, please try again later..`;
                 result.status = 400;
                 return result;
             };
-    
+
             result.message = `Book removed from wishlist..`;
             result.data = user;
             result.status = 200;
@@ -180,7 +181,7 @@ module.exports = {
 
         // check swap inventory based on wishlist        
         const swapRelatedWish = await Swap.findAll({
-            where: {                
+            where: {
                 indexId: user.wishlist,
                 // availability: Constants.AVAIL_YES // allow frontend to decide what to show
             },
@@ -197,7 +198,7 @@ module.exports = {
             return result;
         };
 
-        result.message = `Wishlist related books for purchase..`;        
+        result.message = `Wishlist related books for purchase..`;
         result.data = swapRelatedWish;
         result.status = 200;
         return result;

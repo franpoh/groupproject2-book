@@ -2,6 +2,7 @@
 const { Index, Swap, Users, Genres, Reviews } = require("../connect.js");
 const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
+const Constants = require("../constants/index.js");
 
 module.exports = {
     search: async (title) => {
@@ -14,7 +15,7 @@ module.exports = {
         title = title.toLowerCase();
         const swap = await Swap.findAll({
             where: {
-                availability: "YES"
+                availability: Constants.AVAIL_YES
             },
             include: {
                 model: Index,
@@ -114,7 +115,7 @@ module.exports = {
             // } ,
             where: {
                 indexId: submittedIndexId,
-                availability: "YES"
+                availability: Constants.AVAIL_YES
             },
             // not working
             // include: {
@@ -125,13 +126,13 @@ module.exports = {
             // }
         });
         try {
-            if (swapForIndex.length !== 0){
+            if (swapForIndex.length !== 0) {
 
                 let xx;
 
                 let testArray = [];
 
-                for(xx=0; xx < swapForIndex.length; xx++){
+                for (xx = 0; xx < swapForIndex.length; xx++) {
                     const matchUserName = await Users.findByPk(swapForIndex[xx].userId);
                     // (swapForIndex[xx])['username'] = matchUserName.username;                    
                     testArray[xx] = { data: swapForIndex[xx], username: matchUserName.username };
@@ -142,13 +143,13 @@ module.exports = {
                 result.message = `Swap available for purchase`;
                 return result;
             };
-        } catch(error) {
+        } catch (error) {
             result.status = 404;
             result.message = `Swap error: ${error}`;
             return result;
 
         };
-        
+
 
         result.data = swapForIndex;
         result.status = 200;
@@ -200,7 +201,7 @@ module.exports = {
             result.message = "All Genres Retrieved";
             result.status = 200;
             return result;
-        } catch(err) {
+        } catch (err) {
             result.status = 404;
             result.message = `Genre Retrieval Error: ${error}`;
             return result;
