@@ -2,8 +2,7 @@
 const { Index, Swap, Users, Genres, Reviews } = require("../connect.js");
 const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
-const Constants = require("../constants/index.js");
-
+const { Constants } = require("../constants/index.js");
 
 module.exports = {
     search: async (title) => {

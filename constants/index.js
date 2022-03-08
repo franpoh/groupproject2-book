@@ -14,5 +14,3 @@ module.exports = {
         AVAIL_COLLECTED: 'COLLECTED',
     }
 };
-
-// export default Constants;
