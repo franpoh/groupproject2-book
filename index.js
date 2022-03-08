@@ -1,5 +1,5 @@
 const { sequelize, testConnection, Users, Index, Swap, Reviews, Genres } = require("./connect.js");
-const { protectedPermission, adminPermission } = require("./authentication/userPermissions");
+const { protectedPermission, adminPermission } = require("./authentication/user-permissions");
 
 const express = require('express');
 const app = express();
@@ -7,8 +7,8 @@ const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
-const generalRoutes = require("./routes/generalRoutes.js");
-const protectedRoutes = require("./routes/protectedRoutes.js");
+const generalRoutes = require("./routes/general-routes.js");
+const protectedRoutes = require("./routes/protected-routes.js");
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -27,7 +27,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 // Adding middleware to all protected routes
-const authenticateJwt = require("./authentication/authJwt");
+const authenticateJwt = require("./authentication/auth-jwt");
 
 app.use('/protected', authenticateJwt, protectedPermission);
 app.use('/protected/admin', adminPermission);

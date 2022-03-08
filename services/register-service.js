@@ -1,4 +1,5 @@
 const { ValidationError } = require("sequelize"); // Validation Error is a class item
+const Constants = require("../constants/index.js");
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -16,9 +17,9 @@ module.exports = {
         // try/catch function for catching Validation Errors
         try {
             const hash = bcrypt.hashSync(password, saltRounds);
-            
+
             // validation error is caught during Users.create, as it is being pointed to the columns
-            const user = await Users.create({ email: email, username: username, password: hash, type: "USER" });
+            const user = await Users.create({ email: email, username: username, password: hash, type: Constants.USER_USER });
 
             result.status = 200;
             result.message = "Your registration is successful!";
@@ -30,7 +31,7 @@ module.exports = {
                 result.message = error.errors[0].message;
                 result.status = 400;
                 return result;
-            } 
+            }
             result.message = error.errors[0].message;
             result.status = 400;
             return result;

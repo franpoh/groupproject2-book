@@ -1,4 +1,4 @@
-const wishlistService = require("../services/wishlistService");
+const wishlistService = require("../services/wishlist-service");
 
 class WishlistController {
 
@@ -18,7 +18,7 @@ class WishlistController {
         const receivedIndexId = parseInt(req.body.indexId);
 
         console.log('addToWish Controller', loginId, receivedIndexId);
-        
+
         if (typeof receivedIndexId !== 'number') {
             res.status(400);
             return res.json({
@@ -31,7 +31,7 @@ class WishlistController {
 
         return res.json({
             data: result.data,
-            message: result.message 
+            message: result.message
         });
 
     };
@@ -65,13 +65,13 @@ class WishlistController {
 
         return res.json({
             data: result.data,
-            message: result.message 
+            message: result.message
         });
 
     };
 
     async checkMyWishlist(req, res) {
-        
+
         // if tokenId missing
         if (!req.userId) {
             res.status(400);
@@ -87,7 +87,7 @@ class WishlistController {
 
         return res.json({
             data: result.data,
-            message: result.message 
+            message: result.message
         });
     };
 
@@ -105,7 +105,7 @@ class WishlistController {
 
         return res.json({
             data: result.data,
-            message: result.message 
+            message: result.message
         });
     };
 

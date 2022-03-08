@@ -1,5 +1,5 @@
-const viewProfileService = require("../services/viewProfileService");
-const editProfileService = require("../services/editProfileService")
+const viewProfileService = require("../services/view-profile-service");
+const editProfileService = require("../services/edit-profile-service")
 
 class accountController {
     async viewProfile(req, res) {
@@ -21,7 +21,7 @@ class accountController {
         if (!req.body.oldPassword) {
             return res.status(400).json({ message: "Your password is invalid." });
         }
-        
+
         const result = await editProfileService.editProfile(req.userId, req.body.email.toString(), req.body.oldPassword.toString(), req.body.newPassword.toString());
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
