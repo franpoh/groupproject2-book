@@ -1,6 +1,5 @@
 const { Index, Swap, Users } = require("../connect.js");
-// const Constants = require("../constants/index.js");
-import { Constants } from "../constants/index";
+const Constants = require("../constants/index.js");
 
 module.exports = {
 
