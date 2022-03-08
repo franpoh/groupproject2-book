@@ -1,5 +1,4 @@
 require('dotenv').config();
-const refreshJwt = require("./auth-refresh-jwt");
 
 const jwt = require("jsonwebtoken"); // Import
 
@@ -7,17 +6,22 @@ module.exports = function (req, res, next) {
     const { accessToken, refreshToken } = req.cookies;
 
     jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if (user) {
+        if (err) {
+            console.log("Access token authentication error: ", err);
+        } else {
             req.username = user.username;
             req.userId = user.userId;
+
             next();
-        } else {
-            console.log("Access Token Authentication Error: ", err)
         }
     });
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-        if (user) {
+        if (err) {
+            console.log("Refresh token authentication error: ", err);
+            res.status(403); // token no longer valid
+            res.send("Please login again.")
+        } else {
             const accessToken = jwt.sign({ userId: user.userId, username: user.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
             res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: "None", secure: true });
 
@@ -25,9 +29,6 @@ module.exports = function (req, res, next) {
             req.userId = user.userId;
 
             next();
-        } else {
-            console.log("Refresh Token Authentication Error: ", err)
-            res.status(403).json({ message: "Please login again." }); // token no longer valid
         }
     });
 }
