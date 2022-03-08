@@ -28,8 +28,9 @@ app.use(cookieParser());
 
 // Adding middleware to all protected routes
 const authenticateJwt = require("./authentication/auth-jwt");
+const refreshJwt = require("./authentication/auth-refresh-jwt")
 
-app.use('/protected', authenticateJwt, protectedPermission);
+app.use('/protected', authenticateJwt, refreshJwt, protectedPermission);
 app.use('/protected/admin', adminPermission);
 
 // Main Page
