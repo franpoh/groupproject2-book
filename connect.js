@@ -57,12 +57,12 @@ Users.hasMany(Swap, {
 });
 
 Swap.belongsTo(Users, {
-    as: 'userId',
+    // as: 'userId',
     foreignKey: "userId"
 });
 
 Swap.belongsTo(Users, {
-    as: 'userIdPurchased',
+    as: 'uPurchased',
     foreignKey: "userIdPurchased"
 });
 
