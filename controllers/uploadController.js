@@ -32,7 +32,7 @@ class UploadController {
         };
 
         //unnecessary as front-end should have a dropdown to show genres available, but just in case.
-        if (req.body.bookgenre && req.body.bookgenre > req.body.genre.length) {
+        if (req.body.bookgenre && (typeof req.body.bookgenre !== "string")) {
             res.status(400);
             return res.json({ message: "Genre does not exist."});
         };
