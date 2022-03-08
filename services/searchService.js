@@ -2,6 +2,7 @@
 const { Index, Swap, Users, Genres, Reviews } = require("../connect.js");
 const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
+const Constants = require("../constants/index.js");
 
 
 module.exports = {
@@ -15,7 +16,7 @@ module.exports = {
         title = title.toLowerCase();
         const swap = await Swap.findAll({
             where: {
-                availability: 'YES'
+                availability: Constants.AVAIL_YES
             },
             include: {
                 model: Index,
@@ -115,7 +116,7 @@ module.exports = {
             // } ,
             where: {
                 indexId: submittedIndexId,
-                availability: 'YES'
+                availability: Constants.AVAIL_YES
             },
             // not working
             // include: {
