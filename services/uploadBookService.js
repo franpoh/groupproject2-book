@@ -129,7 +129,7 @@ module.exports = {
             userId: userid,
             price: 1, 
             indexId: library.dataValues.indexId,
-            availability: Constants.AVAIL_YES,
+            availability: "YES",
             comments: usercomments
         });
         console.log(`Swap Request Created: `, addToSwap instanceof Swap);
