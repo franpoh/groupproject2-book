@@ -1,4 +1,4 @@
-const Constants = {
+export default Constants = {
 
     // user type constants
     USER_BANNED: 'BANNED',
@@ -16,4 +16,4 @@ const Constants = {
 
 }
 
-export default Constants;
+// export default Constants;
