@@ -12,7 +12,7 @@ const sequelize = new Sequelize({
             require: true,
             rejectUnauthorized: false // in lieu of a CA for SSL, not recommended
         }
-     },
+    },
 });
 
 async function testConnection() {
@@ -26,22 +26,22 @@ async function testConnection() {
     }
 }
 
-const Users = require ("./models/usersModel.js")(sequelize);
-const Index = require ("./models/indexModel.js")(sequelize);
-const Genres = require ("./models/genresModel.js")(sequelize);
-const Reviews = require ("./models/reviewsModel.js")(sequelize);
-const Swap = require ("./models/swapModel.js")(sequelize);
+const Users = require("./models/users-model.js")(sequelize);
+const Index = require("./models/index-model.js")(sequelize);
+const Genres = require("./models/genres-model.js")(sequelize);
+const Reviews = require("./models/reviews-model.js")(sequelize);
+const Swap = require("./models/swap-model.js")(sequelize);
 
 Index.belongsTo(Genres, {
-    foreignKey:"genreId"
+    foreignKey: "genreId"
 });
 
 Reviews.belongsTo(Users, {
-    foreignKey:"userId"
+    foreignKey: "userId"
 });
 
 Reviews.belongsTo(Index, {
-    foreignKey:"indexId"
+    foreignKey: "indexId"
 });
 
 // Swap.belongsTo(Users, {
@@ -55,7 +55,7 @@ Users.hasMany(Swap, {
 Swap.belongsTo(Users);
 
 Swap.belongsTo(Index, {
-    foreignKey:"indexId"
+    foreignKey: "indexId"
 });
 
 module.exports = {

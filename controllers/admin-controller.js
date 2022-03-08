@@ -1,4 +1,4 @@
-const userTypeService = require("../services/userTypeService.js");
+const userTypeService = require("../services/user-type-service");
 
 class AdminController {
     async editUserType(req, res) {
@@ -22,7 +22,7 @@ class AdminController {
         const result = await userTypeService.editUserType(req.body.username.toString(), req.body.type, req.body.password.toString(), req.userId);
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
-    }   
+    }
 }
 
 module.exports = AdminController;

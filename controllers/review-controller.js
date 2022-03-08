@@ -1,5 +1,5 @@
 
-const reviewService = require("../services/reviewService.js");
+const reviewService = require("../services/review-service");
 
 class reviewController {
     async addReview(req, res) {

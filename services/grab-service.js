@@ -49,7 +49,7 @@ module.exports = {
             result.status = 400;
             return result;
         };
-    
+
 
         // G1 100122: currently once buy, book is gone from swap inventory, all related comments or bought by whom info gone. GTH to keep as SOLD status/sales history? 
         // G1 110122: now availability, not destroy.
@@ -64,13 +64,13 @@ module.exports = {
 
             await Users.update(
                 { points: user.points },
-                { where: { userId: user.userId }}
+                { where: { userId: user.userId } }
             );
 
             console.log('updating user');
             // User credit MUST be deducted successfully before proceeding to "remove" book from swap availability
 
-        } catch(e) {
+        } catch (e) {
 
             // credit deduction unsuccessful
             console.log('User point save in swap service failed: ', e);
@@ -79,7 +79,7 @@ module.exports = {
             return result;
 
         };
-        
+
         console.log('transaction with swap inventory after user save');
 
         // attempt to change target book availability in swap inventory
@@ -92,24 +92,25 @@ module.exports = {
             // switch to update in case
 
             await Swap.update(
-                {   availability: book.availability,
+                {
+                    availability: book.availability,
                     userIdPurchased: book.userIdPurchased
                 },
-                { where: { swapId: book.swapId }}
+                { where: { swapId: book.swapId } }
             );
-    
+
             console.log('book no longer available: ', book);
 
-        } catch(e) {
+        } catch (e) {
             // when NO fails, to restore user credit, problem here, if book removal fails and somehow restore credit also fails, user loses credit for nothing, need simultaneous transaction GTH but sequelize does not have real simultaneous transactions. Ref: https://sequelize.org/master/manual/transactions.html
-            
+
             user.points = user.points + book.price;
             // await user.save();
             // switch to update in case
 
             await Users.update(
                 { points: user.points },
-                { where: { userId: user.userId }}
+                { where: { userId: user.userId } }
             );
 
             result.data = user;
@@ -118,7 +119,7 @@ module.exports = {
             return result;
 
         };
-        
+
         result.message = `Transaction complete..`;
         result.data = user;
         result.status = 200;

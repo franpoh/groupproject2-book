@@ -1,18 +1,17 @@
-module.exports = {
-    Constants: {
 
-        // user type constants
-        USER_BANNED: 'BANNED',
-        USER_USER: 'USER',
-        USER_ADMIN: 'ADMIN',
+const Constants = {
 
-        // swap availablity
-        AVAIL_YES: 'YES',
-        AVAIL_NO: 'NO',
-        // reserved for further dev
-        AVAIL_RESERVED: 'RESERVED',
-        AVAIL_COLLECTED: 'COLLECTED',
-    }
-};
+    // user type constants
+    USER_BANNED: "BANNED",
+    USER_USER: "USER",
+    USER_ADMIN: "ADMIN",
 
-// export default Constants;
+    // swap availablity
+    AVAIL_YES: "YES",
+    AVAIL_NO: "NO",
+    // reserved for further dev
+    AVAIL_RESERVED: "RESERVED",
+    AVAIL_COLLECTED: "COLLECTED",
+}
+
+module.exports = Constants
