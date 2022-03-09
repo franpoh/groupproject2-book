@@ -17,25 +17,25 @@ module.exports = {
 
         const user = await Users.findOne({ where: { email: email } });
 
-        // serviceErrorCatch(result, !user, Constants.EMAIL_INVALID, 400);
-
-        // const passwordVerification = await bcrypt.compare(password, user.password);
-
-        // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
-
-        if (!user) {
-            result.message = "You have entered the wrong email.";
-            result.status = 400;
-            return result;
-        }
+        await serviceErrorCatch(result, !user, Constants.EMAIL_INVALID, 400);
 
         const passwordVerification = await bcrypt.compare(password, user.password);
 
-        if (!passwordVerification) {
-            result.message = "You have entered the wrong password.";
-            result.status = 400;
-            return result;
-        }
+        await serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
+
+        // if (!user) {
+        //     result.message = "You have entered the wrong email.";
+        //     result.status = 400;
+        //     return result;
+        // }
+
+        // const passwordVerification = await bcrypt.compare(password, user.password);
+
+        // if (!passwordVerification) {
+        //     result.message = "You have entered the wrong password.";
+        //     result.status = 400;
+        //     return result;
+        // }
 
         const loginData = {
             userId: user.userId,
