@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const Constants = require("../constants/index");
+const { serviceErrorCatch } = require("../constants/error-catch");
 
 const { ValidationError } = require("sequelize"); // Validation Error is a class item
 
@@ -19,17 +20,22 @@ module.exports = {
         const findEmail = Users.findAll({ where: { email: email }});
 
         // error catching
-        if (!user) {
-            result.message = "User not found, try logging in again.";
-            result.status = 404;
-            return result;
-        }
 
-        if (findEmail) {
-            result.status = 200;
-            result.message = Constants.EMAIL_INUSE;
-            return result;
-        }
+        serviceErrorCatch(res, !user, Constants.USER_NOTFOUND, 404)
+        serviceErrorCatch(res, findEmail, Constants.EMAIL_INUSE, 409)
+        // serviceErrorCatch(res, error, msg, status)
+
+        // if (!user) {
+        //     result.message = "User not found, try logging in again.";
+        //     result.status = 404;
+        //     return result;
+        // }
+
+        // if (findEmail) {
+        //     result.status = 409;
+        //     result.message = Constants.EMAIL_INUSE;
+        //     return result;
+        // }
 
         const passwordVerification = await bcrypt.compare(oldPassword, user.password);
 
