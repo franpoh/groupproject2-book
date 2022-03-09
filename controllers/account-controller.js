@@ -1,7 +1,7 @@
 const viewProfileService = require("../services/view-profile-service");
 const editProfileService = require("../services/edit-profile-service")
 const Constants = require("../constants/index");
-const { controlErrorCatch, validEmail, pwdByteLen } = require("../constants/error-catch"),
+const { controlErrorCatch, validEmail, pwdByteLen } = require("../constants/error-catch");
 
 class accountController {
     async viewProfile(req, res) {
