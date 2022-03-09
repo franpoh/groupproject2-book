@@ -1,7 +1,7 @@
 const registerService = require("../services/register-service.js");
 const loginService = require("../services/login-service.js");
 const Constants = require("../constants/index");
-const { errorCatch, validEmail, pwdByteLen } = require("../constants/error-catch"),
+const { controlErrorCatch, validEmail, pwdByteLen } = require("../constants/error-catch"),
 
 class accessController {
     async register(req, res) {
@@ -12,12 +12,12 @@ class accessController {
 
         // check if email meets all email formatting requirements
         let vEmail = validEmail(req.body.email);
-        
+
         // error checking
-        errorCatch(!vEmail, Constants.EMAIL_INVALID);
-        errorCatch(!req.body.password || !req.body.username || !req.body.email, Constants.GENERAL_INVALID);
-        errorCatch(checkLength > 72 || req.body.password.length < 5, Constants.PASSWORD_CHARS);
-        errorCatch(req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS);
+        controlErrorCatch(!vEmail, Constants.EMAIL_INVALID, 400);
+        controlErrorCatch(!req.body.password || !req.body.username || !req.body.email, Constants.GENERAL_INVALID, 400);
+        controlErrorCatch(checkLength > 72 || req.body.password.length < 5, Constants.PASSWORD_CHARS, 400);
+        controlErrorCatch(req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400);
 
         // if (!req.body.password || !req.body.username || !req.body.email) {
         //     return res.status(400).json({ message: Constants.GENERAL_INVALID });

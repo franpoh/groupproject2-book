@@ -1,7 +1,7 @@
 const viewProfileService = require("../services/view-profile-service");
 const editProfileService = require("../services/edit-profile-service")
 const Constants = require("../constants/index");
-const { errorCatch, validEmail, pwdByteLen } = require("../constants/error-catch"),
+const { controlErrorCatch, validEmail, pwdByteLen } = require("../constants/error-catch"),
 
 class accountController {
     async viewProfile(req, res) {
@@ -20,10 +20,10 @@ class accountController {
         let vEmail = validEmail(req.body.email);
 
         // error catching
-        errorCatch(!vEmail, Constants.EMAIL_INVALID);
-        errorCatch(checkLength > 72 || req.body.newPassword.length < 5, Constants.PASSWORD_CHARS);
-        errorCatch(!req.body.oldPassword, Constants.PASSWORD_INVALID);
-        errorCatch(req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS);
+        controlErrorCatch(!vEmail, Constants.EMAIL_INVALID, 400);
+        controlErrorCatch(checkLength > 72 || req.body.newPassword.length < 5, Constants.PASSWORD_CHARS, 400);
+        controlErrorCatch(!req.body.oldPassword, Constants.PASSWORD_INVALID, 400);
+        controlErrorCatch(req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400);
 
         // if (!req.body.newPassword) {
         //     console.log("There is no new password.")
