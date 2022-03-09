@@ -17,62 +17,41 @@ module.exports = {
 
         const user = await Users.findOne({ where: { email: email } });
 
-        let p = await new Promise((resolve, reject) => {
-            if (!user) {
-                reject();
-            } else if (user) {
-                resolve(user);
-            }
-        })
+        // serviceErrorCatch(result, !user, Constants.EMAIL_INVALID, 400);
 
-        p.then(async (user) => {
-            const passwordVerification = await bcrypt.compare(password, user.password);
-            if (!passwordVerification) {
-                result.message = "You have entered the wrong password.";
-                result.status = 400;
-                return result;
-            }
-        }).catch(() => {
+        // const passwordVerification = await bcrypt.compare(password, user.password);
+
+        // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
+
+        if (!user) {
             result.message = "You have entered the wrong email.";
             result.status = 400;
             return result;
-        })
+        }
 
-    // serviceErrorCatch(result, !user, Constants.EMAIL_INVALID, 400);
+        const passwordVerification = await bcrypt.compare(password, user.password);
 
-    // const passwordVerification = await bcrypt.compare(password, user.password);
+        if (!passwordVerification) {
+            result.message = "You have entered the wrong password.";
+            result.status = 400;
+            return result;
+        }
 
-    // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
-
-    // if (!user) {
-    //     result.message = "You have entered the wrong email.";
-    //     result.status = 400;
-    //     return result;
-    // }
-
-    // const passwordVerification = await bcrypt.compare(password, user.password);
-
-    // if (!passwordVerification) {
-    //     result.message = "You have entered the wrong password.";
-    //     result.status = 400;
-    //     return result;
-    // }
-
-    const loginData = {
-        userId: user.userId,
-        username: user.username
-    }
+        const loginData = {
+            userId: user.userId,
+            username: user.username
+        }
 
         const accessToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
-    const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+        const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
 
-    result.data = {
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-    };
+        result.data = {
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+        };
 
-    result.status = 200;
-    result.message = "Login is successful! Redirecting...";
-    return result;
-}
+        result.status = 200;
+        result.message = "Login is successful! Redirecting...";
+        return result;
+    }
 }
