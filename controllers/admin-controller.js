@@ -1,22 +1,25 @@
 const userTypeService = require("../services/user-type-service");
+const Constants = require("../constants/index");
+const { controlErrorCatch } = require("../constants/error-catch");
 
 class AdminController {
     async editUserType(req, res) {
         const userTypes = ["user", "admin", "ban"];
 
+        // controlErrorCatch(res, !req.body.username, "Target user not found.", 404);
+        // controlErrorCatch(res, !req.body.password, Constants.PASSWORD_INVALID, 400);
+        // controlErrorCatch(res, !req.body.type || !userTypes.some(item => req.body.type === item), "The user type is invalid. Please input 'user', 'ban', or 'admin'.", 400);
+
         if (!req.body.username) {
-            res.status(400)
-            return res.send("The username is invalid. Please input username of user that you wish to edit.");
+            return res.status(404).json({ message: Constants.USER_NOTFOUND });
         }
 
         if (!req.body.password) {
-            res.status(400)
-            return res.send("Your password is invalid. Please confirm password before proceeding.");
+            return res.status(400).json({ message: Constants.PASSWORD_INVALID });
         }
 
         if (!req.body.type || !userTypes.some(item => req.body.type === item)) {
-            res.status(400);
-            return res.send("The user type is invalid. Please input 'user', 'ban', or 'admin'.");
+            return res.status(400).json({ message: "The user type is invalid. Please input 'user', 'ban', or 'admin'." });
         }
 
         const result = await userTypeService.editUserType(req.body.username.toString(), req.body.type, req.body.password.toString(), req.userId);

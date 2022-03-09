@@ -28,14 +28,6 @@ class accountController {
             return res.status(400).json({ message: Constants.PASSWORD_CHARS });
         }
 
-        // if (!req.body.oldPassword) {
-        //     return res.status(400).json({ message: Constants.PASSWORD_INVALID });
-        // }
-
-        // if (req.body.username.length < 3 || req.body.username.length > 10) {
-        //     return res.status(400).json({ message: Constants.USER_CHARS });
-        // }
-
         const result = await editProfileService.editProfile(req.userId, req.body.email.toString(), req.body.oldPassword.toString(), req.body.newPassword.toString());
        
         return res.status(result.status).json({ data: result.data, message: result.message });

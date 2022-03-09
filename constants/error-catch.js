@@ -13,6 +13,7 @@ function controlErrorCatch(res, error, msg, status) {
     }
 }
 
+// might mess up the order of some error checking
 function serviceErrorCatch(res, error, msg, status) {
     if (error) {
         res.status = status;

@@ -16,28 +16,27 @@ module.exports = {
         const editUser = await Users.findOne({ where: { username: username } });
         const passwordVerification = await bcrypt.compare(password, adminUser.password);
 
-        serviceErrorCatch(result, !adminUser, Constants.USER_NOTFOUND, 404);
-        serviceErrorCatch(result, !editUser, "The target user is not found.", 404);
-        serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
+        // serviceErrorCatch(result, !adminUser, Constants.USER_NOTFOUND, 404);
+        // serviceErrorCatch(result, !editUser, "Target user not found.", 404);
+        // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
 
+        if (!adminUser) {
+            result.message = "User not found. Please try logging in again.";
+            result.status = 404;
+            return result;
+        }
 
-        // if (!adminUser) {
-        //     result.message = "User not found. Please try logging in again.";
-        //     result.status = 404;
-        //     return result;
-        // }
+        if (!editUser) {
+            result.message = "The user that you wish to edit has not been found.";
+            result.status = 404;
+            return result;
+        }
 
-        // if (!editUser) {
-        //     result.message = "The user that you wish to edit has not been found.";
-        //     result.status = 404;
-        //     return result;
-        // }
-
-        // if (!passwordVerification) {
-        //     result.message = "You have entered the wrong password";
-        //     result.status = 400;
-        //     return result;
-        // }
+        if (!passwordVerification) {
+            result.message = "You have entered the wrong password";
+            result.status = 400;
+            return result;
+        }
 
         if (type === "ban") {
             editUser.type = Constants.USER_BANNED;

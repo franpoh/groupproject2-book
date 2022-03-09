@@ -23,23 +23,8 @@ module.exports = {
 
         serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404)
         serviceErrorCatch(result, findEmail, Constants.EMAIL_INUSE, 409)
-        // serviceErrorCatch(res, error, msg, status)
-
-        // if (!user) {
-        //     result.message = "User not found, try logging in again.";
-        //     result.status = 404;
-        //     return result;
-        // }
-
-        // if (findEmail) {
-        //     result.status = 409;
-        //     result.message = Constants.EMAIL_INUSE;
-        //     return result;
-        // }
 
         const passwordVerification = await bcrypt.compare(oldPassword, user.password);
-
-        // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
 
         if (!passwordVerification) {
             result.message = Constants.PASSWORD_INVALID;
@@ -67,12 +52,7 @@ module.exports = {
 
         } catch (error) {
 
-            if (error instanceof ValidationError) {
-                console.error("This is a validation error: ", error);
-                result.message = error.errors[0].message;
-                result.status = 400;
-                return result;
-            }
+            serviceErrorCatch(result, error instanceof ValidationError, error.errors[0].message, 400)
             
             result.message = error.errors[0].message;
             result.status = 400;
