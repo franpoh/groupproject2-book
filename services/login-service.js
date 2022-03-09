@@ -20,14 +20,18 @@ module.exports = {
             if (user) {
                 resolve(user);
             } else if (!user) {
-                reject(user);
+                reject();
             }
         })
 
         p.then((user) => {
             const passwordVerification = await bcrypt.compare(password, user.password);
-            serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
-        }).catch((user) => {
+            if (!passwordVerification) {
+                result.message = "You have entered the wrong password.";
+                result.status = 400;
+                return result;
+            }
+        }).catch(() => {
             result.message = Constants.EMAIL_INVALID;
             result.status = 400;
             return result;
@@ -65,7 +69,7 @@ module.exports = {
             accessToken: accessToken,
             refreshToken: refreshToken,
         };
-        
+
         result.status = 200;
         result.message = "Login is successful! Redirecting...";
         return result;
