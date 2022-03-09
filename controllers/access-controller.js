@@ -39,8 +39,8 @@ class accessController {
     async login(req, res) {
 
         // error catching
-        controlErrorCatch(res, !req.body.email, Constants.EMAIL_INVALID, 400)
-        controlErrorCatch(res, !req.body.password, Constants.PASSWORD_INVALID, 400)
+        controlErrorCatch(res, !req.body.email, Constants.EMAIL_INVALID, 400);
+        controlErrorCatch(res, !req.body.password, Constants.PASSWORD_INVALID, 400);
        
         // if (!req.body.email) {
         //     return res.status(400).json({ message: Constants.EMAIL_INVALID });
