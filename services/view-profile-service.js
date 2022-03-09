@@ -10,9 +10,9 @@ module.exports = {
             data: null,
         }
 
-        const user = await Users.findByPk(userId);
+        const user = Users.findByPk(userId);
 
-        result = serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404);
+        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404);
 
         // if (!user) {
         //     result.message = "User not found, try logging in again.";
@@ -20,9 +20,9 @@ module.exports = {
         //     return result;
         // }
 
-        const reviews = await Reviews.findAll({ where: { userId: userId }, include: "Index" });
-        const swap = await Swap.findAll({ where: { userId: userId }, include: "Index" });
-        const purchaseHistory = await Swap.findAll({ where: { purchasedId: userId }, include: "Index" });
+        const reviews = Reviews.findAll({ where: { userId: userId }, include: "Index" });
+        const swap = Swap.findAll({ where: { userId: userId }, include: "Index" });
+        const purchaseHistory = Swap.findAll({ where: { purchasedId: userId }, include: "Index" });
 
         result.data = {
             user: user,

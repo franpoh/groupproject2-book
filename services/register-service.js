@@ -22,6 +22,18 @@ module.exports = {
         serviceErrorCatch(result, findUser, Constants.USER_INUSE, 409);
         serviceErrorCatch(result, findEmail, Constants.EMAIL_INUSE, 409);
 
+        // if (findUser) {
+        //     result.status = 200;
+        //     result.message = Constants.USER_INUSE;
+        //     return result;
+        // }
+
+        // if (findEmail) {
+        //     result.status = 200;
+        //     result.message = Constants.EMAIL_INUSE;
+        //     return result;
+        // }
+
         // try/catch function for catching Validation Errors specified in models
         try {
             const hash = bcrypt.hashSync(password, saltRounds);
@@ -35,7 +47,14 @@ module.exports = {
         } catch (error) {
             // Check whether an object (error) is an instance of a specific class (ValidationError)
 
-            serviceErrorCatch(result, error instanceof ValidationError, error.errors[0].message, 400);
+            serviceErrorCatch(result, error instanceof ValidationError, error.errors[0].message, 400)
+
+            // if (error instanceof ValidationError) {
+            //     console.error("This is a validation error: ", error);
+            //     result.message = error.errors[0].message;
+            //     result.status = 400;
+            //     return result;
+            // }
 
             result.message = error.errors[0].message;
             result.status = 400;
