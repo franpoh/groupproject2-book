@@ -3,7 +3,6 @@ const { Index, Swap, Users, Genres, Reviews } = require("../connect.js");
 const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 const Constants = require("../constants/index.js");
-const logger = require('./service-logger/logger');
 
 
 module.exports = {
@@ -13,7 +12,6 @@ module.exports = {
             status: null,
             data: null,
         };
-
 
         title = title.toLowerCase();
         const swap = await Swap.findAll({
