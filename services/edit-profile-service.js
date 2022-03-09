@@ -17,7 +17,7 @@ module.exports = {
         }
 
         const user = await Users.findByPk(userId);
-        const findEmail = Users.findAll({ where: { email: email }});
+        const findEmail = await Users.findAll({ where: { email: email }});
 
         // error catching
 
