@@ -15,7 +15,7 @@ module.exports = {
             data: null,
         }
 
-        let p = new Promise((resolve, reject) => {
+        let p = new Promise(async (resolve, reject) => {
             const user = await Users.findOne({ where: { email: email } });
             if (user) {
                 resolve(user);
@@ -24,7 +24,7 @@ module.exports = {
             }
         })
 
-        p.then((user) => {
+        p.then(async (user) => {
             const passwordVerification = await bcrypt.compare(password, user.password);
             if (!passwordVerification) {
                 result.message = "You have entered the wrong password.";
