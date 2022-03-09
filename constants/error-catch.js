@@ -7,7 +7,7 @@ function pwdByteLen(pwd) {
     return new TextEncoder().encode(pwd).length
 }
 
-function controlErrorCatch(error, msg, status) {
+function controlErrorCatch(res, error, msg, status) {
     if (error) {
         return res.status(status).json({ message: msg });
     }

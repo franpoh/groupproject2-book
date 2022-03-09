@@ -14,10 +14,10 @@ class accessController {
         let vEmail = validEmail(req.body.email);
 
         // error checking
-        controlErrorCatch(!vEmail, Constants.EMAIL_INVALID, 400);
-        controlErrorCatch(!req.body.password || !req.body.username || !req.body.email, Constants.GENERAL_INVALID, 400);
-        controlErrorCatch(checkLength > 72 || req.body.password.length < 5, Constants.PASSWORD_CHARS, 400);
-        controlErrorCatch(req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400);
+        controlErrorCatch(res, !vEmail, Constants.EMAIL_INVALID, 400);
+        controlErrorCatch(res, !req.body.password || !req.body.username || !req.body.email, Constants.GENERAL_INVALID, 400);
+        controlErrorCatch(res, checkLength > 72 || req.body.password.length < 5, Constants.PASSWORD_CHARS, 400);
+        controlErrorCatch(res, req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400);
 
         // if (!req.body.password || !req.body.username || !req.body.email) {
         //     return res.status(400).json({ message: Constants.GENERAL_INVALID });
