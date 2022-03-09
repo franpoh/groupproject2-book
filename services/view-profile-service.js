@@ -1,5 +1,6 @@
 const { Users, Swap, Reviews } = require("../connect.js");
 
+const Constants = require("../constants/index");
 const { serviceErrorCatch } = require("../constants/error-catch");
 
 module.exports = {
