@@ -1,7 +1,9 @@
 require('dotenv').config();
 const bcrypt = require("bcrypt");
-
 const jwt = require("jsonwebtoken");
+
+const Constants = require("../constants/index.js");
+const { serviceErrorCatch } = require("../constants/error-catch");
 
 const { Users } = require("../connect.js");
 
@@ -41,6 +43,7 @@ module.exports = {
             accessToken: accessToken,
             refreshToken: refreshToken,
         };
+        
         result.status = 200;
         result.message = "Login is successful! Redirecting...";
         return result;

@@ -1,5 +1,7 @@
 const { Users, Swap, Reviews } = require("../connect.js");
 
+const { serviceErrorCatch } = require("../constants/error-catch");
+
 module.exports = {
     viewProfile: async (userId) => {
         let result = {

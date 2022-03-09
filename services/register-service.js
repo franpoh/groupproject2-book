@@ -1,5 +1,6 @@
 const { ValidationError } = require("sequelize"); // Validation Error is a class item
 const Constants = require("../constants/index.js");
+const { serviceErrorCatch } = require("../constants/error-catch");
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -14,7 +15,24 @@ module.exports = {
             data: null,
         }
 
-        // try/catch function for catching Validation Errors
+        // Error catching for email/username already in use
+
+        const findUser = Users.findAll({ where: { username: username }});
+        const findEmail = Users.findAll({ where: { email: email }});
+
+        if (findUser) {
+            result.status = 200;
+            result.message = Constants.USER_INUSE;
+            return result;
+        }
+
+        if (findEmail) {
+            result.status = 200;
+            result.message = Constants.EMAIL_INUSE;
+            return result;
+        }
+
+        // try/catch function for catching Validation Errors specified in models
         try {
             const hash = bcrypt.hashSync(password, saltRounds);
 
