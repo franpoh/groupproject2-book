@@ -1,4 +1,5 @@
 const { DataTypes, Model } = require("sequelize");
+const Constants = require("../constants/index");
 
 module.exports = function (sequelize) {
     class Users extends Model {}
@@ -16,22 +17,22 @@ module.exports = function (sequelize) {
                 allowNull: false, // still needed, notNull sets the message
                 unique: { // unique is not a validation but a constraint and thus is placed outside
                     args: true,
-                    msg: 'Username is already in use.'
+                    msg: Constants.USER_INUSE,
                 },
                 // the properties stated within have to come back true, or it will throw ValidationError
                 // Catch error example in corresponding service files
                 validate: {
                     notNull: {
                         args: true,
-                        msg: 'You need to enter a username.'
+                        msg: Constants.USER_INVALID,
                     },
                     notEmpty: {
                         args: true,
-                        msg: 'You need to enter a username.'
+                        msg: Constants.USER_INVALID,
                     },
                     len: { // length of string
                         args: [3, 10], // min, max
-                        msg: 'Your username needs to be between 3 to 10 characters.'
+                        msg: Constants.USER_CHARS,
                     }
                 },
                 field: "username",
@@ -41,20 +42,20 @@ module.exports = function (sequelize) {
                 allowNull: false,
                 unique: {
                     args: true,
-                    msg: 'Email is already in use.'
+                    msg: Constants.EMAIL_INUSE,
                 },
                 validate: {
                     notNull: {
                         args: true,
-                        msg: 'You need to enter a email.'
+                        msg: Constants.EMAIL_INVALID,
                     },
                     notEmpty: {
                         args: true,
-                        msg: 'You need to enter a email.'
+                        msg: Constants.EMAIL_INVALID,
                     },
                     isEmail: {
                         args: true,
-                        msg: 'You need to enter a valid email.'
+                        msg: Constants.EMAIL_INVALID,
                     }
                 },
                 field: "email",
@@ -65,11 +66,11 @@ module.exports = function (sequelize) {
                 validate: {
                     notNull: {
                         args: true,
-                        msg: 'You need to enter a email.'
+                        msg: Constants.PASSWORD_INVALID,
                     },
                     notEmpty: {
                         args: true,
-                        msg: 'You need to enter a password.'
+                        msg: Constants.PASSWORD_INVALID,
                     }
                 },
                 field: "password",
