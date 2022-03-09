@@ -7,7 +7,7 @@ class accountController {
     async viewProfile(req, res) {
 
         const result = await viewProfileService.viewProfile(req.userId); // using values passed from jwt authentication middleware
-        return res.status(result.status).json({ message: result.message });
+        return res.status(result.status).json({ data: result.data, message: result.message });
     }
 
     async editProfile(req, res) {
@@ -40,7 +40,7 @@ class accountController {
 
         const result = await editProfileService.editProfile(req.userId, req.body.email.toString(), req.body.oldPassword.toString(), req.body.newPassword.toString());
        
-        return res.status(result.status).json({ message: result.message });
+        return res.status(result.status).json({ data: result.data, message: result.message });
     }
 }
 
