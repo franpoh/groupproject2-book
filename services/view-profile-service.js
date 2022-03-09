@@ -11,7 +11,7 @@ module.exports = {
             data: null,
         }
 
-        const user = Users.findByPk(userId);
+        const user = await Users.findByPk(userId);
 
         serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404);
 
