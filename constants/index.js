@@ -18,4 +18,4 @@ const Constants = {
     REFRESH_TOKEN: "refreshToken",
 }
 
-module.exports = Constants
+module.exports = Constants;
