@@ -1,5 +1,7 @@
 const { Reviews, Index } = require("../connect.js");
 
+const logger = require('./service-logger/logger');
+
 module.exports = {
 
 
@@ -41,6 +43,7 @@ module.exports = {
       result.data = newEntry;
       result.status = 200;
       result.message = `Review added for book index ${indexid} by user id ${userid}`;
+      logger.info(`Review added for book index ${indexid} by user id ${userid}`);
       return result;
     }
 

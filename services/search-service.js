@@ -3,6 +3,8 @@ const { Index, Swap, Users, Genres, Reviews } = require("../connect.js");
 const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 const Constants = require("../constants/index.js");
+const logger = require('./service-logger/logger');
+
 
 module.exports = {
     search: async (title) => {
@@ -11,6 +13,7 @@ module.exports = {
             status: null,
             data: null,
         };
+
 
         title = title.toLowerCase();
         const swap = await Swap.findAll({
@@ -78,29 +81,29 @@ module.exports = {
             data: null,
         };
 
-        if (booktitle=='' && bookauthor=='') {
+        if (booktitle == '' && bookauthor == '') {
             result.message = `Please provide at least one parameter to retrieve info`
-            result.status=404;
+            result.status = 404;
             return result
         };
 
         const filtered = await Index.findAll({
             where: {
                 [Op.or]: [
-                {title: booktitle},
-                {author: bookauthor}
+                    { title: booktitle },
+                    { author: bookauthor }
                 ]
             }
         });
 
-        if (booktitle!='' && bookauthor=='') {
+        if (booktitle != '' && bookauthor == '') {
             result.message = `Retrieving books with books titled ${booktitle}`
             result.status = 200;
             result.data = filtered;
             return result;
         };
 
-        if (bookauthor!='' && booktitle=='') {
+        if (bookauthor != '' && booktitle == '') {
             result.message = `Retrieving books with authors named ${bookauthor}`
             result.status = 200;
             result.data = filtered;
@@ -108,7 +111,7 @@ module.exports = {
         };
 
         result.message = `Retrieving books with books titled ${booktitle} by authors named ${bookauthor}`
-        result.status=200;
+        result.status = 200;
         result.data = filtered;
         return result;
     },
