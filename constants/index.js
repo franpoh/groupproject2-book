@@ -26,8 +26,10 @@ const Constants = {
     EMAIL_INUSE: "Your email is in use.",
     USER_INUSE: "Your username is in use.",
 
-    PASSWORD_CHARS: "Your password must contain at least 5 chars.",
-    USER_CHARS: "Your username must contain between 3 to 10 chars.",
+    PASSWORD_CHARS: "Password must contain at least 5 chars.",
+    USER_CHARS: "Username must contain between 3 to 10 chars.",
+
+    USER_NOTFOUND: "User not found. Please try logging in again."
 }
 
 module.exports = Constants;

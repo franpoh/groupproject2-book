@@ -12,11 +12,13 @@ module.exports = {
 
         const user = await Users.findByPk(userId);
 
-        if (!user) {
-            result.message = "User not found, try logging in again.";
-            result.status = 404;
-            return result;
-        }
+        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404);
+
+        // if (!user) {
+        //     result.message = "User not found, try logging in again.";
+        //     result.status = 404;
+        //     return result;
+        // }
 
         const reviews = await Reviews.findAll({ where: { userId: userId }, include: "Index" });
         const swap = await Swap.findAll({ where: { userId: userId }, include: "Index" });
