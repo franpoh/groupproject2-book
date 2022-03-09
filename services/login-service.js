@@ -16,9 +16,11 @@ module.exports = {
         }
 
         const user = await Users.findOne({ where: { email: email } });
-        const passwordVerification = await bcrypt.compare(password, user.password);
 
         serviceErrorCatch(result, !user, Constants.EMAIL_INVALID, 400);
+
+        const passwordVerification = await bcrypt.compare(password, user.password);
+        
         serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
 
         // if (!user) {
