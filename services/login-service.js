@@ -15,7 +15,7 @@ module.exports = {
             data: null,
         }
 
-        console.log("TEST IN LOGIN SERVICE", user, password);
+        console.log("TEST IN LOGIN SERVICE", email, password);
 
         const user = await Users.findOne({ where: { email: email } });
 
