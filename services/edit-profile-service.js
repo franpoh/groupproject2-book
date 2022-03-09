@@ -21,8 +21,8 @@ module.exports = {
 
         // error catching
 
-        serviceErrorCatch(res, !user, Constants.USER_NOTFOUND, 404)
-        serviceErrorCatch(res, findEmail, Constants.EMAIL_INUSE, 409)
+        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404)
+        serviceErrorCatch(result, findEmail, Constants.EMAIL_INUSE, 409)
         // serviceErrorCatch(res, error, msg, status)
 
         // if (!user) {
