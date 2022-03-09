@@ -6,8 +6,7 @@ const { controlErrorCatch, validEmail, pwdByteLen } = require("../constants/erro
 class accountController {
     async viewProfile(req, res) {
 
-        const result = await viewProfileService.viewProfile(req.userId); // using values passed from authenticateJwt
-       
+        const result = await viewProfileService.viewProfile(req.userId); // using values passed from jwt authentication middleware
         return res.status(result.status).json({ message: result.message });
     }
 
@@ -20,10 +19,10 @@ class accountController {
         let vEmail = validEmail(req.body.email);
 
         // error catching
-        controlErrorCatch(!vEmail, Constants.EMAIL_INVALID, 400);
-        controlErrorCatch(checkLength > 72 || req.body.newPassword.length < 5, Constants.PASSWORD_CHARS, 400);
-        controlErrorCatch(!req.body.oldPassword, Constants.PASSWORD_INVALID, 400);
-        controlErrorCatch(req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400);
+        controlErrorCatch(res, !vEmail, Constants.EMAIL_INVALID, 400);
+        controlErrorCatch(res, checkLength > 72 || req.body.newPassword.length < 5, Constants.PASSWORD_CHARS, 400);
+        controlErrorCatch(res, !req.body.oldPassword, Constants.PASSWORD_INVALID, 400);
+        controlErrorCatch(res, req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400);
 
         // if (!req.body.newPassword) {
         //     console.log("There is no new password.")
