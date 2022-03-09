@@ -1,4 +1,4 @@
-const grabService = require("../services/grabService");
+const grabService = require("../services/grab-service");
 
 class GrabController {
 
@@ -7,7 +7,7 @@ class GrabController {
         // req.body.swapId - for id of specific book in inventory
 
         // if tokenId or swapId missing
-        if (!req.userId || !req.body.swapId ) {
+        if (!req.userId || !req.body.swapId) {
             res.status(400);
             return res.json({
                 message: 'Incomplete data types submitted..'
@@ -27,11 +27,11 @@ class GrabController {
         };
 
         const result = await grabService.grabBook(loginId, receivedSwapId);
-        res.status(result.status);        
+        res.status(result.status);
 
         return res.json({
             data: result.data,
-            message: result.message 
+            message: result.message
         });
     };
 };

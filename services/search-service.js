@@ -2,7 +2,7 @@
 const { Index, Swap, Users, Genres, Reviews } = require("../connect.js");
 const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
-const { Constants } = require("../constants/index.js");
+const Constants = require("../constants/index.js");
 
 module.exports = {
     search: async (title) => {
@@ -71,6 +71,48 @@ module.exports = {
 
     },
 
+    searchIndexByParams: async (booktitle, bookauthor) => {
+        let result = {
+            message: null,
+            status: null,
+            data: null,
+        };
+
+        if (booktitle=='' && bookauthor=='') {
+            result.message = `Please provide at least one parameter to retrieve info`
+            result.status=404;
+            return result
+        };
+
+        const filtered = await Index.findAll({
+            where: {
+                [Op.or]: [
+                {title: booktitle},
+                {author: bookauthor}
+                ]
+            }
+        });
+
+        if (booktitle!='' && bookauthor=='') {
+            result.message = `Retrieving books with books titled ${booktitle}`
+            result.status = 200;
+            result.data = filtered;
+            return result;
+        };
+
+        if (bookauthor!='' && booktitle=='') {
+            result.message = `Retrieving books with authors named ${bookauthor}`
+            result.status = 200;
+            result.data = filtered;
+            return result;
+        };
+
+        result.message = `Retrieving books with books titled ${booktitle} by authors named ${bookauthor}`
+        result.status=200;
+        result.data = filtered;
+        return result;
+    },
+
     searchIndex: async () => {
         let result = {
             message: null,
@@ -126,13 +168,13 @@ module.exports = {
             // }
         });
         try {
-            if (swapForIndex.length !== 0){
+            if (swapForIndex.length !== 0) {
 
                 let xx;
 
                 let testArray = [];
 
-                for(xx=0; xx < swapForIndex.length; xx++){
+                for (xx = 0; xx < swapForIndex.length; xx++) {
                     const matchUserName = await Users.findByPk(swapForIndex[xx].userId);
                     // (swapForIndex[xx])['username'] = matchUserName.username;                    
                     testArray[xx] = { data: swapForIndex[xx], username: matchUserName.username };
@@ -143,13 +185,13 @@ module.exports = {
                 result.message = `Swap available for purchase`;
                 return result;
             };
-        } catch(error) {
+        } catch (error) {
             result.status = 404;
             result.message = `Swap error: ${error}`;
             return result;
 
         };
-        
+
 
         result.data = swapForIndex;
         result.status = 200;
@@ -201,7 +243,7 @@ module.exports = {
             result.message = "All Genres Retrieved";
             result.status = 200;
             return result;
-        } catch(err) {
+        } catch (err) {
             result.status = 404;
             result.message = `Genre Retrieval Error: ${error}`;
             return result;

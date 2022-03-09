@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const AccessController = require("../controllers/accessController");
-const SearchController = require("../controllers/searchController");
+const AccessController = require("../controllers/access-controller");
+const SearchController = require("../controllers/search-controller");
 
 const searchController = new SearchController();
 const accessController = new AccessController();
@@ -14,6 +14,7 @@ router.get("/general/search", searchController.search);
 
 router.get("/general/detail", searchController.detail);
 router.get("/general/searchIndex", searchController.searchIndex);
+router.post("/general/searchIndexByParams", searchController.searchIndexByParams);
 router.get("/general/searchSwap", searchController.searchSwapByIndex);
 router.get("/general/reviews", searchController.allReviews);
 router.get("/general/genres", searchController.searchGenres);

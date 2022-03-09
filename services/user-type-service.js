@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const Constants = require("../constants/index.js");
 
 const { Users } = require("../connect.js");
 
@@ -35,13 +36,13 @@ module.exports = {
         }
 
         if (type === "ban") {
-            editUser.type = "BANNED";
+            editUser.type = Constants.USER_BANNED;
             result.message = "User has been set to 'BANNED'.";
-        } else if (type === "user") {
-            editUser.type = "USER";
+        } else if (type === Constants.USER_USER) {
+            editUser.type = Constants.USER_USER;
             result.message = "User has been set to 'USER'.";
-        } else if (type === "admin") {
-            editUser.type = "ADMIN";
+        } else if (type === Constants.USER_ADMIN) {
+            editUser.type = Constants.USER_ADMIN;
             result.message = "User has been set to 'ADMIN'.";
         }
 

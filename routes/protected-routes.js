@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const ReviewController = require("../controllers/reviewController");
-const GrabController = require("../controllers/grabController");
-const WishlistController = require("../controllers/wishlistController");
-const AccountController = require("../controllers/accountController");
-const AdminController = require("../controllers/adminController");
-const UploadController = require("../controllers/uploadController");
-const LogoutController = require("../controllers/logoutController");
+const ReviewController = require("../controllers/review-controller");
+const GrabController = require("../controllers/grab-controller");
+const WishlistController = require("../controllers/wishlist-controller");
+const AccountController = require("../controllers/account-controller");
+const AdminController = require("../controllers/admin-controller");
+const UploadController = require("../controllers/upload-controller");
+const LogoutController = require("../controllers/logout-controller");
 
 
 const reviewController = new ReviewController();

@@ -1,5 +1,5 @@
 
-const searchService = require("../services/searchService.js");
+const searchService = require("../services/search-service");
 
 class searchController {
 
@@ -36,6 +36,18 @@ class searchController {
             message: result.message
         });
 
+    };
+
+    async searchIndexByParams(req, res) {
+        const bookAuthor = req.body.bookAuthor;
+        const bookTitle = req.body.bookTitle;
+
+        const result = await searchService.searchIndexByParams(bookTitle, bookAuthor)
+        res.status(result.status);
+        return res.json ({
+            data: result.data,
+            message: result.message
+        });
     };
 
     async searchIndex(req, res) {
@@ -91,7 +103,8 @@ class searchController {
 
         const result = await searchService.allGenres()
         res.status(result.status);
-        return res.json({data: result.data, message: result.message});
-    }
+        return res.json({ data: result.data, message: result.message });
+    };
+
 }
 module.exports = searchController;
