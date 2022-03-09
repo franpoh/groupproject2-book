@@ -15,12 +15,14 @@ module.exports = {
             data: null,
         }
 
+        console.log("TEST IN LOGIN SERVICE", user, password);
+
         const user = await Users.findOne({ where: { email: email } });
 
         serviceErrorCatch(result, !user, Constants.EMAIL_INVALID, 400);
 
         const passwordVerification = await bcrypt.compare(password, user.password);
-        
+
         serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
 
         // if (!user) {
