@@ -15,12 +15,6 @@ module.exports = {
 
         serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404);
 
-        // if (!user) {
-        //     result.message = "User not found, try logging in again.";
-        //     result.status = 404;
-        //     return result;
-        // }
-
         const reviews = await Reviews.findAll({ where: { userId: userId }, include: "Index" });
         const swap = await Swap.findAll({ where: { userId: userId }, include: "Index" });
         const purchaseHistory = await Swap.findAll({ where: { purchasedId: userId }, include: "Index" });

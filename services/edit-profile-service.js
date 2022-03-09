@@ -39,11 +39,13 @@ module.exports = {
 
         const passwordVerification = await bcrypt.compare(oldPassword, user.password);
 
-        if (!passwordVerification) {
-            result.message = Constants.PASSWORD_INVALID;
-            result.status = 400;
-            return result;
-        }
+        serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
+
+        // if (!passwordVerification) {
+        //     result.message = Constants.PASSWORD_INVALID;
+        //     result.status = 400;
+        //     return result;
+        // }
 
         try {
 
