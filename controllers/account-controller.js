@@ -21,7 +21,6 @@ class accountController {
         // error catching
         controlErrorCatch(res, !vEmail, Constants.EMAIL_INVALID, 400);
         controlErrorCatch(res, !req.body.oldPassword, Constants.PASSWORD_INVALID, 400);
-        controlErrorCatch(res, req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400);
 
         if (!req.body.newPassword) {
             console.log("There is no new password.")
