@@ -7,14 +7,23 @@ function pwdByteLen(pwd) {
     return new TextEncoder().encode(pwd).length
 }
 
-function errorCatch(error, msg) {
+function controlErrorCatch(error, msg, status) {
     if (error) {
-        return res.status(400).json({ message: msg });
+        return res.status(status).json({ message: msg });
+    }
+}
+
+function serviceErrorCatch(res, error, msg, status) {
+    if (error) {
+        res.status = status;
+        res.message = msg;
+        return res;
     }
 }
 
 module.exports = {
     validEmail,
-    errorCatch,
-    pwdByteLen
+    controlErrorCatch,
+    serviceErrorCatch,
+    pwdByteLen,
 }
