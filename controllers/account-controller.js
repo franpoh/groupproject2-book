@@ -20,15 +20,14 @@ class accountController {
 
         // error catching
         controlErrorCatch(res, !vEmail, Constants.EMAIL_INVALID, 400);
-        controlErrorCatch(res, req.body.newPassword && req.body.newPassword.length < 5 || checkLength > 72, Constants.PASSWORD_CHARS, 400);
         controlErrorCatch(res, !req.body.oldPassword, Constants.PASSWORD_INVALID, 400);
         controlErrorCatch(res, req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400);
 
-        // if (!req.body.newPassword) {
-        //     console.log("There is no new password.")
-        // } else if (checkLength > 72 || req.body.newPassword.length < 5) {
-        //     return res.status(400).json({ message: Constants.PASSWORD_CHARS });
-        // }
+        if (!req.body.newPassword) {
+            console.log("There is no new password.")
+        } else if (checkLength > 72 || req.body.newPassword.length < 5) {
+            return res.status(400).json({ message: Constants.PASSWORD_CHARS });
+        }
 
         // if (!req.body.oldPassword) {
         //     return res.status(400).json({ message: Constants.PASSWORD_INVALID });
