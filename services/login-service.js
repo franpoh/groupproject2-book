@@ -17,7 +17,7 @@ module.exports = {
 
         const user = await Users.findOne({ where: { email: email } });
 
-        let p = new Promise((resolve, reject) => {
+        let p = await new Promise((resolve, reject) => {
             if (!user) {
                 reject();
             } else if (user) {
