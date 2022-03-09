@@ -19,18 +19,6 @@ class accessController {
         controlErrorCatch(res, checkLength > 72 || req.body.password.length < 5, Constants.PASSWORD_CHARS, 400);
         controlErrorCatch(res, req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400);
 
-        // if (!req.body.password || !req.body.username || !req.body.email) {
-        //     return res.status(400).json({ message: Constants.GENERAL_INVALID });
-        // }
-
-        // if (checkLength > 72 || req.body.password.length < 5) {
-        //     return res.status(400).json({ message: Constants.PASSWORD_CHARS });
-        // }
-
-        // if (req.body.username.length < 3 || req.body.username.length > 10) {
-        //     return res.status(400).json({ message: Constants.USER_CHARS });
-        // }
-
         const result = await registerService.register(req.body.email.toString(), req.body.username.toString(), req.body.password.toString());
         
         return res.status(result.status).json({ message: result.message });
@@ -41,14 +29,6 @@ class accessController {
         // error catching
         controlErrorCatch(res, !req.body.email, Constants.EMAIL_INVALID, 400);
         controlErrorCatch(res, !req.body.password, Constants.PASSWORD_INVALID, 400);
-       
-        // if (!req.body.email) {
-        //     return res.status(400).json({ message: Constants.EMAIL_INVALID });
-        // }
-
-        // if (!req.body.password) {
-        //     return res.status(400).json({ message: Constants.PASSWORD_INVALID });
-        // }
 
         const result = await loginService.login(req.body.email.toString(), req.body.password.toString());
 

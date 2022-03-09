@@ -12,7 +12,7 @@ module.exports = {
 
         const user = await Users.findByPk(userId);
 
-        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404);
+        result = serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404);
 
         // if (!user) {
         //     result.message = "User not found, try logging in again.";
