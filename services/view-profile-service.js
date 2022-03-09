@@ -21,9 +21,9 @@ module.exports = {
         //     return result;
         // }
 
-        const reviews = Reviews.findAll({ where: { userId: userId }, include: "Index" });
-        const swap = Swap.findAll({ where: { userId: userId }, include: "Index" });
-        const purchaseHistory = Swap.findAll({ where: { purchasedId: userId }, include: "Index" });
+        const reviews = await Reviews.findAll({ where: { userId: userId }, include: "Index" });
+        const swap = await Swap.findAll({ where: { userId: userId }, include: "Index" });
+        const purchaseHistory = await Swap.findAll({ where: { purchasedId: userId }, include: "Index" });
 
         result.data = {
             user: user,
