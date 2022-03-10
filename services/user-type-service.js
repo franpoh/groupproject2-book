@@ -5,7 +5,7 @@ const { serviceErrorCatch } = require("../constants/error-catch");
 const { Users } = require("../connect.js");
 
 module.exports = {
-    userType: async (username, type, password, userId) => {
+    userType: async (editUserId, type, password, userId) => {
         let result = {
             message: null,
             status: null,
@@ -13,7 +13,7 @@ module.exports = {
         }
 
         const adminUser = await Users.findByPk(userId);
-        const editUser = await Users.findOne({ where: { username: username } });
+        const editUser = await Users.findOne({ where: { userId: editUserId } });
         const passwordVerification = await bcrypt.compare(password, adminUser.password);
 
         // serviceErrorCatch(result, !adminUser, Constants.USER_NOTFOUND, 404);
@@ -38,7 +38,7 @@ module.exports = {
             return result;
         }
 
-        if (type === "ban") {
+        if (type === Constants.USER_BANNED) {
             editUser.type = Constants.USER_BANNED;
             result.message = `User has been set to '${Constants.USER_BANNED}'.`;
         } else if (type === Constants.USER_USER) {
