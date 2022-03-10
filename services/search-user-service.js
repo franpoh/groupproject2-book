@@ -11,26 +11,54 @@ module.exports = {
             data: null,
         }
 
-        const user = await Users.findAll({ where: 
-            { username: username },
-            attributes: { exclude: 
-                ['password', 'wishlist', 'imageURL', 'updatedAt'] 
-            } 
-        });
+        let p = new Promise((resolve, reject) => {
+            const user = await Users.findAll({
+                where:
+                    { username: username },
+                attributes: {
+                    exclude:
+                        ['password', 'wishlist', 'imageURL', 'updatedAt']
+                }
+            });
 
+            if (user.length === 0) {
+                reject();
+            } else {
+                resolve(user);
+            }
+        })
 
-
-        serviceErrorCatch(result, user.length == 0, "not found in catch", 404);
-
-        if (user.length === 0) {
+        p.then((user) => {
+            result.data = user;
+            result.status = 200;
+            result.message = "User found.";
+            return result;
+        }).catch(() => {
             result.status = 404;
             result.message = Constants.USER_NOTFOUND;
             return result;
-        }
+        })
 
-        result.data = user;
-        result.status = 200;
-        result.message = "User found.";
-        return result;
+        // const user = await Users.findAll({
+        //     where:
+        //         { username: username },
+        //     attributes: {
+        //         exclude:
+        //             ['password', 'wishlist', 'imageURL', 'updatedAt']
+        //     }
+        // });
+
+        // serviceErrorCatch(result, user.length === 0, Constants.USER_NOTFOUND, 404);
+
+        // if (user.length === 0) {
+        //     result.status = 404;
+        //     result.message = Constants.USER_NOTFOUND;
+        //     return result;
+        // }
+
+        // result.data = user;
+        // result.status = 200;
+        // result.message = "User found.";
+        // return result;
     }
 }

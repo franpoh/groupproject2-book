@@ -29,7 +29,7 @@ const Constants = {
     PASSWORD_CHARS: "Password must contain at least 5 chars.",
     USER_CHARS: "Username must contain between 3 to 10 chars.",
 
-    USER_NOTFOUND: "User not found. Please try logging in again."
+    USER_NOTFOUND: "User not found."
 }
 
 module.exports = Constants;
