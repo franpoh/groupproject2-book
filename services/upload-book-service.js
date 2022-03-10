@@ -54,7 +54,6 @@ module.exports = {
                 console.log("Book details successfully added to index database.");
                 console.log("New Index added to Library, index id:", library.dataValues.indexId);
             } catch (error) {
-
                 console.log('User attempted to access library, failed. Error: ', error);
                 result.message = "Failed to access library database. Please try again later.";
                 result.status = 500;
