@@ -33,7 +33,7 @@ module.exports = {
                 author: bookauthor,
                 genreId: bookgenre,
                 year: bookyear,
-                image_url: bookcover
+                imageURL: bookcover
             }
         });
 
@@ -48,7 +48,7 @@ module.exports = {
                 library.author = bookauthor;
                 library.genreId = bookgenre;
                 library.year = bookyear;
-                library.image_url = bookcover;
+                library.imageURL = bookcover;
                 const newIndex = await library.save();
                 console.log("New Index Request Created: ", newIndex instanceof Index);
                 console.log("Book details successfully added to index database.");
