@@ -48,12 +48,11 @@ module.exports = {
                 library.author = bookauthor;
                 library.genreId = bookgenre;
                 library.year = bookyear;
-                library.imgURL = bookcover;
+                library.image_url = bookcover;
                 const newIndex = await library.save();
                 console.log("New Index Request Created: ", newIndex instanceof Index);
                 console.log("Book details successfully added to index database.");
                 console.log("New Index added to Library, index id:", library.dataValues.indexId);
-
             } catch (error) {
 
                 console.log('User attempted to access library, failed. Error: ', error);
