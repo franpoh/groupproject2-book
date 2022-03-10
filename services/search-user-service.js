@@ -18,7 +18,13 @@ module.exports = {
             } 
         });
 
-        serviceErrorCatch(result, user = [], Constants.USER_NOTFOUND, 404);
+        // serviceErrorCatch(result, user == [], Constants.USER_NOTFOUND, 404);
+
+        if (user == []) {
+            result.status = 404;
+            result.message = Constants.USER_NOTFOUND;
+            return result;
+        }
 
         result.data = user;
         result.status = 200;
