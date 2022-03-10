@@ -28,7 +28,7 @@ module.exports = {
             }
         })
 
-        p.then((user) => {
+        result = p.then((user) => {
             result.data = user;
             result.status = 200;
             result.message = "User found.";
@@ -38,8 +38,6 @@ module.exports = {
             result.message = Constants.USER_NOTFOUND;
             return result;
         })
-
-        return result;
 
         // const user = await Users.findAll({
         //     where:
