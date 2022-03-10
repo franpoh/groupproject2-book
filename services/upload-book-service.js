@@ -48,6 +48,7 @@ module.exports = {
                 library.author = bookauthor;
                 library.genreId = bookgenre;
                 library.year = bookyear;
+                library.imgURL = bookcover;
                 const newIndex = await library.save();
                 console.log("New Index Request Created: ", newIndex instanceof Index);
                 console.log("Book details successfully added to index database.");
