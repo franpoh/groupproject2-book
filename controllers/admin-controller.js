@@ -25,7 +25,7 @@ class AdminController {
             return res.status(400).json({ message: "The user type is invalid. Please choose 'User', 'Banned', or 'Admin'." });
         }
 
-        const result = await userTypeService.userType(req.body.username.toString(), req.body.type, req.body.password.toString(), req.userId);
+        const result = await userTypeService.userType(Number(req.body.userId), req.body.type, req.body.password.toString(), req.userId);
         return res.status(result.status).json({ data: result.data, message: result.message });
     }
 
