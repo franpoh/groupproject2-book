@@ -18,7 +18,7 @@ module.exports = {
             } 
         });
 
-        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404);
+        serviceErrorCatch(result, user === [], Constants.USER_NOTFOUND, 404);
 
         result.data = user;
         result.status = 200;
