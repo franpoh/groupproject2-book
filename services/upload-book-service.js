@@ -3,7 +3,7 @@ const Constants = require("../constants/index.js");
 
 module.exports = {
 
-    uploadbook: async (userid, booktitle, bookauthor, bookyear, bookgenre, usercomments) => {
+    uploadbook: async (userid, booktitle, bookauthor, bookyear, bookgenre, usercomments, bookcover) => {
 
         let result = {
             message: null,
@@ -32,7 +32,8 @@ module.exports = {
                 title: booktitle,
                 author: bookauthor,
                 genreId: bookgenre,
-                year: bookyear
+                year: bookyear,
+                imageURL: bookcover
             }
         });
 
@@ -47,11 +48,12 @@ module.exports = {
                 library.author = bookauthor;
                 library.genreId = bookgenre;
                 library.year = bookyear;
+                library.imageURL = bookcover;
+                console.log("bookcover :", bookcover);
                 const newIndex = await library.save();
                 console.log("New Index Request Created: ", newIndex instanceof Index);
                 console.log("Book details successfully added to index database.");
                 console.log("New Index added to Library, index id:", library.dataValues.indexId);
-
             } catch (error) {
 
                 console.log('User attempted to access library, failed. Error: ', error);
