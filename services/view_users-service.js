@@ -11,15 +11,9 @@ module.exports = {
             data: null,
         }
 
-        const users = await Users.findAll();
+        const users = await Users.findAll({ exclude: { password } });
 
-        result.data = {
-            userId: users.userId,
-            username: users.username,
-            email: users.email,
-            points: users.points,
-            type: users.type
-        }
+        result.data = users;
 
         result.status = 200;
         result.message = "All users in database.";
