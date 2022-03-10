@@ -56,9 +56,9 @@ class UploadController {
             res.status(400);
             return res.json({ message: "URL provided by user is not an image. Please provide a valid image URL."})
         };
-
+        
         const result = await uploadService.uploadbook(req.body.userid, req.body.booktitle, req.body.bookauthor, req.body.bookyear, req.body.bookgenre, req.body.usercomments, req.body.bookcover);
-
+        console.log(result);
         res.status(result.status);
 
         return res.json({
