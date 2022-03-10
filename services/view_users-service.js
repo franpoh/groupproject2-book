@@ -14,11 +14,11 @@ module.exports = {
         const users = await Users.findAll();
 
         result.data = {
-            userId: users.data.userId,
-            username: users.data.username,
-            email: users.data.email,
-            points: users.data.points,
-            type: users.data.type
+            userId: users.userId,
+            username: users.username,
+            email: users.email,
+            points: users.points,
+            type: users.type
         }
 
         result.status = 200;
