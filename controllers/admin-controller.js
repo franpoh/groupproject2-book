@@ -1,9 +1,11 @@
 const userTypeService = require("../services/user-type-service");
+const viewUsersService = require("../services/view_users-service");
+
 const Constants = require("../constants/index");
 const { controlErrorCatch } = require("../constants/error-catch");
 
 class AdminController {
-    async editUserType(req, res) {
+    async userType(req, res) {
         const userTypes = ["user", "admin", "ban"];
 
         // controlErrorCatch(res, !req.body.username, "Target user not found.", 404);
@@ -22,9 +24,14 @@ class AdminController {
             return res.status(400).json({ message: "The user type is invalid. Please input 'user', 'ban', or 'admin'." });
         }
 
-        const result = await userTypeService.editUserType(req.body.username.toString(), req.body.type, req.body.password.toString(), req.userId);
-        res.status(result.status);
-        return res.json({ data: result.data, message: result.message });
+        const result = await userTypeService.userType(req.body.username.toString(), req.body.type, req.body.password.toString(), req.userId);
+        return res.status(result.status).json({ data: result.data, message: result.message });
+    }
+
+    async viewUsers(req, res) {
+
+        const result = await viewUsersService.viewUsers();
+        return res.status(result.status).json({ data: result.data, message: result.message });
     }
 }
 

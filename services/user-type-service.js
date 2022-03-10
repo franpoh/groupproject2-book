@@ -5,7 +5,7 @@ const { serviceErrorCatch } = require("../constants/error-catch");
 const { Users } = require("../connect.js");
 
 module.exports = {
-    editUserType: async (username, type, password, userId) => {
+    userType: async (username, type, password, userId) => {
         let result = {
             message: null,
             status: null,
