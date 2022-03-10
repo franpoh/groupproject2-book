@@ -11,7 +11,12 @@ module.exports = {
             data: null,
         }
 
-        const user = await Users.findAll({ where: { username: username } });
+        const user = await Users.findAll({ where: 
+            { username: username },
+            attributes: { exclude: 
+                ['password', 'wishlist', 'imageURL', 'updatedAt'] 
+            } 
+        });
 
         serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404);
 
