@@ -1,5 +1,6 @@
 const userTypeService = require("../services/user-type-service");
-const viewUsersService = require("../services/view_users-service");
+const viewUsersService = require("../services/view-users-service");
+const searchUserService = require("../services/search-user-service");
 
 const Constants = require("../constants/index");
 const { controlErrorCatch } = require("../constants/error-catch");
@@ -31,6 +32,12 @@ class AdminController {
     async viewUsers(req, res) {
 
         const result = await viewUsersService.viewUsers();
+        return res.status(result.status).json({ data: result.data, message: result.message });
+    }
+
+    async searchUser(req, res) {
+
+        const result = await searchUserService.searchUser(req.body.username.toString());
         return res.status(result.status).json({ data: result.data, message: result.message });
     }
 }

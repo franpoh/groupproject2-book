@@ -4,23 +4,20 @@ const Constants = require("../constants/index");
 const { serviceErrorCatch } = require("../constants/error-catch");
 
 module.exports = {
-    viewUsers: async () => {
+    searchUser: async (username) => {
         let result = {
             message: null,
             status: null,
             data: null,
         }
 
-        const users = await Users.findAll({ 
-            attributes: { exclude: 
-                ['password', 'wishlist', 'imageURL', 'updatedAt'] 
-            } 
-        });
+        const user = await Users.findAll({ where: { username: username } });
 
-        result.data = users;
+        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404);
 
+        result.data = user;
         result.status = 200;
-        result.message = "All users in database.";
+        result.message = "User found.";
         return result;
     }
 }
