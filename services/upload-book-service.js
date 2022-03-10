@@ -3,7 +3,7 @@ const Constants = require("../constants/index.js");
 
 module.exports = {
 
-    uploadbook: async (userid, booktitle, bookauthor, bookyear, bookgenre, usercomments) => {
+    uploadbook: async (userid, booktitle, bookauthor, bookyear, bookgenre, usercomments, bookcover) => {
 
         let result = {
             message: null,
@@ -32,7 +32,8 @@ module.exports = {
                 title: booktitle,
                 author: bookauthor,
                 genreId: bookgenre,
-                year: bookyear
+                year: bookyear,
+                imgURL: bookcover
             }
         });
 

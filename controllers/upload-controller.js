@@ -48,6 +48,15 @@ class UploadController {
             return res.json({ message: "User Comments is too short. Please leave a comment longer than 5 characters." });
         };
 
+        function isImage(url) {
+            return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+        }
+
+        if (req.body.bookcover=="" || !(isImage(req.body.bookcover))) {
+            res.status(400);
+            return res.json({ message: "URL provided by user is not an image. Please provide a valid image URL."})
+        }
+
         const result = await uploadService.uploadbook(req.body.userid, req.body.booktitle, req.body.bookauthor, req.body.bookyear, req.body.bookgenre, req.body.usercomments);
 
         res.status(result.status);
