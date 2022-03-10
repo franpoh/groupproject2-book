@@ -13,14 +13,13 @@ module.exports = {
 
         const users = await Users.findAll();
 
-        // result.data = {
-        //     user: user,
-        //     reviews: reviews,
-        //     swap: swap,
-        //     purchaseHistory: purchaseHistory,
-        // }
-
-        result.data = users;
+        result.data = {
+            userId: users.data.userId,
+            username: users.data.username,
+            email: users.data.email,
+            points: users.data.points,
+            type: users.data.type
+        }
 
         result.status = 200;
         result.message = "All users in database.";
