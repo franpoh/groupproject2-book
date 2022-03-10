@@ -15,7 +15,7 @@ class UploadController {
             });
         };
 
-        if (!req.body.userid || !req.body.booktitle || !req.body.bookauthor || !req.body.bookcover) {
+        if (!req.body.userid || !req.body.booktitle || !req.body.bookauthor) {
             res.status(400);
             return res.json({
                 message: "uploadController: Incomplete Data Request provided to uploadbook."
@@ -52,12 +52,12 @@ class UploadController {
         //     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
         // };
 
-        if (req.body.bookcover=="") {
-            res.status(400);
-            return res.json({ message: "URL provided by user is not an image. Please provide a valid image URL."})
-        };
+        // if (req.body.bookcover=="") {
+        //     res.status(400);
+        //     return res.json({ message: "URL provided by user is not an image. Please provide a valid image URL."})
+        // };
         console.log(result);
-        const result = await uploadService.uploadbook(req.body.userid, req.body.booktitle, req.body.bookauthor, req.body.bookyear, req.body.bookgenre, req.body.usercomments, req.body.bookcover);
+        const result = await uploadService.uploadbook(req.body.userid, req.body.booktitle, req.body.bookauthor, req.body.bookyear, req.body.bookgenre, req.body.usercomments);
         console.log(result);
         res.status(result.status);
 
