@@ -11,7 +11,7 @@ module.exports = {
             data: null,
         }
 
-        const users = await Users.findAll({ exclude: { password } });
+        const users = await Users.findAll({ attributes: { exclude: ['password'] } });
 
         result.data = users;
 
