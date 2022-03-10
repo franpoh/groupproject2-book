@@ -39,6 +39,8 @@ module.exports = {
             return result;
         })
 
+        return result;
+
         // const user = await Users.findAll({
         //     where:
         //         { username: username },
