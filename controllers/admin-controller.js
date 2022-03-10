@@ -36,11 +36,11 @@ class AdminController {
     }
 
     // unused function that may be implemented in the future
-    // async searchUser(req, res) {
+    async searchUser(req, res) {
 
-    //     const result = await searchUserService.searchUser(req.body.username.toString());
-    //     return res.status(result.status).json({ data: result.data, message: result.message });
-    // }
+        const result = await searchUserService.searchUser(req.body.username.toString());
+        return res.status(result.status).json({ data: result.data, message: result.message });
+    }
 }
 
 module.exports = AdminController;
