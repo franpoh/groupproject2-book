@@ -33,7 +33,7 @@ module.exports = {
                 author: bookauthor,
                 genreId: bookgenre,
                 year: bookyear,
-                imgURL: bookcover
+                image_url: bookcover
             }
         });
 
