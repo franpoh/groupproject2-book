@@ -9,11 +9,11 @@ class AdminController {
     async userType(req, res) {
         const userTypes = [Constants.USER_USER, Constants.USER_ADMIN, Constants.USER_BANNED];
 
-        // controlErrorCatch(res, !req.body.username, "Target user not found.", 404);
+        // controlErrorCatch(res, !req.body.userId, "Target user not found.", 404);
         // controlErrorCatch(res, !req.body.password, Constants.PASSWORD_INVALID, 400);
         // controlErrorCatch(res, !req.body.type || !userTypes.some(item => req.body.type === item), "The user type is invalid. Please input 'user', 'ban', or 'admin'.", 400);
 
-        if (!req.body.username) {
+        if (!req.body.userId) {
             return res.status(404).json({ message: Constants.USER_NOTFOUND });
         }
 
