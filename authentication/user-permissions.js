@@ -5,7 +5,7 @@ async function protectedPermission(req, res, next) {
     const user = await Users.findByPk(req.userId);
 
     if (user.type === Constants.USER_BANNED) {
-        return res.status(401).json({ message: "You have been banned, and therefore restricted from accessing this resource." });
+        return res.status(403).json({ message: "You have been banned, and therefore restricted from accessing this resource." });
     } else {
         next();
     }
