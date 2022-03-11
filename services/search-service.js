@@ -8,6 +8,7 @@ const logger = require("./service-logger/file-logger");
 const serviceName = 'search-service';
 const serviceFn01 = 'search';
 const serviceFn02 = 'detail';
+const serviceFn03 = 'searchIndexByParams';
 
 
 module.exports = {
@@ -89,6 +90,7 @@ module.exports = {
         if (booktitle == '' && bookauthor == '') {
             result.message = `Please provide at least one parameter to retrieve info`
             result.status = 404;
+            logger.error(`${serviceName}-${serviceFn03}: ${result.message}..`);
             return result
         };
 
@@ -105,7 +107,7 @@ module.exports = {
             result.message = `Retrieving books with books titled ${booktitle}`
             result.status = 200;
             result.data = filtered;
-            logger.error(`${serviceName}-${serviceFn02}: ${result.message}..`);
+            logger.info(`${serviceName}-${serviceFn03}: ${result.message}..`);
             return result;
         };
 
@@ -113,14 +115,14 @@ module.exports = {
             result.message = `Retrieving books with authors named ${bookauthor}`
             result.status = 200;
             result.data = filtered;
-            logger.error(`${serviceName}-${serviceFn02}: ${result.message}..`);
+            logger.info(`${serviceName}-${serviceFn03}: ${result.message}..`);
             return result;
         };
 
         result.message = `Retrieving books with books titled ${booktitle} by authors named ${bookauthor}`
         result.status = 200;
         result.data = filtered;
-        logger.error(`${serviceName}-${serviceFn02}: ${result.message}..`);
+        logger.info(`${serviceName}-${serviceFn03}: ${result.message}..`);
         return result;
     },
 
