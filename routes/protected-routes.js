@@ -50,9 +50,6 @@ router.get("/protected/viewprofile", accountController.viewProfile);
 // edit email and/or password
 router.put("/protected/editprofile", accountController.editProfile);
 
-// logout of account
-// router.post("/protected/logout", logoutController.logout);
-
 // actions that need admin permissions
 // edit user type to USER, ADMIN or BANNED
 router.put("/protected/admin/usertype", adminController.userType);
