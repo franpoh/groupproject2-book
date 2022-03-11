@@ -75,7 +75,7 @@ module.exports = {
         result.message = `Book ID ${submittedIndexId} info retrieved..`;
         result.data = book;
         result.status = 200;
-        logger.info(`<<<<<<<<<<${serviceName}-[${serviceFn02}]: ${result.message}>>>>>>>>>>`);
+        logger.info(` INFO <<<<<<<<<<${serviceName}-[${serviceFn02}]: ${result.message}>>>>>>>>>>`);
         return result;
 
     },
