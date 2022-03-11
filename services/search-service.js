@@ -4,6 +4,11 @@ const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 const Constants = require("../constants/index.js");
 
+const logger = require("./service-logger/file-logger");
+const serviceName = 'serach-service';
+const serviceFn01 = 'search';
+const serviceFn02 = 'detail';
+
 
 module.exports = {
     search: async (title) => {
@@ -61,6 +66,7 @@ module.exports = {
 
         if (!book) {
             result.message = `Book ID ${submittedIndexId} is not found..`;
+            logger.error(`${serviceName}-${serviceFn02}: ${result.message}..`);
             result.status = 404;
             return result;
         };
@@ -68,6 +74,7 @@ module.exports = {
         result.message = `Book ID ${submittedIndexId} info retrieved..`;
         result.data = book;
         result.status = 200;
+        logger.info(`${serviceName}-${serviceFn02}: ${result.message}..`);
         return result;
 
     },
@@ -98,6 +105,7 @@ module.exports = {
             result.message = `Retrieving books with books titled ${booktitle}`
             result.status = 200;
             result.data = filtered;
+            logger.error(`${serviceName}-${serviceFn02}: ${result.message}..`);
             return result;
         };
 
@@ -105,12 +113,14 @@ module.exports = {
             result.message = `Retrieving books with authors named ${bookauthor}`
             result.status = 200;
             result.data = filtered;
+            logger.error(`${serviceName}-${serviceFn02}: ${result.message}..`);
             return result;
         };
 
         result.message = `Retrieving books with books titled ${booktitle} by authors named ${bookauthor}`
         result.status = 200;
         result.data = filtered;
+        logger.error(`${serviceName}-${serviceFn02}: ${result.message}..`);
         return result;
     },
 
