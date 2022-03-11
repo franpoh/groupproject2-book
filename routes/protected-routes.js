@@ -57,5 +57,6 @@ router.post("/protected/logout", logoutController.logout);
 // edit user type to USER, ADMIN or BANNED
 router.put("/protected/admin/usertype", adminController.userType);
 router.get("/protected/admin/viewusers", adminController.viewUsers);
+router.get("/protected/admin/searchuser", adminController.searchUser);
 
 module.exports = router;

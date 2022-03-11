@@ -1,6 +1,5 @@
 const { Users } = require("../connect.js");
 
-const Constants = require("../constants/index");
 const { serviceErrorCatch } = require("../constants/error-catch");
 
 module.exports = {
@@ -11,10 +10,15 @@ module.exports = {
             data: null,
         }
 
-        const users = await Users.findAll({ attributes: { exclude: ['password'] } });
+        const users = await Users.findAll({ 
+            attributes: { exclude: 
+                ['password', 'wishlist', 'imageURL', 'updatedAt'] 
+            } 
+        });
+
+        serviceErrorCatch(result, !users, "Users not found", 404);
 
         result.data = users;
-
         result.status = 200;
         result.message = "All users in database.";
         return result;
