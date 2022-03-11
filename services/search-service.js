@@ -157,7 +157,7 @@ module.exports = {
 
     searchSwapByIndex: async (submittedIndexId) => {
 
-        let fnName = arguments.callee.caller;
+        let fnName = searchSwapByIndex.name;
 
         let result = {
             message: null,
