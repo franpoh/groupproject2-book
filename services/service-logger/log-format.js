@@ -14,10 +14,12 @@ const Constants = require("../../constants/index");
 
 const formatLogMsg = function ( data ) {
 
-    let logmessage = `<<<<<<<<<< ${data.serviceName}-[${data.fnName}]: ${data.text} >>>>>>>>>>` 
+    let logmessage = `<<<<<<<<<< ${data.serviceName}-[${data.fnName}]: ${data.text} >>>>>>>>>>`     
     
-    // const test2 = window[data.level];
     logger[data.level](logmessage);
+    // Answer by snnsnn Ref: https://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string
+
+    
     // if ( data.level === Constants.LEVEL_INFO ) {
     //     logger.info(logmessage);
     //     return;
