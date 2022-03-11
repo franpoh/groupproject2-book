@@ -34,8 +34,8 @@ const fileNameFormat = function ( a, b ) {
     return a.slice(b.length + 1, -3); // -3 removed extension
 };
 
-const fnNameFormat = function () {
-    return stack.split("\n")[2].trim().split(" ")[1];
+const fnNameFormat = function ( data ) {
+    return data.stack.split("\n")[2].trim().split(" ")[1];
 };
 
 module.exports = {

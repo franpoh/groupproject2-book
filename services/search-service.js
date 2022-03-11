@@ -153,7 +153,7 @@ module.exports = {
 
     searchSwapByIndex: async (submittedIndexId) => {
 
-        let fnName = (new Error()).fnNameFormat();
+        let fnName = fnNameFormat(new Error());
         // let fnName = (new Error()).stack.split("\n")[2].trim().split(" ")[1];
         
         let result = {
