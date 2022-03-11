@@ -67,7 +67,7 @@ module.exports = {
       return result;
     }
 
-    console.log(review);
+    // console.log(review);
     if (review && rev === review.review) {
       result.message = `Bad request: Duplicate entry for review`;
       result.status = 400;
