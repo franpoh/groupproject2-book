@@ -16,15 +16,15 @@ const formatLogMsg = function ( data ) {
 
     let logmessage = `<<<<<<<<<< ${data.serviceName}-[${data.fnName}]: ${data.text} >>>>>>>>>>` 
     
-    const test2 = window[data.level];
-    logger.test2(logmessage);
-    // if ( data.level === Constants.LEVEL_INFO ) {
-    //     logger.info(logmessage);
-    //     return;
-    // } else if (data.level === Constants.LEVEL_ERROR) {
-    //     logger.error(logmessage);
-    //     return;
-    // };
+    // const test2 = window[data.level];
+    // logger.test2(logmessage);
+    if ( data.level === Constants.LEVEL_INFO ) {
+        logger.info(logmessage);
+        return;
+    } else if (data.level === Constants.LEVEL_ERROR) {
+        logger.error(logmessage);
+        return;
+    };
     
     return;
 };
