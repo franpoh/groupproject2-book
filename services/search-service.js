@@ -4,7 +4,7 @@ const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 const Constants = require("../constants/index.js");
 
-const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");;
+const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
 
 const serviceName = fileNameFormat( __filename, __dirname );
 
@@ -216,7 +216,7 @@ module.exports = {
                 fnName: fnName,
                 text: result.message
             });
-            
+
             return result;
         };
 
