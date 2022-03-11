@@ -157,7 +157,7 @@ module.exports = {
 
     searchSwapByIndex: async (submittedIndexId) => {
 
-        let fnName = searchSwapByIndex.name;
+        let fnName = module.searchSwapByIndex.name;
 
         let result = {
             message: null,
