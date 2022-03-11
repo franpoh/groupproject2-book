@@ -7,8 +7,15 @@ const { serviceErrorCatch } = require("../constants/error-catch");
 
 const { Users } = require("../connect.js");
 
+const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
+
+const serviceName = fileNameFormat( __filename, __dirname );
+
 module.exports = {
     login: async (email, password) => {
+
+        let fnName = fnNameFormat(new Error());
+
         let result = {
             message: null,
             status: null,
@@ -28,6 +35,14 @@ module.exports = {
         if (!user) {
             result.message = "You have entered the wrong email.";
             result.status = 400;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         }
 
@@ -37,6 +52,14 @@ module.exports = {
         if (!passwordVerification) {
             result.message = "You have entered the wrong password.";
             result.status = 400;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         }
 
@@ -59,6 +82,14 @@ module.exports = {
 
         result.status = 200;
         result.message = "Login is successful! Redirecting...";
+
+        formatLogMsg({
+            level: Constants.LEVEL_INFO,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+        
         return result;
     }
 }
