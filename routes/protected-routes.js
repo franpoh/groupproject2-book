@@ -7,7 +7,6 @@ const WishlistController = require("../controllers/wishlist-controller");
 const AccountController = require("../controllers/account-controller");
 const AdminController = require("../controllers/admin-controller");
 const UploadController = require("../controllers/upload-controller");
-const LogoutController = require("../controllers/logout-controller");
 
 
 const reviewController = new ReviewController();
@@ -16,7 +15,6 @@ const wishlistController = new WishlistController();
 const accountController = new AccountController();
 const adminController = new AdminController();
 const uploadController = new UploadController();
-const logoutController = new LogoutController();
 
 
 router.post("/protected/addReview", reviewController.addReview);
