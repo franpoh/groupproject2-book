@@ -10,20 +10,21 @@ const Constants = require("../../constants/index");
 // }
 // 
 // at head of parent file, const serviceName = fileNameFormat( __filename, __dirname );
-// at head of parent function, let fnName = fnNameFormat(new Error());
-
+// let fnName = fnNameFormat(new Error());
 
 const formatLogMsg = function ( data ) {
 
     let logmessage = `<<<<<<<<<< ${data.serviceName}-[${data.fnName}]: ${data.text} >>>>>>>>>>` 
     
-    if ( data.level === Constants.LEVEL_INFO ) {
-        logger.info(logmessage);
-        return;
-    } else if (data.level === Constants.LEVEL_ERROR) {
-        logger.error(logmessage);
-        return;
-    };
+    const test2 = window[data.level];
+    logger.test2(logmessage);
+    // if ( data.level === Constants.LEVEL_INFO ) {
+    //     logger.info(logmessage);
+    //     return;
+    // } else if (data.level === Constants.LEVEL_ERROR) {
+    //     logger.error(logmessage);
+    //     return;
+    // };
     
     return;
 };
