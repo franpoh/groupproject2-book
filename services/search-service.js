@@ -11,6 +11,8 @@ const serviceName = __filename.slice(__dirname.length + 1);
 const serviceFn02 = 'detail';
 const serviceFn03 = 'searchIndexByParams';
 
+let fnName = (new Error()).stack.split("\n")[2].trim().split(" ")[1];
+
 
 module.exports = {
     search: async (title) => {
@@ -159,7 +161,7 @@ module.exports = {
     searchSwapByIndex: async (submittedIndexId) => {
 
         // let fnName = "searchSwapByIndex";
-        let fnName = (new Error()).stack.split("\n")[2].trim().split(" ")[1];
+        // let fnName = (new Error()).stack.split("\n")[2].trim().split(" ")[1];
 
         let result = {
             message: null,
