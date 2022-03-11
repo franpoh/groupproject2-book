@@ -8,8 +8,15 @@ const { ValidationError } = require("sequelize"); // Validation Error is a class
 
 const { Users } = require("../connect.js");
 
+const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
+
+const serviceName = fileNameFormat( __filename, __dirname );
+
 module.exports = {
     editProfile: async (userId, email, oldPassword, newPassword) => {
+
+        let fnName = fnNameFormat(new Error());
+
         let result = {
             message: null,
             status: null,
@@ -29,6 +36,14 @@ module.exports = {
         if (!passwordVerification) {
             result.message = Constants.PASSWORD_INVALID;
             result.status = 400;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         }
 
@@ -48,6 +63,14 @@ module.exports = {
             result.status = 200;
             result.data = JSON.stringify(user);
             result.message = newMsg;
+
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
 
         } catch (error) {
@@ -56,6 +79,14 @@ module.exports = {
             
             result.message = error.errors[0].message;
             result.status = 400;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+            
             return result;
         }
     }
