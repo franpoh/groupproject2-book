@@ -39,7 +39,7 @@ class accessController {
             return res.status(result.status).json({ message: result.message });
 
         } else if (result.status == 400) {
-            return res.status(result.status).json({ message: result.message });
+            return res.status(result.status).json({ message: result.message, data: result.data.userType });
         }
     }
 
