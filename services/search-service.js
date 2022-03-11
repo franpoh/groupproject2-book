@@ -67,7 +67,7 @@ module.exports = {
 
         if (!book) {
             result.message = `Book ID ${submittedIndexId} is not found..`;
-            logger.error(`${serviceName}-${serviceFn02}: ${result.message}..`);
+            logger.error(`<<<<<<<<<<${serviceName}-[${serviceFn02}]: ${result.message}>>>>>>>>>>`);
             result.status = 404;
             return result;
         };
@@ -75,7 +75,7 @@ module.exports = {
         result.message = `Book ID ${submittedIndexId} info retrieved..`;
         result.data = book;
         result.status = 200;
-        logger.info(`${serviceName}-${serviceFn02}: ${result.message}..`);
+        logger.info(`<<<<<<<<<<${serviceName}-[${serviceFn02}]: ${result.message}>>>>>>>>>>`);
         return result;
 
     },
@@ -90,7 +90,7 @@ module.exports = {
         if (booktitle == '' && bookauthor == '') {
             result.message = `Please provide at least one parameter to retrieve info`
             result.status = 404;
-            logger.error(`${serviceName}-${serviceFn03}: ${result.message}..`);
+            logger.error(`<<<<<<<<<<${serviceName}-[${serviceFn03}]: ${result.message}>>>>>>>>>>`);
             return result
         };
 
@@ -107,7 +107,7 @@ module.exports = {
             result.message = `Retrieving books with books titled ${booktitle}`
             result.status = 200;
             result.data = filtered;
-            logger.info(`${serviceName}-${serviceFn03}: ${result.message}..`);
+            logger.info(`<<<<<<<<<<${serviceName}-[${serviceFn03}]: ${result.message}>>>>>>>>>>`);
             return result;
         };
 
@@ -115,14 +115,14 @@ module.exports = {
             result.message = `Retrieving books with authors named ${bookauthor}`
             result.status = 200;
             result.data = filtered;
-            logger.info(`${serviceName}-${serviceFn03}: ${result.message}..`);
+            logger.info(`<<<<<<<<<<${serviceName}-[${serviceFn03}]: ${result.message}>>>>>>>>>>`);
             return result;
         };
 
         result.message = `Retrieving books with books titled ${booktitle} by authors named ${bookauthor}`
         result.status = 200;
         result.data = filtered;
-        logger.info(`${serviceName}-${serviceFn03}: ${result.message}..`);
+        logger.info(`<<<<<<<<<<${serviceName}-[${serviceFn03}]: ${result.message}>>>>>>>>>>`);
         return result;
     },
 
