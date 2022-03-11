@@ -36,10 +36,10 @@ class accessController {
             // Inserting cookies for access and refresh token 
             res.cookie(Constants.REFRESH_TOKEN, result.data.refreshToken, { httpOnly: true, sameSite: "None", secure: true });
             res.cookie(Constants.ACCESS_TOKEN, result.data.accessToken, { httpOnly: true, sameSite: "None", secure: true });
-            return res.status(result.status).json({ message: result.message });
+            return res.status(result.status).json({ message: result.message, data: result.data.userType });
 
         } else if (result.status == 400) {
-            return res.status(result.status).json({ message: result.message, data: result.data.userType });
+            return res.status(result.status).json({ message: result.message });
         }
     }
 
