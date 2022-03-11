@@ -9,7 +9,7 @@ const { formatLogMsg, fileNameFormat }= require("./service-logger/log-format");;
 
 // const serviceName = 'search-service';
 // const serviceName = __filename.slice(__dirname.length + 1, -3);
-const serviceName = fileNameFormat( __filename );
+const serviceName = fileNameFormat( __filename, __dirname );
 // const serviceFn01 = 'search';
 const serviceFn02 = 'detail';
 const serviceFn03 = 'searchIndexByParams';

@@ -15,9 +15,9 @@ const formatLogMsg = function ( data ) {
     return;
 };
 
-const fileNameFormat = function ( data ) {
-    console.log('<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>', data);
-    return data.slice(__dirname.length + 1, -3);
+const fileNameFormat = function ( a, b ) {
+    console.log('<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>', a, b);
+    return a.slice(b.length + 1, -3);
 };
 
 module.exports = {
