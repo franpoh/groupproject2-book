@@ -5,6 +5,8 @@ const Op = Sequelize.Op;
 const Constants = require("../constants/index.js");
 
 const logger = require("./service-logger/file-logger");
+const formatLogMsg = require("./service-logger/log-format");;
+
 // const serviceName = 'search-service';
 const serviceName = __filename.slice(__dirname.length + 1, -3);
 // const serviceFn01 = 'search';
@@ -203,14 +205,26 @@ module.exports = {
                 result.status = 200;
                 result.message = `Book ID ${submittedIndexId} has swap available for purchase`;
                 // logger.info(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
-                logger.info(logmessage);
+                formatLogMsg({
+                    level: 'info',
+                    serviceName: serviceName,
+                    fnName: fnName,
+                    text: result.message
+                });
+                // logger.info(logmessage);
                 return result;
             };
         } catch (error) {
             result.status = 404;
-            result.message = `Swap error: ${error}`;
+            result.message = `Swap error: ${error}`;            
             // logger.error(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
-            logger.info(logmessage);
+            formatLogMsg({
+                level: 'error',
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+            // logger.info(logmessage);
             return result;
 
         };
@@ -220,7 +234,13 @@ module.exports = {
         result.status = 200;
         result.message = `Book ID ${submittedIndexId} swap available for purchase is Zero`;
         // logger.info(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
-        logger.info(logmessage);
+        formatLogMsg({
+            level: 'info',
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+        // logger.info(logmessage);
         return result;
     },
 

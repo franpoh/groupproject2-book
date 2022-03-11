@@ -3,8 +3,7 @@
 const winston = require("winston");
 
 const outFormat = winston.format.printf(({ level, message, timestamp, service }) => {
-    console.log(message);
-    return `${level} - <<<<<<<<<<${message.serviceName} - [${message.fnName}]: ${message.text}>>>>>>>>>>`;
+    return `${level} - ${message}`;
 });
 
 const logger = winston.createLogger({
