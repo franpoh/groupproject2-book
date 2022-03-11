@@ -3,7 +3,7 @@
 const winston = require("winston");
 
 const outFormat = winston.format.printf(({ level, message, timestamp, service }) => {
-    return `${timestamp}: ${level} - ${message}`;
+    return `${level} - ${message}`;
 });
 
 const logger = winston.createLogger({
@@ -11,15 +11,15 @@ const logger = winston.createLogger({
     format: winston.format.combine(
         winston.format.simple(),
         winston.format.colorize(),
-        winston.format.timestamp({ format: "YYYY-MM-DDTHH:mm:ss" }),
+        // winston.format.timestamp({ format: "YYYY-MM-DDTHH:mm:ss" }),
     ),
     transports: [
         new winston.transports.File({ filename: process.env.LOG_PATH }),
         new winston.transports.Console({
             format: winston.format.combine(
                 winston.format.simple(),
-                winston.format.colorize(),
-                winston.format.timestamp({ format: "YYYY-MM-DDTHH:mm:ss" }),
+                winston.format.colorize({ all: true }),
+                // winston.format.timestamp({ format: "YYYY-MM-DDTHH:mm:ss" }),
                 outFormat
             )
         })
