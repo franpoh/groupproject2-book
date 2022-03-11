@@ -48,6 +48,7 @@ module.exports = {
         result.data = {
             accessToken: accessToken,
             refreshToken: refreshToken,
+            userType: user.type,
         };
 
         result.status = 200;

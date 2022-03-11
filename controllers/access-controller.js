@@ -36,10 +36,25 @@ class accessController {
             // Inserting cookies for access and refresh token 
             res.cookie(Constants.REFRESH_TOKEN, result.data.refreshToken, { httpOnly: true, sameSite: "None", secure: true });
             res.cookie(Constants.ACCESS_TOKEN, result.data.accessToken, { httpOnly: true, sameSite: "None", secure: true });
-            return res.status(result.status).json({ message: result.message });
+            return res.status(result.status).json({ message: result.message, data: result.data.userType });
 
         } else if (result.status == 400) {
             return res.status(result.status).json({ message: result.message });
+        }
+    }
+
+    async logout(req, res) {
+
+        try {
+            // Web browsers and other compliant clients will only clear the cookie if the given options is identical to those given to res.cookie(), excluding expires and maxAge.
+            res.clearCookie('refreshToken', {httpOnly: true, sameSite: "None", secure: true});
+            res.clearCookie('accessToken', {httpOnly: true, sameSite: "None", secure: true});
+            
+            res.status(200);
+            return res.json({ message: "Logout is successful!" });
+        } catch (err) {
+            res.status(400);
+            return res.json({ message: "Logout is unsuccessful!" });
         }
     }
 }

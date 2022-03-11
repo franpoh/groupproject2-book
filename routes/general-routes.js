@@ -10,6 +10,8 @@ const accessController = new AccessController();
 
 router.post("/general/register", accessController.register);
 router.post("/general/login", accessController.login);
+router.post("/general/logout", accessController.logout);
+
 router.get("/general/search", searchController.search);
 
 router.get("/general/detail", searchController.detail);
