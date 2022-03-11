@@ -5,7 +5,7 @@ const Op = Sequelize.Op;
 const Constants = require("../constants/index.js");
 
 const logger = require("./service-logger/file-logger");
-const serviceName = 'search-service';
+// const serviceName = 'search-service';
 const serviceName = file.name;
 const serviceFn01 = 'search';
 const serviceFn02 = 'detail';
