@@ -10,6 +10,9 @@ const serviceName = fileNameFormat( __filename, __dirname );
 
 module.exports = {
     search: async (title) => {
+
+        let fnName = fnNameFormat(new Error());
+
         let result = {
             message: null,
             status: null,
@@ -34,16 +37,34 @@ module.exports = {
         if (swap.length === 0) {
             result.message = `Book titled " ${title} " is not found in our database ...`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         }
 
         result.data = swap;
         result.status = 200;
-        result.message = `Books found with keywords: " ${title} "`
+        result.message = `Books found with keywords: " ${title} "`;
+
+        formatLogMsg({
+            level: Constants.LEVEL_INFO,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+
         return result;
     },
 
     detail: async (submittedIndexId) => {
+
+        let fnName = fnNameFormat(new Error());
 
         let result = {
             message: null,
@@ -62,21 +83,38 @@ module.exports = {
         });
 
         if (!book) {
-            result.message = `Book ID ${submittedIndexId} is not found..`;
-            // logger.error(`<<<<<<<<<<${serviceName}-[${serviceFn02}]: ${result.message}>>>>>>>>>>`);
+            result.message = `Book ID ${submittedIndexId} is not found..`;            
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
         result.message = `Book ID ${submittedIndexId} info retrieved..`;
         result.data = book;
         result.status = 200;
-        // logger.info(`<<<<<<<<<<${serviceName}-[${serviceFn02}]: ${result.message}>>>>>>>>>>`);
+
+        formatLogMsg({
+            level: Constants.LEVEL_INFO,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+
         return result;
 
     },
 
     searchIndexByParams: async (booktitle, bookauthor) => {
+
+        let fnName = fnNameFormat(new Error());
+
         let result = {
             message: null,
             status: null,
@@ -86,8 +124,15 @@ module.exports = {
         if (booktitle == '' && bookauthor == '') {
             result.message = `Please provide at least one parameter to retrieve info`
             result.status = 404;
-            // logger.error(`<<<<<<<<<<${serviceName}-[${serviceFn03}]: ${result.message}>>>>>>>>>>`);
-            return result
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+            
+            return result;
         };
 
         const filtered = await Index.findAll({
@@ -103,7 +148,14 @@ module.exports = {
             result.message = `Retrieving books with books titled ${booktitle}`
             result.status = 200;
             result.data = filtered;
-            // logger.info(`<<<<<<<<<<${serviceName}-[${serviceFn03}]: ${result.message}>>>>>>>>>>`);
+
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
@@ -111,18 +163,35 @@ module.exports = {
             result.message = `Retrieving books with authors named ${bookauthor}`
             result.status = 200;
             result.data = filtered;
-            // logger.info(`<<<<<<<<<<${serviceName}-[${serviceFn03}]: ${result.message}>>>>>>>>>>`);
+
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
         result.message = `Retrieving books with books titled ${booktitle} by authors named ${bookauthor}`
         result.status = 200;
         result.data = filtered;
-        // logger.info(`<<<<<<<<<<${serviceName}-[${serviceFn03}]: ${result.message}>>>>>>>>>>`);
+
+        formatLogMsg({
+            level: Constants.LEVEL_INFO,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+
         return result;
     },
 
     searchIndex: async () => {
+
+        let fnName = fnNameFormat(new Error());
+
         let result = {
             message: null,
             status: null,
@@ -140,12 +209,28 @@ module.exports = {
         if (!index) {
             result.message = `Index data not found in database`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+            
             return result;
         };
 
         result.data = index;
         result.status = 200;
-        result.message = `Books found`
+        result.message = `Books found`;
+
+        formatLogMsg({
+            level: Constants.LEVEL_INFO,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+
         return result;
 
 
@@ -154,7 +239,6 @@ module.exports = {
     searchSwapByIndex: async (submittedIndexId) => {
 
         let fnName = fnNameFormat(new Error());
-        // let fnName = (new Error()).stack.split("\n")[2].trim().split(" ")[1];
         
         let result = {
             message: null,
@@ -234,6 +318,9 @@ module.exports = {
     },
 
     allReviews: async (paramsId) => {
+
+        let fnName = fnNameFormat(new Error());
+
         let result = {
             message: null,
             status: null,
@@ -254,17 +341,36 @@ module.exports = {
             result.data = review;
             result.message = `reviews retrieved`;
             result.status = 200;
+
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
         result.data = byIndex;
         result.status = 200;
         result.message = `reviews of book index ${paramsId}`
+
+        formatLogMsg({
+            level: Constants.LEVEL_INFO,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+
         return result;
 
     },
 
     allGenres: async () => {
+
+        let fnName = fnNameFormat(new Error());
+
         let result = {
             message: null,
             status: null,
@@ -276,10 +382,26 @@ module.exports = {
             result.data = allGenres;
             result.message = "All Genres Retrieved";
             result.status = 200;
+
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         } catch (err) {
             result.status = 404;
             result.message = `Genre Retrieval Error: ${error}`;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 

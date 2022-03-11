@@ -10,8 +10,8 @@ const Constants = require("../../constants/index");
 // }
 // 
 // at head of parent file, const serviceName = fileNameFormat( __filename, __dirname );
-// at head of parent function, let fnName = (new Error()).stack.split("\n")[2].trim().split(" ")[1];
-// function name, Answer by VanagaS  Ref: https://stackoverflow.com/questions/280389/how-do-you-find-out-the-caller-function-in-javascript
+// at head of parent function, let fnName = fnNameFormat(new Error());
+
 
 const formatLogMsg = function ( data ) {
 
@@ -34,6 +34,7 @@ const fileNameFormat = function ( a, b ) {
     return a.slice(b.length + 1, -3); // -3 removed extension
 };
 
+// function name, Answer by VanagaS  Ref: https://stackoverflow.com/questions/280389/how-do-you-find-out-the-caller-function-in-javascript
 const fnNameFormat = function ( data ) {
     return data.stack.split("\n")[2].trim().split(" ")[1];
 };
