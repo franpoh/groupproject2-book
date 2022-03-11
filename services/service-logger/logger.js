@@ -1,40 +1,57 @@
-// const winston = require('winston');
+// const { createLogger, format, transports } = require('winston');
+// const { json, combine, timestamp, simple, cli, label, printf, colorize } = format;
 
-// const colorizer = winston.format.colorize();
+// const outFormat = printf(({ level, message, timestamp, service }) => {
+//     return `${timestamp}: ${message}`; // level does not output correctly
+// });
 
-// const logger = winston.createLogger({
-//     level: 'error',
+
+// const logger = createLogger({
+//     level: 'debug',
 //     format: combine(
-//         winston.format.timestamp(),
-//         winston.format.simple(),
-//         winston.format.printf(msg =>
-//             colorizer.colorize(msg.level, `${msg.timestamp} - ${msg.level}: ${msg.message}`)
-//         )
+//         simple(),
+//         colorize(),
+//         timestamp({ format: "YYYY-MM-DDTHH:mm:ss" }),
+//         outFormat
 //     ),
 //     defaultMeta: { service: 'summation function' },
 //     transports: [
-//         new winston.transports.Console(),
-//         new winston.transports.File({
+//         new transports.Console(),
+//         new transports.File({
+//             filename: 'combined.log',
+//         }),
+//         new transports.File({
 //             filename: 'info.log',
 //             level: 'info'
 //         }),
-//         new winston.transports.File({
-//             filename: 'debug.log',
-//             level: 'debug'
-//         }),
-//         new winston.transports.File({
+//         new transports.File({
 //             filename: 'error.log',
 //             level: 'error'
 //         })
 //     ],
 //     exceptionHandlers: [
-//         new winston.transports.File({ filename: 'exceptions.log' })
+//         new transports.File({ filename: 'exceptions.log' })
 //     ],
 //     rejectionHandlers: [
-//         new winston.transports.File({ filename: 'rejections.log' })
+//         new transports.File({ filename: 'rejections.log' })
 //     ]
 
 // });
 
+
+// module.exports = logger;
+
+//testing by g1
+
+// const winston = require("winston");
+
+// const logger = winston.createLogger({
+//     level:"info",
+//     format:winston.format.json(),
+//     transports:[
+//         new winston.transports.File({filename:process.env.LOG_PATH}),
+//         new winston.transports.Console({format: winston.format.simple()})
+//     ]
+// })
 
 // module.exports = logger;
