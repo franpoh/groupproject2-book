@@ -13,7 +13,7 @@ class accessController {
         // check if email meets all email formatting requirements
         let vEmail = validEmail(req.body.email);
 
-        // error checking
+        // error catching
         controlErrorCatch(res, !vEmail, Constants.EMAIL_INVALID, 400);
         controlErrorCatch(res, !req.body.password || !req.body.username || !req.body.email, Constants.GENERAL_INVALID, 400);
         controlErrorCatch(res, checkLength > 72 || req.body.password.length < 5, Constants.PASSWORD_CHARS, 400);

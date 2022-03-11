@@ -16,6 +16,7 @@ module.exports = {
             } 
         });
 
+        // error catching for if no users are found
         serviceErrorCatch(result, !users, "Users not found", 404);
 
         result.data = users;

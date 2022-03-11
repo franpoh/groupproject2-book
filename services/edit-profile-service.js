@@ -20,10 +20,10 @@ module.exports = {
         const findEmail = await Users.findAll({ where: { email: email }});
 
         // error catching
-
         serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404)
         serviceErrorCatch(result, findEmail, Constants.EMAIL_INUSE, 409)
 
+        // verify password and catch errors
         const passwordVerification = await bcrypt.compare(oldPassword, user.password);
 
         if (!passwordVerification) {
@@ -33,7 +33,6 @@ module.exports = {
         }
 
         try {
-
             // If new email/password not specified, use old email/password
             let newEmail = !email ? user.email : email;
             let newPwd = !newPassword ? user.password : bcrypt.hashSync(newPassword, saltRounds);
@@ -51,7 +50,7 @@ module.exports = {
             return result;
 
         } catch (error) {
-
+            // error catching from model validation as backup
             serviceErrorCatch(result, error instanceof ValidationError, error.errors[0].message, 400)
             
             result.message = error.errors[0].message;

@@ -15,15 +15,16 @@ module.exports = {
             data: null,
         }
 
-        // Error catching for email/username already in use
         const findUser = Users.findAll({ where: { username: username }});
         const findEmail = Users.findAll({ where: { email: email }});
 
+        // Error catching for email/username already in use
         serviceErrorCatch(result, findUser, Constants.USER_INUSE, 409);
         serviceErrorCatch(result, findEmail, Constants.EMAIL_INUSE, 409);
 
         // try/catch function for catching Validation Errors specified in models
         try {
+            // create password hash
             const hash = bcrypt.hashSync(password, saltRounds);
 
             // validation error is caught during Users.create, as it is being pointed to the columns

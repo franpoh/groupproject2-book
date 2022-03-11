@@ -20,6 +20,7 @@ module.exports = {
             }
         });
 
+        // error catching for if nothing is in found user(s) array
         if (user.length === 0) {
             result.status = 404;
             result.message = Constants.USER_NOTFOUND;

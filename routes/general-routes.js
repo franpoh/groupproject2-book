@@ -7,7 +7,7 @@ const SearchController = require("../controllers/search-controller");
 const searchController = new SearchController();
 const accessController = new AccessController();
 
-
+// registration, login and logout
 router.post("/general/register", accessController.register);
 router.post("/general/login", accessController.login);
 router.post("/general/logout", accessController.logout);

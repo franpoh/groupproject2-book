@@ -16,6 +16,8 @@ module.exports = {
         const editUser = await Users.findOne({ where: { userId: editUserId } });
         const passwordVerification = await bcrypt.compare(password, adminUser.password);
 
+        // error catching
+
         // serviceErrorCatch(result, !adminUser, Constants.USER_NOTFOUND, 404);
         // serviceErrorCatch(result, !editUser, "Target user not found.", 404);
         // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
@@ -38,6 +40,7 @@ module.exports = {
             return result;
         }
 
+        // different returns for different user types
         if (type === Constants.USER_BANNED) {
             editUser.type = Constants.USER_BANNED;
             result.message = `User has been set to '${Constants.USER_BANNED}'.`;

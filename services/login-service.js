@@ -15,6 +15,7 @@ module.exports = {
             data: null,
         }
 
+        // error catching for finding if email exists
         const user = await Users.findOne({ where: { email: email } });
 
         // serviceErrorCatch(result, !user, Constants.EMAIL_INVALID, 400);
@@ -23,12 +24,14 @@ module.exports = {
 
         // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
 
+        
         if (!user) {
             result.message = "You have entered the wrong email.";
             result.status = 400;
             return result;
         }
 
+        // error catching for password verification
         const passwordVerification = await bcrypt.compare(password, user.password);
 
         if (!passwordVerification) {
@@ -37,11 +40,14 @@ module.exports = {
             return result;
         }
 
+        // user id and username object to be passed into jwt tokens
         const loginData = {
             userId: user.userId,
             username: user.username
         }
 
+        // creating jwt tokens
+        // access and refresh for long term login
         const accessToken = jwt.sign(loginData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
         const refreshToken = jwt.sign(loginData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
 

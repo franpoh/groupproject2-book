@@ -22,6 +22,8 @@ class accountController {
         controlErrorCatch(res, !vEmail, Constants.EMAIL_INVALID, 400);
         controlErrorCatch(res, !req.body.oldPassword, Constants.PASSWORD_INVALID, 400);
 
+        // checking if there is a new password
+        // and if there is, if it meets minimum length
         if (!req.body.newPassword) {
             console.log("There is no new password.")
         } else if (checkLength > 72 || req.body.newPassword.length < 5) {

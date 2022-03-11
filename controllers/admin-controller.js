@@ -7,7 +7,11 @@ const { controlErrorCatch } = require("../constants/error-catch");
 
 class AdminController {
     async userType(req, res) {
+
+        // getting userTypes for use in comparisons
         const userTypes = [Constants.USER_USER, Constants.USER_ADMIN, Constants.USER_BANNED];
+
+        // error catching
 
         // controlErrorCatch(res, !req.body.userId, "Target user not found.", 404);
         // controlErrorCatch(res, !req.body.password, Constants.PASSWORD_INVALID, 400);
