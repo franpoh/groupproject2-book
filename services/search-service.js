@@ -157,6 +157,8 @@ module.exports = {
 
     searchSwapByIndex: async (submittedIndexId) => {
 
+        let fnName = arguments.callee.name.toString();
+
         let result = {
             message: null,
             status: null,
@@ -196,13 +198,13 @@ module.exports = {
                 result.data = testArray;
                 result.status = 200;
                 result.message = `Book ID ${submittedIndexId} has swap available for purchase`;
-                logger.info(`<<<<<<<<<<${serviceName}-[${arguments.callee.name}]: ${result.message}>>>>>>>>>>`);
+                logger.info(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
                 return result;
             };
         } catch (error) {
             result.status = 404;
             result.message = `Swap error: ${error}`;
-            logger.error(`<<<<<<<<<<${serviceName}-[${arguments.callee.name}]: ${result.message}>>>>>>>>>>`);
+            logger.error(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
             return result;
 
         };
@@ -211,7 +213,7 @@ module.exports = {
         result.data = swapForIndex;
         result.status = 200;
         result.message = `Book ID ${submittedIndexId} swap available for purchase is Zero`;
-        logger.info(`<<<<<<<<<<${serviceName}-[${arguments.callee.name}]: ${result.message}>>>>>>>>>>`);
+        logger.info(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
         return result;
     },
 
