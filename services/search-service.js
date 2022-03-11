@@ -4,15 +4,9 @@ const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 const Constants = require("../constants/index.js");
 
-const logger = require("./service-logger/file-logger");
-const { formatLogMsg, fileNameFormat }= require("./service-logger/log-format");;
+const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");;
 
-// const serviceName = 'search-service';
-// const serviceName = __filename.slice(__dirname.length + 1, -3);
 const serviceName = fileNameFormat( __filename, __dirname );
-// const serviceFn01 = 'search';
-const serviceFn02 = 'detail';
-const serviceFn03 = 'searchIndexByParams';
 
 module.exports = {
     search: async (title) => {
@@ -159,19 +153,14 @@ module.exports = {
 
     searchSwapByIndex: async (submittedIndexId) => {
 
-        let fnName = (new Error()).stack.split("\n")[2].trim().split(" ")[1];
+        let fnName = (new Error()).fnNameFormat();
+        // let fnName = (new Error()).stack.split("\n")[2].trim().split(" ")[1];
         
         let result = {
             message: null,
             status: null,
             data: null,
-        };
-        
-        // let logmessage = {
-        //     serviceName: serviceName,
-        //     fnName: fnName,
-        //     text: result.message
-        // };
+        };     
 
         const swapForIndex = await Swap.findAll({
             // not working
@@ -206,43 +195,41 @@ module.exports = {
                 result.data = testArray;
                 result.status = 200;
                 result.message = `Book ID ${submittedIndexId} has swap available for purchase`;
-                // logger.info(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
+                
                 formatLogMsg({
                     level: Constants.LEVEL_INFO,
                     serviceName: serviceName,
                     fnName: fnName,
                     text: result.message
                 });
-                // logger.info(logmessage);
+                
                 return result;
             };
         } catch (error) {
             result.status = 404;
-            result.message = `Swap error: ${error}`;            
-            // logger.error(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
+            result.message = `Swap error: ${error}`;
+
             formatLogMsg({
                 level: Constants.LEVEL_ERROR,
                 serviceName: serviceName,
                 fnName: fnName,
                 text: result.message
             });
-            // logger.info(logmessage);
+
             return result;
-
         };
-
 
         result.data = swapForIndex;
         result.status = 200;
         result.message = `Book ID ${submittedIndexId} swap available for purchase is Zero`;
-        // logger.info(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
+
         formatLogMsg({
             level: Constants.LEVEL_INFO,
             serviceName: serviceName,
             fnName: fnName,
             text: result.message
         });
-        // logger.info(logmessage);
+
         return result;
     },
 
