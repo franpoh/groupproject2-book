@@ -27,7 +27,13 @@ module.exports = {
             const hash = bcrypt.hashSync(password, saltRounds);
 
             // validation error is caught during Users.create, as it is being pointed to the columns
-            const user = await Users.create({ email: email, username: username, password: hash, type: Constants.USER_USER });
+            const user = await Users.create({ 
+                email: email, 
+                username: username, 
+                password: hash, 
+                type: Constants.USER_USER,
+                imageURL: "https://i.pinimg.com/736x/2d/cf/63/2dcf63c23e359dd5fec6ced32d4d8805.jpg"
+            });
 
             result.status = 200;
             result.message = "Your registration is successful!";
