@@ -1,9 +1,15 @@
 const { Index, Users, Swap } = require("../connect.js");
 const Constants = require("../constants/index.js");
 
+const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
+
+const serviceName = fileNameFormat( __filename, __dirname );
+
 module.exports = {
 
     addToWish: async (submittedUserId, submittedIndexId) => {
+
+        let fnName = fnNameFormat(new Error());
 
         let result = {
             message: null,
@@ -18,12 +24,28 @@ module.exports = {
         if (!user) {
             result.message = `User ID ${submittedUserId} is not found..`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
         if (!book) {
             result.message = `Book ID ${submittedIndexId} is not found..`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
@@ -41,13 +63,21 @@ module.exports = {
                 result.data = user;
                 result.message = `Book ID ${submittedIndexId} is already in your wishlist..`;
                 result.status = 400;
+
+                formatLogMsg({
+                    level: Constants.LEVEL_ERROR,
+                    serviceName: serviceName,
+                    fnName: fnName,
+                    text: result.message
+                });
+
                 return result;
             };
         };
 
-        console.log("before push", user.wishlist);
+        // console.log("before push", user.wishlist);
         let added = user.wishlist.push(submittedIndexId);
-        console.log("after push", added, user.wishlist);
+        // console.log("after push", added, user.wishlist);
         try {
 
             await Users.update(
@@ -60,17 +90,35 @@ module.exports = {
             console.log('User wishlist save in wishlist service failed: ', e);
             result.message = `Addition to wishlist for User ID ${submittedUserId} failed, please try again later..`;
             result.status = 400;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
-        result.message = `Book added to wishlist..`;
+        result.message = `Book ID ${submittedIndexId} added to wishlist..`;
         result.data = user;
         result.status = 200;
+
+        formatLogMsg({
+            level: Constants.LEVEL_INFO,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+
         return result;
 
     },
 
     delFrWish: async (submittedUserId, submittedIndexId) => {
+
+        let fnName = fnNameFormat(new Error());
 
         let result = {
             message: null,
@@ -84,12 +132,28 @@ module.exports = {
         if (!user) {
             result.message = `User ID ${submittedUserId} is not found..`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
         if (!book) {
             result.message = `Book ID ${submittedIndexId} is not found..`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
@@ -97,8 +161,16 @@ module.exports = {
         if (user.wishlist === null) {
             user.wishlist = [];
             result.data = user;
-            result.message = `There are no items inside your wishlist..`;
+            result.message = `There are no items inside User ID ${submittedUserId} wishlist..`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
@@ -109,8 +181,16 @@ module.exports = {
 
             if (checkAlreadyWished === -1) {
                 result.data = user;
-                result.message = `Book ID ${submittedIndexId} is not in your wishlist..`;
+                result.message = `Book ID ${submittedIndexId} is not in User ID ${submittedUserId} wishlist..`;
                 result.status = 400;
+
+                formatLogMsg({
+                    level: Constants.LEVEL_ERROR,
+                    serviceName: serviceName,
+                    fnName: fnName,
+                    text: result.message
+                });
+
                 return result;
             };
 
@@ -128,20 +208,44 @@ module.exports = {
             } catch (e) {
 
                 console.log('User wishlist save in wishlist service failed: ', e);
-                result.message = `Removal from wishlist for User ID ${submittedUserId} failed, please try again later..`;
+                result.message = `${submittedIndexId} removal from wishlist for User ID ${submittedUserId} failed, please try again later..`;
                 result.status = 400;
+
+                formatLogMsg({
+                    level: Constants.LEVEL_ERROR,
+                    serviceName: serviceName,
+                    fnName: fnName,
+                    text: result.message
+                });
+
                 return result;
             };
 
-            result.message = `Book removed from wishlist..`;
+            result.message = `Book ID ${submittedIndexId} removed from wishlist of User ID ${submittedUserId}..`;
             result.data = user;
             result.status = 200;
+
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
 
         } else {
             result.data = user;
-            result.message = `There are no items inside your wishlist..`;
+            result.message = `There are no items inside User ID ${submittedUserId} wishlist..`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
     },
@@ -149,6 +253,8 @@ module.exports = {
     //For user to check his wishlist if books in swap inventory available
 
     checkMyWishlist: async (submittedUserId) => {
+
+        let fnName = fnNameFormat(new Error());
 
         let result = {
             message: null,
@@ -161,21 +267,45 @@ module.exports = {
         if (!user) {
             result.message = `User ID ${submittedUserId} is not found..`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
         if (user.wishlist === null) {
             user.wishlist = [];
             result.data = user;
-            result.message = `There are no items inside your wishlist..`;
+            result.message = `There are no items inside User ID ${submittedUserId} wishlist..`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
         if (user.wishlist.length === 0) {
             result.data = user;
-            result.message = `There are no items inside your wishlist..`;
+            result.message = `There are no items inside User ID ${submittedUserId} wishlist..`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
@@ -188,59 +318,36 @@ module.exports = {
             include: "Index"
         }); // this format might not be useful.. might need nested array loop to tie to individual indexId
 
-        console.log(swapRelatedWish, swapRelatedWish.length);
+        // console.log(swapRelatedWish, swapRelatedWish.length);
 
         // if swap items related = 0
         if (swapRelatedWish.length === 0) {
             result.message = `Wishlist related books for purchase is zero..`;
             result.data = swapRelatedWish;
             result.status = 200;
+
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         };
 
         result.message = `Wishlist related books for purchase..`;
         result.data = swapRelatedWish;
         result.status = 200;
+
+        formatLogMsg({
+            level: Constants.LEVEL_INFO,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+        
         return result;
     },
-
-    // G1 testing only
-    getUsers: async (submittedSwapId) => {
-
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        };
-
-        const users = await Swap.findAll();
-
-        // let swapTT = submittedSwapId;
-        // let book = await Swap.findByPk(swapTT);
-
-        // try {
-
-        //     book.availability = Constants.AVAIL_YES;
-        //     await Swap.update(
-        //         { availability: book.availability },
-        //         { where: { swapId: swapTT }}
-        //     );
-
-        // } catch(error) {
-        //     result.message = `Wishlist users`;
-        //     result.data = book;
-        //     result.status = 405;
-        //     return result;
-
-        // };           
-
-        result.message = `Wishlist users`;
-        result.data = users;
-        // result.data = book;
-        result.status = 200;
-        return result;
-
-    }
-    // G1 testing only
 
 };
