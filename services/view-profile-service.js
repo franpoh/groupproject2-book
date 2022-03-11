@@ -3,8 +3,15 @@ const { Users, Swap, Reviews } = require("../connect.js");
 const Constants = require("../constants/index");
 const { serviceErrorCatch } = require("../constants/error-catch");
 
+const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
+
+const serviceName = fileNameFormat( __filename, __dirname );
+
 module.exports = {
     viewProfile: async (userId) => {
+
+        let fnName = fnNameFormat(new Error());
+
         let result = {
             message: null,
             status: null,
@@ -28,6 +35,14 @@ module.exports = {
 
         result.status = 200;
         result.message = "Welcome to your profile!";
+
+        formatLogMsg({
+            level: Constants.LEVEL_INFO,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+        
         return result;
     }
 }
