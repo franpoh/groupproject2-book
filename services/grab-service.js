@@ -20,7 +20,7 @@ module.exports = {
 
         if (!user) {
             result.message = `User ID ${submittedUserId} is not found..`;
-            logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
+            // logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
             result.status = 404;
             return result;
         };
@@ -28,7 +28,7 @@ module.exports = {
         // in case submitted book does not exist in inventory OR book has just been bought by another concurrent user
         if (!book || book.availability === Constants.AVAIL_NO) {
             result.message = `Book ID ${submittedSwapId} is not found or no longer available..`;
-            logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
+            // logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
             result.status = 404;
             return result;
         };
@@ -37,7 +37,7 @@ module.exports = {
         if (book.price <= 0 || book.price === null || book.price === undefined) {
             // in case book price somehow is zero or lower
             result.message = `Book ID ${submittedSwapId} currently is not available for purchase..`;
-            logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
+            // logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
             result.status = 400;
             return result;
         };
@@ -46,7 +46,7 @@ module.exports = {
         if (user.points <= 0 || user.points === null || user.points === undefined) {
             // in case user credit somehow is zero or lower
             result.message = `User ID ${submittedUserId} currently does not have valid points..`;
-            logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
+            // logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
             result.status = 400;
             return result;
         };
@@ -54,7 +54,7 @@ module.exports = {
         if (book.price > user.points) {
             // in case book price beyond user credits
             result.message = `User ID ${submittedUserId} currently does not have enough points to take book ID ${submittedSwapId}..`;
-            logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
+            // logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
             result.status = 400;
             return result;
         };
@@ -77,7 +77,7 @@ module.exports = {
             );
 
             console.log('updating user');
-            logger.info(`${serviceName}-${serviceFn01}: user points successfully deducted for ${user.userId}, result ${user.points} points..`);
+            // logger.info(`${serviceName}-${serviceFn01}: user points successfully deducted for ${user.userId}, result ${user.points} points..`);
             // User credit MUST be deducted successfully before proceeding to "remove" book from swap availability
 
         } catch (e) {
@@ -85,7 +85,7 @@ module.exports = {
             // credit deduction unsuccessful
             console.log('User point save in swap service failed: ', e);
             result.message = `Points deduction for User ID ${submittedUserId} failed, please try again later..`;
-            logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
+            // logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
             result.status = 400;
             return result;
 
@@ -111,7 +111,7 @@ module.exports = {
             );
 
             console.log('book no longer available: ', book.availability);
-            logger.info(`${serviceName}-${serviceFn01}: Book swapId ${book.swapId} availability successfully set to ${book.availability}..`);
+            // logger.info(`${serviceName}-${serviceFn01}: Book swapId ${book.swapId} availability successfully set to ${book.availability}..`);
 
         } catch (e) {
             // when NO fails, to restore user credit, problem here, if book removal fails and somehow restore credit also fails, user loses credit for nothing, need simultaneous transaction GTH but sequelize does not have real simultaneous transactions. Ref: https://sequelize.org/master/manual/transactions.html
@@ -127,7 +127,7 @@ module.exports = {
 
             result.data = user;
             result.message = `Transaction not complete, please try again..`;
-            logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
+            // logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
             result.status = 400;
             return result;
 
@@ -136,7 +136,7 @@ module.exports = {
         result.message = `Transaction complete..`;
         result.data = user;
         result.status = 200;
-        logger.info(`${serviceName}-${serviceFn01}: Transaction for Book swapId ${book.swapId} for user Id ${user.userId} completed successfully..`);
+        // logger.info(`${serviceName}-${serviceFn01}: Transaction for Book swapId ${book.swapId} for user Id ${user.userId} completed successfully..`);
         return result;
 
     }
