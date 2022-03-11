@@ -6,8 +6,6 @@ const outFormat = winston.format.printf(({ level, message, timestamp, service })
     return `${level} - <<<<<<<<<<${message.serviceName} - [${message.fnName}]: ${message.text}`;
 });
 
-logger.info(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
-
 const logger = winston.createLogger({
     level: "info",
     format: winston.format.combine(
