@@ -110,7 +110,7 @@ module.exports = {
                 { where: { swapId: book.swapId } }
             );
 
-            console.log('book no longer available: ', book);
+            console.log('book no longer available: ', book.availability);
             logger.info(`${serviceName}-${serviceFn01}: Book swapId ${book.swapId} availability successfully set to ${book.availability}..`);
 
         } catch (e) {
