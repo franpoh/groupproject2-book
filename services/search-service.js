@@ -7,7 +7,7 @@ const Constants = require("../constants/index.js");
 const logger = require("./service-logger/file-logger");
 // const serviceName = 'search-service';
 const serviceName = __filename.slice(__dirname.length + 1);
-const serviceFn01 = 'search';
+// const serviceFn01 = 'search';
 const serviceFn02 = 'detail';
 const serviceFn03 = 'searchIndexByParams';
 
