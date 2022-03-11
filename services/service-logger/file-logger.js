@@ -10,8 +10,14 @@ const logger = winston.createLogger({
         winston.format.timestamp({ format: "YYYY-MM-DDTHH:mm:ss" }),
     ),
     transports: [
-        new winston.transports.File({ filename: 'info.log' }),
-        new winston.transports.Console()
+        new winston.transports.File({ filename: process.env.LOG_PATH }),
+        new winston.transports.Console({
+            format: winston.format.combine(
+                winston.format.simple(),
+                winston.format.colorize(),
+                winston.format.timestamp({ format: "YYYY-MM-DDTHH:mm:ss" }),
+            )
+        })
     ]
 })
 
