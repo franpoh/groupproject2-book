@@ -2,6 +2,10 @@
 
 const winston = require("winston");
 
+const outFormat = winston.format.printf(({ level, message, timestamp, service }) => {
+    return `${timestamp}: ${message}`;
+});
+
 const logger = winston.createLogger({
     level: "info",
     format: winston.format.combine(
@@ -16,6 +20,7 @@ const logger = winston.createLogger({
                 winston.format.simple(),
                 winston.format.colorize(),
                 winston.format.timestamp({ format: "YYYY-MM-DDTHH:mm:ss" }),
+                outFormat
             )
         })
     ]
