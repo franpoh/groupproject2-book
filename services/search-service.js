@@ -158,19 +158,20 @@ module.exports = {
     },
 
     searchSwapByIndex: async (submittedIndexId) => {
+
+        let fnName = (new Error()).stack.split("\n")[2].trim().split(" ")[1];
         
         let result = {
             message: null,
             status: null,
             data: null,
         };
-
-        let fnName = (new Error()).stack.split("\n")[2].trim().split(" ")[1];
-        let logmessage = {
-            serviceName: serviceName,
-            fnName: fnName,
-            text: result.message
-        };
+        
+        // let logmessage = {
+        //     serviceName: serviceName,
+        //     fnName: fnName,
+        //     text: result.message
+        // };
 
         const swapForIndex = await Swap.findAll({
             // not working
@@ -207,7 +208,7 @@ module.exports = {
                 result.message = `Book ID ${submittedIndexId} has swap available for purchase`;
                 // logger.info(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
                 formatLogMsg({
-                    level: 'info',
+                    level: Constants.LEVEL_INFO,
                     serviceName: serviceName,
                     fnName: fnName,
                     text: result.message
@@ -220,7 +221,7 @@ module.exports = {
             result.message = `Swap error: ${error}`;            
             // logger.error(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
             formatLogMsg({
-                level: 'error',
+                level: Constants.LEVEL_ERROR,
                 serviceName: serviceName,
                 fnName: fnName,
                 text: result.message
@@ -236,7 +237,7 @@ module.exports = {
         result.message = `Book ID ${submittedIndexId} swap available for purchase is Zero`;
         // logger.info(`<<<<<<<<<<${serviceName}-[${fnName}]: ${result.message}>>>>>>>>>>`);
         formatLogMsg({
-            level: 'info',
+            level: Constants.LEVEL_INFO,
             serviceName: serviceName,
             fnName: fnName,
             text: result.message
