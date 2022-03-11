@@ -5,10 +5,11 @@ const Op = Sequelize.Op;
 const Constants = require("../constants/index.js");
 
 const logger = require("./service-logger/file-logger");
-const formatLogMsg = require("./service-logger/log-format");;
+const { formatLogMsg, fileNameFormat }= require("./service-logger/log-format");;
 
 // const serviceName = 'search-service';
-const serviceName = __filename.slice(__dirname.length + 1, -3);
+// const serviceName = __filename.slice(__dirname.length + 1, -3);
+const serviceName = fileNameFormat();
 // const serviceFn01 = 'search';
 const serviceFn02 = 'detail';
 const serviceFn03 = 'searchIndexByParams';

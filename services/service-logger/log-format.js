@@ -15,5 +15,12 @@ const formatLogMsg = function ( data ) {
     return;
 };
 
-module.exports = formatLogMsg;
+const fileNameFormat = function () {
+    return __filename.slice(__dirname.length + 1, -3);
+};
+
+module.exports = {
+    formatLogMsg,
+    fileNameFormat
+};
 
