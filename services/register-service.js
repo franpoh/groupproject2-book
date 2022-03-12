@@ -27,13 +27,13 @@ module.exports = {
 
         // Error catch - username already in use
         serviceErrorCatch(
-            result, findUser.length === 0, Constants.USER_INUSE, 409,
+            result, findUser.length < 1, Constants.USER_INUSE, 409,
             Constants.LEVEL_ERROR, serviceName, fnName
         );
 
         // error catch - email already in use
         serviceErrorCatch(
-            result, findEmail.length === 0, Constants.EMAIL_INUSE, 409,
+            result, findEmail.length < 1, Constants.EMAIL_INUSE, 409,
             Constants.LEVEL_ERROR, serviceName, fnName
         );
 
