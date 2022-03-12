@@ -24,7 +24,7 @@ class accessController {
             Constants.LEVEL_ERROR, serviceName, fnName
         );
 
-        // error catch - password/username/email doesn't exist
+        // error catch - password/username/email is invalid
         controlErrorCatch(
             res, !req.body.password || !req.body.username || !req.body.email,
             Constants.GENERAL_INVALID, 400, Constants.LEVEL_ERROR, serviceName, fnName
@@ -37,10 +37,22 @@ class accessController {
         );
 
         // error catch - username is too long/short
-        controlErrorCatch(
-            res, req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400,
-            Constants.LEVEL_ERROR, serviceName, fnName
-        );
+        // controlErrorCatch(
+        //     res, req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400,
+        //     Constants.LEVEL_ERROR, serviceName, fnName
+        // );
+
+        if (req.body.username.length < 3 || req.body.username.length > 10) {
+
+            formatLogMsg({
+                level: level,
+                serviceName: Constants.LEVEL_ERROR,
+                fnName: fnName,
+                text: Constants.USER_CHARS,
+            });
+    
+            return res.status(400).json({ message: Constants.USER_CHARS });
+        }
 
         const result = await registerService.register(req.body.email.toString(), req.body.username.toString(), req.body.password.toString());
 
