@@ -331,7 +331,7 @@ module.exports = {
             }
         })
 
-        if (byIndex != paramsId) {
+        if (byIndex.length === 0) {
             result.data = review;
             result.message = `reviews does not exist for book id:${paramsId}`;
             result.status = 404;
