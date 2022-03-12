@@ -2,7 +2,7 @@ const grabService = require("../services/grab-service");
 
 const Constants = require("../constants/index.js");
 
-const { formatLogMsg, fileNameFormat, fnNameFormat }= require("../services/service-logger/log-format");
+const { formatLogMsg, fileNameFormat, controllerFnNameFormat }= require("../services/service-logger/log-format");
 
 const serviceName = fileNameFormat( __filename, __dirname );
 
@@ -10,8 +10,8 @@ class GrabController {
 
     async grabBook(req, res) {
 
-        // let fnName = fnNameFormat(new Error());
-        let fnName = new Error().stack[0];
+        let fnName = controllerFnNameFormat(new Error());
+        // let fnName = new Error().stack;
 
         // req.body.swapId - for id of specific book in inventory
 
