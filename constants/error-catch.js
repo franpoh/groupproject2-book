@@ -21,6 +21,7 @@ function controlErrorCatch(res, error, msg, status, level, service, fn) {
 
         return res.status(status).json({ message: msg });
     }
+    return res;
 }
 
 // might mess up the order of some error checking

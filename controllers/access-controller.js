@@ -37,22 +37,22 @@ class accessController {
         );
 
         // error catch - username is too long/short
-        // controlErrorCatch(
-        //     res, req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400,
-        //     Constants.LEVEL_ERROR, serviceName, fnName
-        // );
+        controlErrorCatch(
+            res, req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400,
+            Constants.LEVEL_ERROR, serviceName, fnName
+        );
 
-        if (req.body.username.length < 3 || req.body.username.length > 10) {
+        // if (req.body.username.length < 3 || req.body.username.length > 10) {
 
-            formatLogMsg({
-                level: Constants.LEVEL_ERROR,
-                serviceName: serviceName,
-                fnName: fnName,
-                text: Constants.USER_CHARS,
-            });
+        //     formatLogMsg({
+        //         level: Constants.LEVEL_ERROR,
+        //         serviceName: serviceName,
+        //         fnName: fnName,
+        //         text: Constants.USER_CHARS,
+        //     });
     
-            return res.status(400).json({ message: Constants.USER_CHARS });
-        }
+        //     return res.status(400).json({ message: Constants.USER_CHARS });
+        // }
 
         const result = await registerService.register(req.body.email.toString(), req.body.username.toString(), req.body.password.toString());
 
