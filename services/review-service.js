@@ -2,9 +2,9 @@ const { Reviews, Index } = require("../connect.js");
 
 const Constants = require("../constants/index.js");
 
-const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
+const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 
-const serviceName = fileNameFormat( __filename, __dirname );
+const serviceName = fileNameFormat(__filename, __dirname);
 
 module.exports = {
 
@@ -25,6 +25,20 @@ module.exports = {
     });
 
     if (index === null) {
+      result.message = `Bad request: Book ID "${indexid}" does not exist in the database`;
+      result.status = 400;
+
+      formatLogMsg({
+        level: Constants.LEVEL_ERROR,
+        serviceName: serviceName,
+        fnName: fnName,
+        text: result.message
+      });
+
+      return result;
+    }
+
+    if (index != indexid) {
       result.message = `Bad request: Book ID "${indexid}" does not exist in the database`;
       result.status = 400;
 

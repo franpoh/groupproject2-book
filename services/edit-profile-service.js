@@ -3,14 +3,11 @@ const saltRounds = 10;
 
 const Constants = require("../constants/index");
 const { serviceErrorCatch } = require("../constants/error-catch");
-
 const { ValidationError } = require("sequelize"); // Validation Error is a class item
+const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
+const serviceName = fileNameFormat( __filename, __dirname );
 
 const { Users } = require("../connect.js");
-
-const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
-
-const serviceName = fileNameFormat( __filename, __dirname );
 
 module.exports = {
     editProfile: async (userId, email, oldPassword, newPassword) => {
@@ -26,17 +23,21 @@ module.exports = {
         const user = await Users.findByPk(userId);
         const findEmail = await Users.findAll({ where: { email: email }});
 
-        // error catching
+        // error catch - if user doesn't exist
+        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404, Constants.LEVEL_ERROR, serviceName, fnName);
 
-        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404)
-        serviceErrorCatch(result, findEmail, Constants.EMAIL_INUSE, 409)
+        // error catch - if email is in use
+        serviceErrorCatch(result, findEmail, Constants.EMAIL_INUSE, 409, Constants.LEVEL_ERROR, serviceName, fnName);
 
+        // verify password
         const passwordVerification = await bcrypt.compare(oldPassword, user.password);
 
+        // error catch - if password does not exist
         if (!passwordVerification) {
             result.message = Constants.PASSWORD_INVALID;
             result.status = 400;
 
+            // winston logging
             formatLogMsg({
                 level: Constants.LEVEL_ERROR,
                 serviceName: serviceName,
@@ -48,7 +49,6 @@ module.exports = {
         }
 
         try {
-
             // If new email/password not specified, use old email/password
             let newEmail = !email ? user.email : email;
             let newPwd = !newPassword ? user.password : bcrypt.hashSync(newPassword, saltRounds);
@@ -56,6 +56,7 @@ module.exports = {
             // Message depending on what was edited
             let newMsg = !newPassword ? "Profile Updated!" : "Password Updated! Logging you out..."
 
+            // set new email and/or password
             user.email = newEmail;
             user.password = newPwd;
             await user.save();
@@ -64,6 +65,7 @@ module.exports = {
             result.data = JSON.stringify(user);
             result.message = newMsg;
 
+            // winston logging
             formatLogMsg({
                 level: Constants.LEVEL_INFO,
                 serviceName: serviceName,
@@ -74,12 +76,13 @@ module.exports = {
             return result;
 
         } catch (error) {
-
-            serviceErrorCatch(result, error instanceof ValidationError, error.errors[0].message, 400)
+            // error catching from model validation as backup
+            serviceErrorCatch(result, error instanceof ValidationError, error.errors[0].message, 400, Constants.LEVEL_ERROR, serviceName, fnName)
             
             result.message = error.errors[0].message;
             result.status = 400;
 
+            // winston logging
             formatLogMsg({
                 level: Constants.LEVEL_ERROR,
                 serviceName: serviceName,
