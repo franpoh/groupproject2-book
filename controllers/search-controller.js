@@ -1,9 +1,16 @@
-
 const searchService = require("../services/search-service");
+
+const Constants = require("../constants/index.js");
+
+const { formatLogMsg, fileNameFormat, controllerFnNameFormat }= require("../services/service-logger/log-format");
+
+const serviceName = fileNameFormat( __filename, __dirname );
 
 class searchController {
 
     async search(req, res) {
+
+        let fnName = controllerFnNameFormat();
 
         const title = req.query.title;
 
@@ -18,6 +25,8 @@ class searchController {
     };
 
     async detail(req, res) {
+
+        let fnName = controllerFnNameFormat();
 
         const indexId = req.query.bookID;
 
@@ -39,6 +48,9 @@ class searchController {
     };
 
     async searchIndexByParams(req, res) {
+
+        let fnName = controllerFnNameFormat();
+
         const bookAuthor = req.body.bookAuthor;
         const bookTitle = req.body.bookTitle;
 
@@ -52,12 +64,16 @@ class searchController {
 
     async searchIndex(req, res) {
 
+        let fnName = controllerFnNameFormat();
+
         const result = await searchService.searchIndex();
         res.status(result.status);
         return res.json({ data: result.data, message: result.message });
     };
 
     async searchSwapByIndex(req, res) {
+
+        let fnName = controllerFnNameFormat();
 
         const receivedIndexId = parseInt(req.query.indexId);
 
@@ -85,6 +101,9 @@ class searchController {
     };
 
     async allReviews(req, res) {
+
+        let fnName = controllerFnNameFormat();
+
         const indexId = parseInt(req.query.indexId);
 
         if (typeof parseInt(indexId) != 'number') {
@@ -100,6 +119,8 @@ class searchController {
     };
 
     async searchGenres(req, res) {
+
+        let fnName = controllerFnNameFormat();
 
         const result = await searchService.allGenres()
         res.status(result.status);
