@@ -45,8 +45,8 @@ class accessController {
         if (req.body.username.length < 3 || req.body.username.length > 10) {
 
             formatLogMsg({
-                level: level,
-                serviceName: Constants.LEVEL_ERROR,
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
                 fnName: fnName,
                 text: Constants.USER_CHARS,
             });
