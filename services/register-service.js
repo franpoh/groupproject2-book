@@ -1,7 +1,8 @@
-const { ValidationError } = require("sequelize"); // Validation Error is a class item
 const Constants = require("../constants/index.js");
-const { serviceErrorCatch } = require("../constants/error-catch");
-const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
+
+const { ValidationError } = require("sequelize"); // Validation Error is a class item
+const { errorCatch, infoLog } = require("../constants/error-catch");
+const { fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
 const bcrypt = require("bcrypt");
@@ -9,31 +10,32 @@ const saltRounds = 10;
 
 const { Users } = require("../connect.js");
 
+
+
+// ----------------------------------------- PASSED TO ACCESS CONTROLLER
 module.exports = {
+    
     register: async (email, username, password) => {
 
         let fnName = fnNameFormat();
 
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
+        // use username to find all matching users in user table
         const findUser = await Users.findAll({ where: { username: username } });
+
+        // use email to find all matching users in user table
         const findEmail = await Users.findAll({ where: { email: email } });
 
         // Error catch - username already in use
-        serviceErrorCatch(
-            result, findUser.length >= 1, Constants.USER_INUSE, 409,
-            Constants.LEVEL_ERROR, serviceName, fnName
-        );
+        if (findUser.length >= 1) {
+            let response = errorCatch(409, Constants.USER_INUSE, serviceName, fnName);
+            return response;
+        }
 
         // error catch - email already in use
-        serviceErrorCatch(
-            result, findEmail.length >= 1, Constants.EMAIL_INUSE, 409,
-            Constants.LEVEL_ERROR, serviceName, fnName
-        );
+        if (findEmail.length >= 1) {
+            let response = errorCatch(409, Constants.EMAIL_INUSE, serviceName, fnName);
+            return response;
+        }
 
         // try/catch function for catching Validation Errors specified in models
         try {
@@ -49,29 +51,21 @@ module.exports = {
                 imageURL: "https://i.pinimg.com/736x/2d/cf/63/2dcf63c23e359dd5fec6ced32d4d8805.jpg"
             });
 
-            result.status = 200;
-            result.message = "Your registration is successful!";
+            // infolog
+            let response = infoLog("Your registration is successful!", serviceName, fnName);
+            return response;
 
-            // winston logging
-            formatLogMsg({
-                level: Constants.LEVEL_INFO,
-                serviceName: serviceName,
-                fnName: fnName,
-                text: result.message
-            });
-
-            return result;
         } catch (error) {
 
-            // Check whether an object (error) is an instance of a specific class (ValidationError)
-            serviceErrorCatch(
-                result, error instanceof ValidationError, error.errors[0].message, 400, 
-                Constants.LEVEL_ERROR, serviceName, fnName
-            );
+            // error catch - Check whether an object (error) is an instance of a specific class (ValidationError)
+            if (error instanceof ValidationError) {
+                let response = errorCatch(400, error.errors[0].message, serviceName, fnName);
+                return response;
+            }
 
-            result.message = error.errors[0].message;
-            result.status = 400;
-            return result;
+            // error catch - all other errors
+            let response = errorCatch(400, error.errors[0].message, serviceName, fnName);
+            return response;
         }
     }
 }

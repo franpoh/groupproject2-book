@@ -1,42 +1,36 @@
 const { Users } = require("../connect.js");
 
-const Constants = require("../constants/index.js");
-const { serviceErrorCatch } = require("../constants/error-catch");
-const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
-const serviceName = fileNameFormat( __filename, __dirname );
+const { errorCatch, infoLog } = require("../constants/error-catch");
+const { fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
+const serviceName = fileNameFormat(__filename, __dirname);
 
+
+
+// ----------------------------------------- PASSED TO ADMIN CONTROLLER
 module.exports = {
+    
     viewUsers: async () => {
 
         let fnName = fnNameFormat();
 
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
-
-        const users = await Users.findAll({ 
-            attributes: { exclude: 
-                ['password', 'wishlist', 'imageURL', 'updatedAt'] 
-            } 
+        // find all users in user table
+        // however, omit data defined in attributes in the return
+        const users = await Users.findAll({
+            attributes: {
+                exclude:
+                    ['password', 'wishlist', 'imageURL', 'updatedAt']
+            }
         });
 
         // error catch - no users are found
-        serviceErrorCatch(result, !users, "Users not found", 404, Constants.LEVEL_ERROR, serviceName, fnName);
+        if (!users || users.length === 0) {
+            let response = errorCatch(404, "Users not found", serviceName, fnName);
+            return response;
+        }
 
-        result.data = users;
-        result.status = 200;
-        result.message = "All users in database.";
-
-        // winston logging
-        formatLogMsg({
-            level: Constants.LEVEL_INFO,
-            serviceName: serviceName,
-            fnName: fnName,
-            text: result.message
-        });
-
-        return result;
+        // infolog
+        let response = infoLog("All users in database.", serviceName, fnName);
+        response.data = users;
+        return response;
     }
 }

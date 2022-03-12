@@ -1,75 +1,100 @@
+const Constants = require("./index");
+
 const { formatLogMsg } = require("../services/service-logger/log-format");
 
+
+
+// ----------------------------------------- CHECK IF EMAIL IS VALID
 function validEmail(email) {
     const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return res.test(String(email).toLowerCase());
 }
 
+// ----------------------------------------- CHECK PASSWORD BYTE LENGTH
 function pwdByteLen(pwd) {
     return new TextEncoder().encode(pwd).length
 }
 
-function controlErrorCatch(res, error, msg, status, level, service, fn) {
-    if (error) {
 
-        formatLogMsg({
-            level: level,
-            serviceName: service,
-            fnName: fn,
-            text: msg,
-        });
 
-        result.status = status;
-        result.msg = msg;
-        return res.status(status).json({ message: msg });
-    }
-}
-
-function testErrorCatch(status, msg, level, serviceName, fnName) {
+// ----------------------------------------- ERROR CATCHING
+function errorCatch(status, msg, serviceName, fnName) {
     let result = {
-        status: null,
-        msg: null,
+        status: null, // status code
+        message: null, // message for display and for winston
+        data: null,
     }
 
+    // winston logging
     formatLogMsg({
-        level: level,
+        level: Constants.LEVEL_ERROR, // default error level
         serviceName: serviceName,
         fnName: fnName,
         text: msg,
     });
 
     result.status = status;
-    result.msg = msg;
+    result.message = msg;
+    result.data = null;
 
     return result;
 }
 
+// ----------- for use in controllers
 // if (error) {
-//     let result = testErrorCatch(msg, status, level, service, fn);
-//     return res.status(result.status).json({ message: result.msg });
+    // let result = errorCatch(status, msg, serviceName, fnName);
+    // return res.status(result.status).json({ message: result.message });
 // }
 
-// might mess up the order of some error checking
-function serviceErrorCatch(res, error, msg, status, level, service, fn) {
-    if (error) {
-        res.status = status;
-        res.message = msg;
+// ----------- for use in services
+// if (error) {
+//     let response = errorCatch(status, msg, serviceName, fnName);
+//     response.data = data; // this is optional
+//     return response; // response will effectively replace 'result' in services, so you can delete it
+// }
 
-        formatLogMsg({
-            level: level,
-            serviceName: service,
-            fnName: fn,
-            text: msg,
-        });
+// ----------- can also be used like this
+// let result = errorCatch(status, msg, serviceName, fnName);
+// return <whatever>;
 
-        return res;
+
+
+// ----------------------------------------- INFO CATCHING
+function infoLog(msg, serviceName, fnName) {
+    let result = {
+        status: null, // status code
+        message: null, // message for display and for winston
+        data: null,
     }
+
+    formatLogMsg({
+        level: Constants.LEVEL_INFO, // default info level
+        serviceName: serviceName,
+        fnName: fnName,
+        text: msg,
+    });
+
+    result.status = 200;
+    result.message = msg;
+    result.data = null;
+
+    return result;
 }
+
+// ----------- for use in controllers
+// let result = infoLog(msg, serviceName, fnName);
+// return res.status(result.status).json({ message: result.message, data: result.data });
+
+// ----------- for use in services
+// let response = infoLog(msg, serviceName, fnName);
+// response.data = <data>; // this is optional
+// return response; // response will effectively replace 'result' in services, so you can delete it
+
+
 
 module.exports = {
     validEmail,
-    controlErrorCatch,
-    serviceErrorCatch,
+    errorCatch,
     pwdByteLen,
-    testErrorCatch,
+    infoLog,
 }
