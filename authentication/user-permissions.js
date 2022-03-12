@@ -24,6 +24,9 @@ async function protectedPermission(req, res, next) {
 }
 
 async function adminPermission(req, res, next) {
+
+    let fnName = fnNameFormat();
+    
     const user = await Users.findByPk(req.userId);
 
     if (user.type === Constants.USER_ADMIN) {
