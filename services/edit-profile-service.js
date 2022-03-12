@@ -24,6 +24,8 @@ module.exports = {
         const user = await Users.findByPk(userId);
         const findEmail = await Users.findAll({ where: { email: email } });
 
+        console.log("EDIT PROFILE", findEmail);
+
         // error catch - if user doesn't exist
         if (!user) {
             let response = errorCatch(404, Constants.LEVEL_ERROR, serviceName, fnName);
