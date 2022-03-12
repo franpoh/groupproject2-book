@@ -10,7 +10,7 @@ module.exports = {
 
     grabBook: async (submittedUserId, submittedSwapId) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,

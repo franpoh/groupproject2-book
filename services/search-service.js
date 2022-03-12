@@ -11,7 +11,7 @@ const serviceName = fileNameFormat( __filename, __dirname );
 module.exports = {
     search: async (title) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,
@@ -113,7 +113,7 @@ module.exports = {
 
     searchIndexByParams: async (booktitle, bookauthor) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,
@@ -190,7 +190,7 @@ module.exports = {
 
     searchIndex: async () => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,
@@ -238,7 +238,7 @@ module.exports = {
 
     searchSwapByIndex: async (submittedIndexId) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
         
         let result = {
             message: null,
@@ -319,7 +319,7 @@ module.exports = {
 
     allReviews: async (paramsId) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,
@@ -369,7 +369,7 @@ module.exports = {
 
     allGenres: async () => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,

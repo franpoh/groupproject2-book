@@ -10,7 +10,7 @@ const serviceName = fileNameFormat( __filename, __dirname );
 module.exports = {
     viewProfile: async (userId) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,

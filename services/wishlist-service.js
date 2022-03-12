@@ -9,7 +9,7 @@ module.exports = {
 
     addToWish: async (submittedUserId, submittedIndexId) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,
@@ -118,7 +118,7 @@ module.exports = {
 
     delFrWish: async (submittedUserId, submittedIndexId) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,
@@ -254,7 +254,7 @@ module.exports = {
 
     checkMyWishlist: async (submittedUserId) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,

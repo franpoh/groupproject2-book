@@ -15,7 +15,7 @@ const serviceName = fileNameFormat( __filename, __dirname );
 module.exports = {
     editProfile: async (userId, email, oldPassword, newPassword) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,

@@ -9,7 +9,7 @@ module.exports = {
 
     uploadbook: async (userid, booktitle, bookauthor, bookyear, bookgenre, usercomments, bookcover) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,

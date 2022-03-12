@@ -10,7 +10,7 @@ module.exports = {
 
   addReview: async (userid, indexid, rev) => {
 
-    let fnName = fnNameFormat(new Error());
+    let fnName = fnNameFormat();
 
     let result = {
       message: null,
