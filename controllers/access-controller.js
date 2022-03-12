@@ -80,6 +80,8 @@ class accessController {
 
     async logout(req, res) {
 
+        let fnName = controllerFnNameFormat();
+        
         try {
             // Web browsers and other compliant clients will only clear the cookie if the given options is identical to those given to res.cookie(), excluding expires and maxAge.
             res.clearCookie('refreshToken', { httpOnly: true, sameSite: "None", secure: true });
