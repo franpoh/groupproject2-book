@@ -17,7 +17,7 @@ class GrabController {
 
         // if tokenId or swapId missing
         if (!req.userId || !req.body.swapId) {
-            res.status(400);
+            res.status(200);
             res.json({
                 message: 'Incomplete data types submitted..'
             });
