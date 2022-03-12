@@ -9,6 +9,7 @@ const { Users } = require("../connect.js");
 
 
 
+// ----------------------------------------- PASSED TO ADMIN CONTROLLER
 module.exports = {
     
     userType: async (editUserId, type, password, userId) => {

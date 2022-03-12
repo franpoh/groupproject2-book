@@ -10,6 +10,7 @@ const serviceName = fileNameFormat( __filename, __dirname );
 
 
 
+// ----------------------------------------- PASSED TO PROTECTED ROUTES
 class AdminController {
 
     // ----------------------------------------- EDIT USER TYPE

@@ -9,10 +9,10 @@ const { fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
 const { Users } = require("../connect.js");
-const { EMAIL_INVALID } = require('../constants/index.js');
 
 
 
+// ----------------------------------------- PASSED TO ACCESS CONTROLLER
 module.exports = {
     
     login: async (email, password) => {
@@ -24,7 +24,7 @@ module.exports = {
 
         // error catch - if email is invalid
         if (!user) {
-            let response = errorCatch(400, Constants.EMAIL_INVALID, EMAIL_INVALID, serviceName, fnName);
+            let response = errorCatch(400, Constants.EMAIL_INVALID, serviceName, fnName);
             return response;
         }
 

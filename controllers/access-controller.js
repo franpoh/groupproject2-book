@@ -9,6 +9,7 @@ const serviceName = fileNameFormat(__filename, __dirname);
 
 
 
+// ----------------------------------------- PASSED TO GENERAL ROUTES
 class accessController {
 
     // ----------------------------------------- REGISTER

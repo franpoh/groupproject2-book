@@ -7,6 +7,7 @@ const serviceName = fileNameFormat(__filename, __dirname);
 
 
 
+// ----------------------------------------- PASSED TO ACCOUNT CONTROLLER
 module.exports = {
     
     viewProfile: async (userId) => {

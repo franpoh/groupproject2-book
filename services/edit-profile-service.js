@@ -12,6 +12,7 @@ const { Users } = require("../connect.js");
 
 
 
+// ----------------------------------------- PASSED TO ACCOUNT CONTROLLER
 module.exports = {
 
     editProfile: async (userId, email, oldPassword, newPassword) => {

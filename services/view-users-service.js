@@ -6,6 +6,7 @@ const serviceName = fileNameFormat(__filename, __dirname);
 
 
 
+// ----------------------------------------- PASSED TO ADMIN CONTROLLER
 module.exports = {
     
     viewUsers: async () => {

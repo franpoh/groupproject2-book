@@ -35,6 +35,7 @@ function errorCatch(status, msg, serviceName, fnName) {
 
     result.status = status;
     result.message = msg;
+    result.data = null;
 
     return result;
 }

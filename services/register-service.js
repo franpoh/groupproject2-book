@@ -12,6 +12,7 @@ const { Users } = require("../connect.js");
 
 
 
+// ----------------------------------------- PASSED TO ACCESS CONTROLLER
 module.exports = {
     
     register: async (email, username, password) => {
