@@ -39,8 +39,8 @@ function errorCatch(status, msg, serviceName, fnName) {
 
 // ----------- for use in controllers
 // if (error) {
-//     let result = errorCatch(status, msg, serviceName, fnName);
-//     return res.status(result.status).json({ message: result.message });
+    // let result = errorCatch(status, msg, serviceName, fnName);
+    // return res.status(result.status).json({ message: result.message });
 // }
 
 // ----------- for use in services
