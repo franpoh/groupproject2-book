@@ -64,7 +64,7 @@ module.exports = {
 
     detail: async (submittedIndexId) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,
