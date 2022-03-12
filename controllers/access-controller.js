@@ -38,7 +38,7 @@ class accessController {
 
         // error catch - username is too long/short
         if (req.body.username.length < 3 || req.body.username.length > 10) {
-            let result = testErrorCatch(Constants.USER_CHARS, 400, Constants.LEVEL_ERROR, serviceName, fnName);
+            let result = testErrorCatch(400, Constants.USER_CHARS, Constants.LEVEL_ERROR, serviceName, fnName);
             return res.status(result.status).json({ message: result.msg });
         }
 

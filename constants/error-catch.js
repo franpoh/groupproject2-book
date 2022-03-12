@@ -25,7 +25,7 @@ function controlErrorCatch(res, error, msg, status, level, service, fn) {
     }
 }
 
-function testErrorCatch(res, error, msg, status, level, service, fn) {
+function testErrorCatch(status, msg, level, serviceName, fnName) {
     let result = {
         status: null,
         msg: null,
@@ -33,10 +33,13 @@ function testErrorCatch(res, error, msg, status, level, service, fn) {
 
     formatLogMsg({
         level: level,
-        serviceName: service,
-        fnName: fn,
+        serviceName: serviceName,
+        fnName: fnName,
         text: msg,
     });
+
+    result.status = status;
+    result.msg = msg;
 
     return result;
 }
