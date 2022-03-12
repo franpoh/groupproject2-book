@@ -43,7 +43,7 @@ const fnNameFormat = function ( data ) {
 };
 
 const controllerFnNameFormat = function ( data ) {
-    return data.stack.split("\n")[2].trim().split(" ")[0];
+    return data.stack.split("\n")[1].trim().split(" ")[1];
 };
 
 module.exports = {
