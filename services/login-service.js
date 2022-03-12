@@ -13,7 +13,7 @@ const { Users } = require("../connect.js");
 module.exports = {
     login: async (email, password) => {
 
-        let fnName = fnNameFormat(new Error());
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,

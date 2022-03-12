@@ -1,9 +1,15 @@
 const { Index, Swap, Users } = require("../connect.js");
 const Constants = require("../constants/index.js");
 
+const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
+
+const serviceName = fileNameFormat( __filename, __dirname );
+
 module.exports = {
 
     uploadbook: async (userid, booktitle, bookauthor, bookyear, bookgenre, usercomments, bookcover) => {
+
+        let fnName = fnNameFormat();
 
         let result = {
             message: null,
@@ -18,6 +24,14 @@ module.exports = {
         if (!user) {
             result.message = `User ID ${userid} is not found. Please register an account before uploading a book for swap!`;
             result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
             return result;
         } console.log("User Attempting to upload book for swap, user is: ", user);
 
@@ -59,6 +73,14 @@ module.exports = {
                 console.log('User attempted to access library, failed. Error: ', error);
                 result.message = "Failed to access library database. Please try again later.";
                 result.status = 500;
+
+                formatLogMsg({
+                    level: Constants.LEVEL_ERROR,
+                    serviceName: serviceName,
+                    fnName: fnName,
+                    text: result.message
+                });
+
                 return result;
 
             }
@@ -103,6 +125,13 @@ module.exports = {
                     if (user.dataValues.points !== expectedPoints) {
                         result.message = "System failed to save new points, please contact an administrator or send us an email."
                         result.status = 500;
+
+                        formatLogMsg({
+                            level: Constants.LEVEL_ERROR,
+                            serviceName: serviceName,
+                            fnName: fnName,
+                            text: result.message
+                        });
                     }
 
                     console.log(`${addToSwap.dataValues.price} points successfully added to user ${userid}`);
@@ -110,6 +139,14 @@ module.exports = {
                     result.data = addToSwap;
                     result.status = 200;
                     result.message = "Book successfully uploaded for swap! You currently have " + user.dataValues.points + " points";
+
+                    formatLogMsg({
+                        level: Constants.LEVEL_INFO,
+                        serviceName: serviceName,
+                        fnName: fnName,
+                        text: result.message
+                    });
+
                     return result;
 
                 } catch (error) {
@@ -117,6 +154,14 @@ module.exports = {
                     console.log('User attempted to upload book to swap, failed. Error: ', error);
                     result.message = `Failed to add ${addToSwap.dataValues.price} points to your account. Please contact our administrator through email.`
                     result.status = 500;
+
+                    formatLogMsg({
+                        level: Constants.LEVEL_ERROR,
+                        serviceName: serviceName,
+                        fnName: fnName,
+                        text: result.message
+                    });
+
                     return result;
 
                 }
@@ -168,6 +213,13 @@ module.exports = {
                 if (user.dataValues.points !== expectedPoints) {
                     result.message = "System failed to save new points, please contact an administrator or send us an email."
                     result.status = 500;
+
+                    formatLogMsg({
+                        level: Constants.LEVEL_ERROR,
+                        serviceName: serviceName,
+                        fnName: fnName,
+                        text: result.message
+                    });
                 }
 
                 console.log(`${addToSwap.dataValues.price} points successfully added to user ${userid}`);
@@ -175,6 +227,14 @@ module.exports = {
                 result.data = addToSwap;
                 result.status = 200;
                 result.message = "Book successfully uploaded for swap! You currently have " + user.dataValues.points + " points";
+
+                formatLogMsg({
+                    level: Constants.LEVEL_INFO,
+                    serviceName: serviceName,
+                    fnName: fnName,
+                    text: result.message
+                });
+
                 return result;
 
             } catch (error) {
@@ -182,6 +242,14 @@ module.exports = {
                 console.log('User attempted to upload book to swap, failed. Error: ', error);
                 result.message = `Failed to add ${addToSwap.dataValues.price} points to your account. Please contact our administrator through email.`
                 result.status = 500;
+
+                formatLogMsg({
+                    level: Constants.LEVEL_ERROR,
+                    serviceName: serviceName,
+                    fnName: fnName,
+                    text: result.message
+                });
+                
                 return result;
 
             }

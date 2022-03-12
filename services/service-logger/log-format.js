@@ -2,28 +2,35 @@ const logger = require("./file-logger");
 
 const Constants = require("../../constants/index");
 
+// ========== info ========== 
+//
 // data from parent would be {
 //     level: Constants.LEVEL_INFO,   or Constants.LEVEL_ERROR
 //     serviceName: serviceName,
 //     fnName: fnName,
-//     text: result.message
+//     text: result.message // res.message if controller
 // }
 // 
 // at head of parent file, const serviceName = fileNameFormat( __filename, __dirname );
-// at head of parent function, let fnName = fnNameFormat(new Error());
-
+// let fnName = fnNameFormat();
+//
+// ========== info ========== 
 
 const formatLogMsg = function ( data ) {
 
-    let logmessage = `<<<<<<<<<< ${data.serviceName}-[${data.fnName}]: ${data.text} >>>>>>>>>>` 
+    let logmessage = `<<<<<<<<<< ${data.serviceName}-[${data.fnName}]: ${data.text} >>>>>>>>>>`     
     
-    if ( data.level === Constants.LEVEL_INFO ) {
-        logger.info(logmessage);
-        return;
-    } else if (data.level === Constants.LEVEL_ERROR) {
-        logger.error(logmessage);
-        return;
-    };
+    logger[data.level](logmessage);
+    // Answer by snnsnn Ref: https://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string
+
+    
+    // if ( data.level === Constants.LEVEL_INFO ) {
+    //     logger.info(logmessage);
+    //     return;
+    // } else if (data.level === Constants.LEVEL_ERROR) {
+    //     logger.error(logmessage);
+    //     return;
+    // };
     
     return;
 };
@@ -35,13 +42,25 @@ const fileNameFormat = function ( a, b ) {
 };
 
 // function name, Answer by VanagaS  Ref: https://stackoverflow.com/questions/280389/how-do-you-find-out-the-caller-function-in-javascript
-const fnNameFormat = function ( data ) {
+const fnNameFormat = function () {
+    let data = new Error();
+    // if new Error is generated at caller, split("\n")[2]
+    return data.stack.split("\n")[3].trim().split(" ")[1];
+};
+
+
+// function name within class, location in error stack is different, inspired by Answer and dicussion by georg Ref: https://stackoverflow.com/questions/38435450/get-current-function-name-in-strict-mode/38435618#38435618
+// const controllerFnNameFormat = function ( data ) {
+const controllerFnNameFormat = function () {
+    let data = new Error();
+    // if new Error is generated at caller, split("\n")[1]
     return data.stack.split("\n")[2].trim().split(" ")[1];
 };
 
 module.exports = {
     formatLogMsg,
     fileNameFormat,
-    fnNameFormat
+    fnNameFormat,
+    controllerFnNameFormat
 };
 

@@ -13,8 +13,13 @@ const { Users } = require("../connect.js");
 module.exports = {
     editProfile: async (userId, email, oldPassword, newPassword) => {
 
+<<<<<<< HEAD
         let fnName = fnNameFormat(new Error());
         
+=======
+        let fnName = fnNameFormat();
+
+>>>>>>> e707b11ba5429e1b12df828694b0fa0765c805a6
         let result = {
             message: null,
             status: null,

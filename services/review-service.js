@@ -1,9 +1,16 @@
 const { Reviews, Index } = require("../connect.js");
 
+const Constants = require("../constants/index.js");
+
+const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
+
+const serviceName = fileNameFormat( __filename, __dirname );
+
 module.exports = {
 
-
   addReview: async (userid, indexid, rev) => {
+
+    let fnName = fnNameFormat();
 
     let result = {
       message: null,
@@ -20,6 +27,14 @@ module.exports = {
     if (index === null) {
       result.message = `Bad request: Book ID "${indexid}" does not exist in the database`;
       result.status = 400;
+
+      formatLogMsg({
+        level: Constants.LEVEL_ERROR,
+        serviceName: serviceName,
+        fnName: fnName,
+        text: result.message
+      });
+
       return result;
     }
 
@@ -42,13 +57,28 @@ module.exports = {
       result.status = 200;
       result.message = `Review added for book index ${indexid} by user id ${userid}`;
 
+      formatLogMsg({
+        level: Constants.LEVEL_INFO,
+        serviceName: serviceName,
+        fnName: fnName,
+        text: result.message
+      });
+
       return result;
     }
 
-    console.log(review);
+    // console.log(review);
     if (review && rev === review.review) {
       result.message = `Bad request: Duplicate entry for review`;
       result.status = 400;
+
+      formatLogMsg({
+        level: Constants.LEVEL_ERROR,
+        serviceName: serviceName,
+        fnName: fnName,
+        text: result.message
+      });
+
       return result;
     }
 
@@ -60,6 +90,14 @@ module.exports = {
     result.data = review;
     result.status = 200;
     result.message = `Review edited for book index ${indexid} by user id ${userid}`;
+
+    formatLogMsg({
+      level: Constants.LEVEL_INFO,
+      serviceName: serviceName,
+      fnName: fnName,
+      text: result.message
+    });
+
     return result;
 
   }
