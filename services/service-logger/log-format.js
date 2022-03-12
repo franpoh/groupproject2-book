@@ -47,8 +47,8 @@ const fnNameFormat = function ( data ) {
 // const controllerFnNameFormat = function ( data ) {
 const controllerFnNameFormat = function () {
     let data = new Error();
-    return data.stack;
-    // return data.stack.split("\n")[1].trim().split(" ")[1];
+    // return data.stack;
+    return data.stack.split("\n")[1].trim().split(" ")[1];
 };
 
 module.exports = {
