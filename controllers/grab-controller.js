@@ -22,7 +22,7 @@ class GrabController {
                 message: 'Incomplete data types submitted..'
             });
 
-            console.log(res.message);
+            console.log(">>>>>>>>>>>>>>>>>>>>>>res.message: ",res.message);
 
             formatLogMsg({
                 level: Constants.LEVEL_ERROR,
