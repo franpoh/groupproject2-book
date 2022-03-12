@@ -1,5 +1,6 @@
 const { Users } = require("../connect.js");
 
+const Constants = require("../constants/index.js");
 const { serviceErrorCatch } = require("../constants/error-catch");
 const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat( __filename, __dirname );
