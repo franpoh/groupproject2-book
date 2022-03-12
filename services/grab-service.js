@@ -117,6 +117,17 @@ module.exports = {
             console.log('updating user');
             // User credit MUST be deducted successfully before proceeding to "remove" book from swap availability
 
+            // result not for return but for log update
+            result.message = `User ID ${user.userId} points updated to ${user.points}..`;            
+            result.status = 200;
+            
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
         } catch (e) {
 
             // credit deduction unsuccessful
@@ -156,6 +167,17 @@ module.exports = {
 
             console.log('book no longer available: ', book.availability);
 
+            // result not for return but for log update
+            result.message = `User ID ${book.purchasedId} purchased Book Swap ID ${book.swapId}, availability set to ${book.availability}..`;            
+            result.status = 200;
+            
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
         } catch (e) {
             // when NO fails, to restore user credit, problem here, if book removal fails and somehow restore credit also fails, user loses credit for nothing, need simultaneous transaction GTH but sequelize does not have real simultaneous transactions. Ref: https://sequelize.org/master/manual/transactions.html
 
@@ -168,9 +190,20 @@ module.exports = {
                 { where: { userId: user.userId } }
             );
 
+            // result not for return but for log update
+            result.message = `User ID ${user.userId} points restored to ${user.points} due error in  purchase Book Swap ID ${book.swapId}..`;
+            result.status = 200;
+            
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+            
+            // for return to client for failure of grab
             result.data = user;
             result.message = `Transaction not complete, please try again..`;
-            // logger.error(`${serviceName}-${serviceFn01}: ${result.message}..`);
             result.status = 400;
 
             formatLogMsg({
