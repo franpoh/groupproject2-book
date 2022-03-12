@@ -26,7 +26,7 @@ module.exports = {
 
         // error catch - if email is invalid
         if (!user) {
-            let response = errorCatch(400, Constants, EMAIL_INVALID, serviceName, fnName);
+            let response = errorCatch(400, Constants.EMAIL_INVALID, EMAIL_INVALID, serviceName, fnName);
             return response;
         }
         // if (!user) {
