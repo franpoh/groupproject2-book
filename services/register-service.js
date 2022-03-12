@@ -20,8 +20,8 @@ module.exports = {
             data: null,
         }
 
-        const findUser = Users.findAll({ where: { username: username }});
-        const findEmail = Users.findAll({ where: { email: email }});
+        const findUser = await Users.findAll({ where: { username: username }});
+        const findEmail = await Users.findAll({ where: { email: email }});
 
         console.log("REGISTERSERVICE", findUser, findEmail);
 
