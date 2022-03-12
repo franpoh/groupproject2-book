@@ -3,7 +3,7 @@ const loginService = require("../services/login-service.js");
 
 const Constants = require("../constants/index");
 
-const { errorCatch, validEmail, pwdByteLen } = require("../constants/error-catch");
+const { errorCatch, validEmail, pwdByteLen, infoLog } = require("../constants/error-catch");
 const { fileNameFormat, controllerFnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
@@ -85,12 +85,18 @@ class accessController {
             res.clearCookie('refreshToken', { httpOnly: true, sameSite: "None", secure: true });
             res.clearCookie('accessToken', { httpOnly: true, sameSite: "None", secure: true });
 
-            res.status(200);
-            return res.json({ message: "Logout is successful!" });
+            let result = infoLog("Logout is successful!", serviceName, fnName);
+            return res.status(result.status).json({ message: result.message });
+
+            // res.status(200);
+            // return res.json({ message: "Logout is successful!" });
 
         } catch (err) {
-            res.status(400);
-            return res.json({ message: "Logout is unsuccessful!" });
+            let result = errorCatch(400, "Logout is unsuccessful!", serviceName, fnName);
+            return res.status(result.status).json({ message: result.message });
+
+            // res.status(400);
+            // return res.json({ message: "Logout is unsuccessful!" });
         }
     }
 }
