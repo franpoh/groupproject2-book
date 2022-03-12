@@ -331,9 +331,25 @@ module.exports = {
             }
         })
 
+        if (!byIndex) {
+            result.data = review;
+            result.message = `reviews does not exist for book id:${paramsId}`;
+            result.status = 404;
+
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
+            return result;
+        };
+
+
         if (paramsId === 0) {
             result.data = review;
-            result.message = `reviews retrieved`;
+            result.message = `all reviews for every indexId retrieved`;
             result.status = 200;
 
             formatLogMsg({
@@ -348,7 +364,7 @@ module.exports = {
 
         result.data = byIndex;
         result.status = 200;
-        result.message = `reviews of book index ${paramsId}`
+        result.message = `all reviews of book index ${paramsId} retrieved`
 
         formatLogMsg({
             level: Constants.LEVEL_INFO,
