@@ -39,7 +39,8 @@ const fileNameFormat = function ( a, b ) {
 
 // function name, Answer by VanagaS  Ref: https://stackoverflow.com/questions/280389/how-do-you-find-out-the-caller-function-in-javascript
 const fnNameFormat = function ( data ) {
-    return data.stack.split("\n")[2].trim().split(" ")[1];
+    // return data.stack.split("\n")[2].trim().split(" ")[1];
+    return data;
 };
 
 module.exports = {
