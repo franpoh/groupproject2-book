@@ -2,9 +2,14 @@ const { Users } = require("../connect.js");
 
 const Constants = require("../constants/index");
 const { serviceErrorCatch } = require("../constants/error-catch");
+const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
+const serviceName = fileNameFormat( __filename, __dirname );
 
 module.exports = {
     searchUser: async (username) => {
+
+        let fnName = fnNameFormat();
+
         let result = {
             message: null,
             status: null,
@@ -21,15 +26,20 @@ module.exports = {
         });
 
         // error catching for if nothing is in found user(s) array
-        if (user.length === 0) {
-            result.status = 404;
-            result.message = Constants.USER_NOTFOUND;
-            return result;
-        }
+        serviceErrorCatch(result, user.length === 0, Constants.USER_NOTFOUND, 404, Constants.LEVEL_ERROR, serviceName, fnName);
 
         result.data = user;
         result.status = 200;
         result.message = "User found.";
+
+        // winston logging
+        formatLogMsg({
+            level: Constants.LEVEL_ERROR,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+        
         return result;
     }
 }

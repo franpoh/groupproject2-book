@@ -2,9 +2,7 @@ const { Users, Swap, Reviews } = require("../connect.js");
 
 const Constants = require("../constants/index");
 const { serviceErrorCatch } = require("../constants/error-catch");
-
-const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
-
+const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat( __filename, __dirname );
 
 module.exports = {
@@ -20,8 +18,8 @@ module.exports = {
 
         const user = await Users.findByPk(userId);
 
-        // error catching for if user is not found
-        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404);
+        // error catch - user is not found
+        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404, Constants.LEVEL_ERROR, serviceName, fnName);
 
         // get user's data stored in other tables
         const reviews = await Reviews.findAll({ where: { userId: userId }, include: "Index" });
@@ -38,6 +36,7 @@ module.exports = {
         result.status = 200;
         result.message = "Welcome to your profile!";
 
+        // winston logging
         formatLogMsg({
             level: Constants.LEVEL_INFO,
             serviceName: serviceName,

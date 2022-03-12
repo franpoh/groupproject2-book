@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const Constants = require("../constants/index.js");
-const { serviceErrorCatch } = require("../constants/error-catch");
 
 const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
 const serviceName = fileNameFormat( __filename, __dirname );
@@ -21,33 +20,26 @@ module.exports = {
             data: null,
         }
 
-        // error catching for finding if email exists
         const user = await Users.findOne({ where: { email: email } });
 
-        serviceErrorCatch(result, !user, Constants.EMAIL_INVALID, 400, Constants.LEVEL_ERROR, serviceName, fnName);
+        // error catch - if email is invalid
+        if (!user) {
+            result.message = "You have entered the wrong email.";
+            result.status = 400;
 
-        // const passwordVerification = await bcrypt.compare(password, user.password);
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
 
-        // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
+            return result;
+        }
 
-        
-        // if (!user) {
-        //     result.message = "You have entered the wrong email.";
-        //     result.status = 400;
-
-        //     formatLogMsg({
-        //         level: Constants.LEVEL_ERROR,
-        //         serviceName: serviceName,
-        //         fnName: fnName,
-        //         text: result.message
-        //     });
-
-        //     return result;
-        // }
-
-        // error catching for password verification
         const passwordVerification = await bcrypt.compare(password, user.password);
 
+        // error catch - if password is invalid
         if (!passwordVerification) {
             result.message = "You have entered the wrong password.";
             result.status = 400;
