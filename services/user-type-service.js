@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 
 const Constants = require("../constants/index.js");
 const { errorCatch, infoLog } = require("../constants/error-catch");
-const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
+const { fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
 const { Users } = require("../connect.js");
@@ -11,12 +11,6 @@ module.exports = {
     userType: async (editUserId, type, password, userId) => {
 
         let fnName = fnNameFormat();
-
-        // let result = {
-        //     message: null,
-        //     status: null,
-        //     data: null,
-        // }
 
         let msg = '';
 
@@ -61,18 +55,5 @@ module.exports = {
         let response = infoLog(msg, serviceName, fnName);
         response.data = editUser;
         return response;
-
-        // result.status = 200;
-        // result.data = editUser;
-
-        // // winston logging
-        // formatLogMsg({
-        //     level: Constants.LEVEL_INFO,
-        //     serviceName: serviceName,
-        //     fnName: fnName,
-        //     text: result.message
-        // });
-
-        // return result;
     }
 }

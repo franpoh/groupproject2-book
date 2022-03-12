@@ -2,7 +2,7 @@ const Constants = require("../constants/index.js");
 
 const { ValidationError } = require("sequelize"); // Validation Error is a class item
 const { errorCatch, infoLog } = require("../constants/error-catch");
-const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
+const { fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
 const bcrypt = require("bcrypt");
@@ -14,12 +14,6 @@ module.exports = {
     register: async (email, username, password) => {
 
         let fnName = fnNameFormat();
-
-        // let result = {
-        //     message: null,
-        //     status: null,
-        //     data: null,
-        // }
 
         const findUser = await Users.findAll({ where: { username: username } });
         const findEmail = await Users.findAll({ where: { email: email } });
@@ -54,17 +48,6 @@ module.exports = {
             let response = infoLog("Your registration is successful!", serviceName, fnName);
             return response;
 
-            // result.status = 200;
-            // result.message = "Your registration is successful!";
-
-            // // winston logging
-            // formatLogMsg({
-            //     level: Constants.LEVEL_INFO,
-            //     serviceName: serviceName,
-            //     fnName: fnName,
-            //     text: result.message
-            // });
-
             // return result;
         } catch (error) {
 
@@ -76,10 +59,6 @@ module.exports = {
 
             let response = errorCatch(400, error.errors[0].message, serviceName, fnName);
             return response;
-
-            // result.message = error.errors[0].message;
-            // result.status = 400;
-            // return result;
         }
     }
 }

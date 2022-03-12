@@ -39,8 +39,8 @@ class accountController {
         // checking if there is a new password
         // and if there is, if it meets minimum length
         if (!req.body.newPassword) {
-            let result = errorCatch(400, "There is no new password.", serviceName, fnName);
-            console.log(result.message);
+            infoLog("There is no new password.", serviceName, fnName);
+            
         } else if (checkLength > 72 || req.body.newPassword.length < 5) {
             let result = errorCatch(400, Constants.PASSWORD_CHARS, serviceName, fnName);
             return res.status(result.status).json({ message: result.message });

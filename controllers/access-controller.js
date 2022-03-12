@@ -81,7 +81,7 @@ class accessController {
     async logout(req, res) {
 
         let fnName = controllerFnNameFormat();
-        
+
         try {
             // Web browsers and other compliant clients will only clear the cookie if the given options is identical to those given to res.cookie(), excluding expires and maxAge.
             res.clearCookie('refreshToken', { httpOnly: true, sameSite: "None", secure: true });
@@ -90,15 +90,9 @@ class accessController {
             let result = infoLog("Logout is successful!", serviceName, fnName);
             return res.status(result.status).json({ message: result.message });
 
-            // res.status(200);
-            // return res.json({ message: "Logout is successful!" });
-
         } catch (err) {
             let result = errorCatch(400, "Logout is unsuccessful!", serviceName, fnName);
             return res.status(result.status).json({ message: result.message });
-
-            // res.status(400);
-            // return res.json({ message: "Logout is unsuccessful!" });
         }
     }
 }

@@ -2,23 +2,30 @@ const Constants = require("./index");
 
 const { formatLogMsg } = require("../services/service-logger/log-format");
 
+// checking if email is valid
 function validEmail(email) {
     const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return res.test(String(email).toLowerCase());
 }
 
+// checking password byte length
 function pwdByteLen(pwd) {
     return new TextEncoder().encode(pwd).length
 }
 
+
+
+// ----------- error catching
 function errorCatch(status, msg, serviceName, fnName) {
     let result = {
-        status: null,
-        message: null,
+        status: null, // status code
+        message: null, // message for display and for winston
+        data: null,
     }
 
+    // winston logging
     formatLogMsg({
-        level: Constants.LEVEL_ERROR,
+        level: Constants.LEVEL_ERROR, // default error level
         serviceName: serviceName,
         fnName: fnName,
         text: msg,
@@ -39,26 +46,26 @@ function errorCatch(status, msg, serviceName, fnName) {
 // ----------- for use in services
 // if (error) {
 //     let response = errorCatch(status, msg, serviceName, fnName);
-//     result.message = response.message;
-//     result.status = response.status;
-//     return result;
+//     response.data = data; // this is optional
+//     return response; // response will effectively replace 'result' in services, so you can delete it
 // }
 
-// ----------- for use in services
-// if (error) {
-//     let response = errorCatch(status, msg, serviceName, fnName);
-//     return response;
-// }
+// ----------- can also be used like this
+// let result = errorCatch(status, msg, serviceName, fnName);
+// return <whatever>;
 
+
+
+// ----------- logging info
 function infoLog(msg, serviceName, fnName) {
     let result = {
-        status: null,
-        message: null,
+        status: null, // status code
+        message: null, // message for display and for winston
         data: null,
     }
 
     formatLogMsg({
-        level: Constants.LEVEL_INFO,
+        level: Constants.LEVEL_INFO, // default info level
         serviceName: serviceName,
         fnName: fnName,
         text: msg,
@@ -71,45 +78,16 @@ function infoLog(msg, serviceName, fnName) {
     return result;
 }
 
+// ----------- for use in controllers
+// let result = infoLog(msg, serviceName, fnName);
+// return res.status(result.status).json({ message: result.message, data: result.data });
+
 // ----------- for use in services
 // let response = infoLog(msg, serviceName, fnName);
-// return response;
+// response.data = <data>; // this is optional
+// return response; // response will effectively replace 'result' in services, so you can delete it
 
 
-
-
-
-
-// might mess up the order of some error checking
-// function serviceErrorCatch(status, msg, serviceName, fnName) {
-//     let result = {
-//         status: null,
-//         msg: null,
-//     }
-
-//         formatLogMsg({
-//             level: Constants.LEVEL_ERROR,
-//             serviceName: serviceName,
-//             fnName: fnName,
-//             text: msg,
-//         });
-// }
-
-// if (error) {
-
-//     result.message = Constants.PASSWORD_INVALID;
-//     result.status = 400;
-
-//     // winston logging
-//     formatLogMsg({
-//         level: Constants.LEVEL_ERROR,
-//         serviceName: serviceName,
-//         fnName: fnName,
-//         text: result.message
-//     });
-
-//     return result;
-// }
 
 module.exports = {
     validEmail,

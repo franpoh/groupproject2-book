@@ -5,7 +5,7 @@ const Constants = require("../constants/index");
 
 const { errorCatch, infoLog } = require("../constants/error-catch");
 const { ValidationError } = require("sequelize"); // Validation Error is a class item
-const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
+const { fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
 const { Users } = require("../connect.js");
@@ -14,12 +14,6 @@ module.exports = {
     editProfile: async (userId, email, oldPassword, newPassword) => {
 
         let fnName = fnNameFormat();
-
-        // let result = {
-        //     message: null,
-        //     status: null,
-        //     data: null,
-        // }
 
         const user = await Users.findByPk(userId);
         const findEmail = await Users.findAll({ where: { email: email } });
@@ -65,19 +59,6 @@ module.exports = {
             response.data = JSON.stringify(user);
             return response;
 
-            // result.status = 200;
-            // result.message = newMsg;
-
-            // // winston logging
-            // formatLogMsg({
-            //     level: Constants.LEVEL_INFO,
-            //     serviceName: serviceName,
-            //     fnName: fnName,
-            //     text: result.message
-            // });
-
-            // return result;
-
         } catch (error) {
             // error catching from model validation as backup
             if (error instanceof ValidationError) {
@@ -87,19 +68,6 @@ module.exports = {
 
             let response = errorCatch(400, error.errors[0].message, serviceName, fnName);
             return response;
-
-            // result.message = error.errors[0].message;
-            // result.status = 400;
-
-            // // winston logging
-            // formatLogMsg({
-            //     level: Constants.LEVEL_ERROR,
-            //     serviceName: serviceName,
-            //     fnName: fnName,
-            //     text: result.message
-            // });
-
-            // return result;
         }
     }
 }
