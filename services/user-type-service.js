@@ -1,11 +1,16 @@
 const bcrypt = require("bcrypt");
 const Constants = require("../constants/index.js");
 const { serviceErrorCatch } = require("../constants/error-catch");
+const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
+const serviceName = fileNameFormat( __filename, __dirname );
 
 const { Users } = require("../connect.js");
 
 module.exports = {
     userType: async (editUserId, type, password, userId) => {
+
+        let fnName = fnNameFormat();
+
         let result = {
             message: null,
             status: null,
@@ -18,27 +23,27 @@ module.exports = {
 
         // error catching
 
-        // serviceErrorCatch(result, !adminUser, Constants.USER_NOTFOUND, 404);
-        // serviceErrorCatch(result, !editUser, "Target user not found.", 404);
-        // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
+        serviceErrorCatch(result, !adminUser, Constants.USER_NOTFOUND, 404, Constants.LEVEL_ERROR, serviceName, fnName);
+        serviceErrorCatch(result, !editUser, "Target user not found.", 404, Constants.LEVEL_ERROR, serviceName, fnName);
+        serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400, Constants.LEVEL_ERROR, serviceName, fnName);
 
-        if (!adminUser) {
-            result.message = "User not found. Please try logging in again.";
-            result.status = 404;
-            return result;
-        }
+        // if (!adminUser) {
+        //     result.message = "User not found. Please try logging in again.";
+        //     result.status = 404;
+        //     return result;
+        // }
 
-        if (!editUser) {
-            result.message = "The user that you wish to edit has not been found.";
-            result.status = 404;
-            return result;
-        }
+        // if (!editUser) {
+        //     result.message = "The user that you wish to edit has not been found.";
+        //     result.status = 404;
+        //     return result;
+        // }
 
-        if (!passwordVerification) {
-            result.message = "You have entered the wrong password";
-            result.status = 400;
-            return result;
-        }
+        // if (!passwordVerification) {
+        //     result.message = "You have entered the wrong password";
+        //     result.status = 400;
+        //     return result;
+        // }
 
         // different returns for different user types
         if (type === Constants.USER_BANNED) {
@@ -55,6 +60,15 @@ module.exports = {
         await editUser.save();
         result.status = 200;
         result.data = editUser;
+
+        // winston logging
+        formatLogMsg({
+            level: Constants.LEVEL_ERROR,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+
         return result;
     }
 }
