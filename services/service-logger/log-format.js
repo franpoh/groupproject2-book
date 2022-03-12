@@ -6,7 +6,7 @@ const Constants = require("../../constants/index");
 //     level: Constants.LEVEL_INFO,   or Constants.LEVEL_ERROR
 //     serviceName: serviceName,
 //     fnName: fnName,
-//     text: result.message
+//     text: result.message // res.message if controller
 // }
 // 
 // at head of parent file, const serviceName = fileNameFormat( __filename, __dirname );

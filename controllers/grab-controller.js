@@ -1,17 +1,34 @@
 const grabService = require("../services/grab-service");
 
+const Constants = require("../constants/index.js");
+
+const { formatLogMsg, fileNameFormat, fnNameFormat }= require("../services/service-logger/log-format");
+
+const serviceName = fileNameFormat( __filename, __dirname );
+
 class GrabController {
 
     async grabBook(req, res) {
+
+        let fnName = fnNameFormat(new Error());
 
         // req.body.swapId - for id of specific book in inventory
 
         // if tokenId or swapId missing
         if (!req.userId || !req.body.swapId) {
             res.status(400);
-            return res.json({
+            res.json({
                 message: 'Incomplete data types submitted..'
             });
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: res.message
+            });
+
+            return res;
         };
 
         const loginId = req.userId; // token's userId
