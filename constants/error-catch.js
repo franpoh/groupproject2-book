@@ -1,4 +1,4 @@
-const { formatLogMsg }= require("./service-logger/log-format");
+const { formatLogMsg } = require("../services/service-logger/log-format");
 
 function validEmail(email) {
     const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -9,14 +9,22 @@ function pwdByteLen(pwd) {
     return new TextEncoder().encode(pwd).length
 }
 
-function controlErrorCatch(res, error, msg, status) {
+function controlErrorCatch(res, error, msg, status, level, service, fn) {
     if (error) {
+
+        formatLogMsg({
+            level: Constants.LEVEL_ERROR,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: msg,
+        });
+
         return res.status(status).json({ message: msg });
     }
 }
 
 // might mess up the order of some error checking
-function serviceErrorCatch(res, error, msg, status) {
+function serviceErrorCatch(res, error, msg, status, level, service, fn) {
     if (error) {
         res.status = status;
         res.message = msg;
@@ -25,7 +33,7 @@ function serviceErrorCatch(res, error, msg, status) {
             level: Constants.LEVEL_ERROR,
             serviceName: serviceName,
             fnName: fnName,
-            text: result.message
+            text: msg,
         });
 
         return res;

@@ -13,13 +13,8 @@ const { Users } = require("../connect.js");
 module.exports = {
     editProfile: async (userId, email, oldPassword, newPassword) => {
 
-<<<<<<< HEAD
-        let fnName = fnNameFormat(new Error());
-        
-=======
         let fnName = fnNameFormat();
 
->>>>>>> e707b11ba5429e1b12df828694b0fa0765c805a6
         let result = {
             message: null,
             status: null,
@@ -29,13 +24,16 @@ module.exports = {
         const user = await Users.findByPk(userId);
         const findEmail = await Users.findAll({ where: { email: email }});
 
-        // error catching
-        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404)
-        serviceErrorCatch(result, findEmail, Constants.EMAIL_INUSE, 409)
+        // error catch - if user doesn't exist
+        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404, Constants.LEVEL_ERROR, serviceName, fnName);
 
-        // verify password and catch errors
+        // error catch - if email is in use
+        serviceErrorCatch(result, findEmail, Constants.EMAIL_INUSE, 409, Constants.LEVEL_ERROR, serviceName, fnName);
+
+        // verify password
         const passwordVerification = await bcrypt.compare(oldPassword, user.password);
 
+        // error catch - if password does not exist
         if (!passwordVerification) {
             result.message = Constants.PASSWORD_INVALID;
             result.status = 400;
@@ -80,7 +78,7 @@ module.exports = {
 
         } catch (error) {
             // error catching from model validation as backup
-            serviceErrorCatch(result, error instanceof ValidationError, error.errors[0].message, 400)
+            serviceErrorCatch(result, error instanceof ValidationError, error.errors[0].message, 400, Constants.LEVEL_ERROR, serviceName, fnName)
             
             result.message = error.errors[0].message;
             result.status = 400;

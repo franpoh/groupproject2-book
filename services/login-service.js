@@ -24,26 +24,26 @@ module.exports = {
         // error catching for finding if email exists
         const user = await Users.findOne({ where: { email: email } });
 
-        // serviceErrorCatch(result, !user, Constants.EMAIL_INVALID, 400);
+        serviceErrorCatch(result, !user, Constants.EMAIL_INVALID, 400, Constants.LEVEL_ERROR, serviceName, fnName);
 
         // const passwordVerification = await bcrypt.compare(password, user.password);
 
         // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400);
 
         
-        if (!user) {
-            result.message = "You have entered the wrong email.";
-            result.status = 400;
+        // if (!user) {
+        //     result.message = "You have entered the wrong email.";
+        //     result.status = 400;
 
-            formatLogMsg({
-                level: Constants.LEVEL_ERROR,
-                serviceName: serviceName,
-                fnName: fnName,
-                text: result.message
-            });
+        //     formatLogMsg({
+        //         level: Constants.LEVEL_ERROR,
+        //         serviceName: serviceName,
+        //         fnName: fnName,
+        //         text: result.message
+        //     });
 
-            return result;
-        }
+        //     return result;
+        // }
 
         // error catching for password verification
         const passwordVerification = await bcrypt.compare(password, user.password);
