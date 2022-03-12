@@ -33,7 +33,7 @@ module.exports = {
         }
 
         // error catch - if email is in use
-        if (findEmail) {
+        if (findEmail >= 1) {
             let response = errorCatch(409, Constants.EMAIL_INUSE, serviceName, fnName);
             return response;
         }
