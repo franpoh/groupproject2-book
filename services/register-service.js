@@ -2,7 +2,7 @@ const { ValidationError } = require("sequelize"); // Validation Error is a class
 const Constants = require("../constants/index.js");
 const { serviceErrorCatch } = require("../constants/error-catch");
 const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
-const serviceName = fileNameFormat( __filename, __dirname );
+const serviceName = fileNameFormat(__filename, __dirname);
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -20,16 +20,22 @@ module.exports = {
             data: null,
         }
 
-        const findUser = await Users.findAll({ where: { username: username }});
-        const findEmail = await Users.findAll({ where: { email: email }});
+        const findUser = await Users.findAll({ where: { username: username } });
+        const findEmail = await Users.findAll({ where: { email: email } });
 
         console.log("REGISTERSERVICE", findUser, findEmail);
 
         // Error catch - username already in use
-        serviceErrorCatch(result, findUser, Constants.USER_INUSE, 409, Constants.LEVEL_ERROR, serviceName, fnName);
+        serviceErrorCatch(
+            result, findUser.length === 0, Constants.USER_INUSE, 409,
+            Constants.LEVEL_ERROR, serviceName, fnName
+        );
 
         // error catch - email already in use
-        serviceErrorCatch(result, findEmail, Constants.EMAIL_INUSE, 409, Constants.LEVEL_ERROR, serviceName, fnName);
+        serviceErrorCatch(
+            result, findEmail.length === 0, Constants.EMAIL_INUSE, 409,
+            Constants.LEVEL_ERROR, serviceName, fnName
+        );
 
         // try/catch function for catching Validation Errors specified in models
         try {
@@ -37,10 +43,10 @@ module.exports = {
             const hash = bcrypt.hashSync(password, saltRounds);
 
             // validation error is caught during Users.create, as it is being pointed to the columns
-            const user = await Users.create({ 
-                email: email, 
-                username: username, 
-                password: hash, 
+            const user = await Users.create({
+                email: email,
+                username: username,
+                password: hash,
                 type: Constants.USER_USER,
                 imageURL: "https://i.pinimg.com/736x/2d/cf/63/2dcf63c23e359dd5fec6ced32d4d8805.jpg"
             });
@@ -60,7 +66,10 @@ module.exports = {
         } catch (error) {
 
             // Check whether an object (error) is an instance of a specific class (ValidationError)
-            serviceErrorCatch(result, error instanceof ValidationError, error.errors[0].message, 400, Constants.LEVEL_ERROR, serviceName, fnName);
+            serviceErrorCatch(
+                result, error instanceof ValidationError, error.errors[0].message, 400, 
+                Constants.LEVEL_ERROR, serviceName, fnName
+            );
 
             result.message = error.errors[0].message;
             result.status = 400;
