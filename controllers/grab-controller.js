@@ -10,7 +10,8 @@ class GrabController {
 
     async grabBook(req, res) {
 
-        let fnName = fnNameFormat(new Error());
+        // let fnName = fnNameFormat(new Error());
+        let fnName = this.name;
 
         // req.body.swapId - for id of specific book in inventory
 
