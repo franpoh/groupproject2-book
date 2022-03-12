@@ -10,6 +10,11 @@ function pwdByteLen(pwd) {
 }
 
 function controlErrorCatch(res, error, msg, status, level, service, fn) {
+    const result = {
+        status = null,
+        msg = null,
+    }
+
     if (error) {
 
         formatLogMsg({
@@ -19,9 +24,11 @@ function controlErrorCatch(res, error, msg, status, level, service, fn) {
             text: msg,
         });
 
-        return res.status(status).json({ message: msg });
+        result.status = status;
+        result.msg = msg;
+        // return res.status(status).json({ message: msg });
     }
-    return res;
+    return res.status(result.status).json({ message: result.msg });
 }
 
 // might mess up the order of some error checking
