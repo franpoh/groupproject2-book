@@ -23,6 +23,8 @@ module.exports = {
         const findUser = Users.findAll({ where: { username: username }});
         const findEmail = Users.findAll({ where: { email: email }});
 
+        console.log("REGISTERSERVICE", findUser, findEmail);
+
         // Error catch - username already in use
         serviceErrorCatch(result, findUser, Constants.USER_INUSE, 409, Constants.LEVEL_ERROR, serviceName, fnName);
 
