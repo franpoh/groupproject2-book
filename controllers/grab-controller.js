@@ -59,7 +59,7 @@ class GrabController {
 
         
         formatLogMsg({
-            level: Constants.LEVEL_ERROR,
+            level: (result.status == 200 ? Constants.LEVEL_INFO : Constants.LEVEL_ERROR),
             serviceName: serviceName,
             fnName: fnName,
             text: result.message // info only
