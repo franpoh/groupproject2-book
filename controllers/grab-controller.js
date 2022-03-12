@@ -26,7 +26,7 @@ class GrabController {
                 level: Constants.LEVEL_ERROR,
                 serviceName: serviceName,
                 fnName: fnName,
-                text: res.message
+                text: res.json(message)
             });
 
             return res;

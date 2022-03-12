@@ -42,6 +42,8 @@ const fnNameFormat = function ( data ) {
     return data.stack.split("\n")[2].trim().split(" ")[1];
 };
 
+
+// function name within class, location in error stack is different, inspired by Answer and dicussion by georg Ref: https://stackoverflow.com/questions/38435450/get-current-function-name-in-strict-mode/38435618#38435618
 const controllerFnNameFormat = function ( data ) {
     return data.stack.split("\n")[1].trim().split(" ")[1];
 };
