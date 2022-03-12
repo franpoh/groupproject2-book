@@ -13,9 +13,9 @@ function controlErrorCatch(res, error, msg, status, level, service, fn) {
     if (error) {
 
         formatLogMsg({
-            level: Constants.LEVEL_ERROR,
-            serviceName: serviceName,
-            fnName: fnName,
+            level: level,
+            serviceName: service,
+            fnName: fn,
             text: msg,
         });
 
@@ -30,9 +30,9 @@ function serviceErrorCatch(res, error, msg, status, level, service, fn) {
         res.message = msg;
 
         formatLogMsg({
-            level: Constants.LEVEL_ERROR,
-            serviceName: serviceName,
-            fnName: fnName,
+            level: level,
+            serviceName: service,
+            fnName: fn,
             text: msg,
         });
 
