@@ -82,7 +82,7 @@ module.exports = {
             },
         });
 
-        if (book != submittedIndexId) {
+        if (book.length === 0) {
             result.message = `Book ID ${submittedIndexId} is not found..`;
             result.status = 404;
 
