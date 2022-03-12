@@ -64,7 +64,7 @@ module.exports = {
 
         // winston logging
         formatLogMsg({
-            level: Constants.LEVEL_ERROR,
+            level: Constants.LEVEL_INFO,
             serviceName: serviceName,
             fnName: fnName,
             text: result.message
