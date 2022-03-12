@@ -1,16 +1,23 @@
 const viewProfileService = require("../services/view-profile-service");
 const editProfileService = require("../services/edit-profile-service")
+
 const Constants = require("../constants/index");
 const { controlErrorCatch, validEmail, pwdByteLen } = require("../constants/error-catch");
+const { formatLogMsg, fileNameFormat, controllerFnNameFormat }= require("../services/service-logger/log-format");
+const serviceName = fileNameFormat( __filename, __dirname );
 
 class accountController {
     async viewProfile(req, res) {
+
+        let fnName = controllerFnNameFormat();
 
         const result = await viewProfileService.viewProfile(req.userId); // using values passed from jwt authentication middleware
         return res.status(result.status).json({ data: result.data, message: result.message });
     }
 
     async editProfile(req, res) {
+
+        let fnName = controllerFnNameFormat();
 
         // Checking byte length of password
         let checkLength = pwdByteLen(req.body.newPassword);

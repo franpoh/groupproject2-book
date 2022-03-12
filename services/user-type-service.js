@@ -21,26 +21,15 @@ module.exports = {
         const adminUser = await Users.findByPk(userId);
         const editUser = await Users.findOne({ where: { userId: editUserId } });
 
-        // error catching
-
+        // error catch - if your user is not found
         serviceErrorCatch(result, !adminUser, Constants.USER_NOTFOUND, 404, Constants.LEVEL_ERROR, serviceName, fnName);
+
+        // error catch - if user you wish to edit is not found
         serviceErrorCatch(result, !editUser, "Target user not found.", 404, Constants.LEVEL_ERROR, serviceName, fnName);
-        // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400, Constants.LEVEL_ERROR, serviceName, fnName);
-
-        // if (!adminUser) {
-        //     result.message = "User not found. Please try logging in again.";
-        //     result.status = 404;
-        //     return result;
-        // }
-
-        // if (!editUser) {
-        //     result.message = "The user that you wish to edit has not been found.";
-        //     result.status = 404;
-        //     return result;
-        // }
 
         const passwordVerification = await bcrypt.compare(password, adminUser.password);
-        
+
+        // error catch - if password is not verified
         if (!passwordVerification) {
             result.message = "You have entered the wrong password";
             result.status = 400;

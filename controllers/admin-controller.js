@@ -4,9 +4,13 @@ const searchUserService = require("../services/search-user-service");
 
 const Constants = require("../constants/index");
 const { controlErrorCatch } = require("../constants/error-catch");
+const { formatLogMsg, fileNameFormat, controllerFnNameFormat }= require("../services/service-logger/log-format");
+const serviceName = fileNameFormat( __filename, __dirname );
 
 class AdminController {
     async userType(req, res) {
+
+        let fnName = controllerFnNameFormat();
 
         // getting userTypes for use in comparisons
         const userTypes = [Constants.USER_USER, Constants.USER_ADMIN, Constants.USER_BANNED];
@@ -35,12 +39,16 @@ class AdminController {
 
     async viewUsers(req, res) {
 
+        let fnName = controllerFnNameFormat();
+
         const result = await viewUsersService.viewUsers();
         return res.status(result.status).json({ data: result.data, message: result.message });
     }
 
     // unused function that may be implemented in the future
     async searchUser(req, res) {
+
+        let fnName = controllerFnNameFormat();
 
         const result = await searchUserService.searchUser(req.body.username.toString());
         return res.status(result.status).json({ data: result.data, message: result.message });
