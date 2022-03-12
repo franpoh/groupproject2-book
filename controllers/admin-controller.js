@@ -8,7 +8,11 @@ const { errorCatch } = require("../constants/error-catch");
 const { fileNameFormat, controllerFnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat( __filename, __dirname );
 
+
+
 class AdminController {
+
+    // ----------------------------------------- EDIT USER TYPE
     async userType(req, res) {
 
         let fnName = controllerFnNameFormat();
@@ -38,12 +42,14 @@ class AdminController {
         return res.status(result.status).json({ data: result.data, message: result.message });
     }
 
+    // ----------------------------------------- VIEW ALL USERS
     async viewUsers(req, res) {
 
         const result = await viewUsersService.viewUsers();
         return res.status(result.status).json({ data: result.data, message: result.message });
     }
 
+    // ----------------------------------------- SEARCH FOR A USER
     // unused function that may be implemented in the future
     async searchUser(req, res) {
 

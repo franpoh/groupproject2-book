@@ -11,11 +11,15 @@ const serviceName = fileNameFormat(__filename, __dirname);
 const { Users } = require("../connect.js");
 const { EMAIL_INVALID } = require('../constants/index.js');
 
+
+
 module.exports = {
+    
     login: async (email, password) => {
 
         let fnName = fnNameFormat();
 
+        // use email to find matching user in user table
         const user = await Users.findOne({ where: { email: email } });
 
         // error catch - if email is invalid
@@ -24,6 +28,7 @@ module.exports = {
             return response;
         }
 
+        // verify password
         const passwordVerification = await bcrypt.compare(password, user.password);
 
         // error catch - if password is invalid

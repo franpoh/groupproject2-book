@@ -10,12 +10,18 @@ const saltRounds = 10;
 
 const { Users } = require("../connect.js");
 
+
+
 module.exports = {
+    
     register: async (email, username, password) => {
 
         let fnName = fnNameFormat();
 
+        // use username to find all matching users in user table
         const findUser = await Users.findAll({ where: { username: username } });
+
+        // use email to find all matching users in user table
         const findEmail = await Users.findAll({ where: { email: email } });
 
         // Error catch - username already in use
@@ -48,15 +54,15 @@ module.exports = {
             let response = infoLog("Your registration is successful!", serviceName, fnName);
             return response;
 
-            // return result;
         } catch (error) {
 
-            // Check whether an object (error) is an instance of a specific class (ValidationError)
+            // error catch - Check whether an object (error) is an instance of a specific class (ValidationError)
             if (error instanceof ValidationError) {
                 let response = errorCatch(400, error.errors[0].message, serviceName, fnName);
                 return response;
             }
 
+            // error catch - all other errors
             let response = errorCatch(400, error.errors[0].message, serviceName, fnName);
             return response;
         }

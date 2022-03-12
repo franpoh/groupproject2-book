@@ -5,11 +5,15 @@ const { errorCatch, infoLog } = require("../constants/error-catch");
 const { fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
+
+
 module.exports = {
+    
     viewProfile: async (userId) => {
 
         let fnName = fnNameFormat();
 
+        // use user id to find user in user table
         const user = await Users.findByPk(userId);
 
         // error catch - user is not found
@@ -18,9 +22,13 @@ module.exports = {
             return response;
         }
 
-        // get user's data stored in other tables
+        // use user id to find user's reviews in review table
         const reviews = await Reviews.findAll({ where: { userId: userId }, include: "Index" });
+
+        // use user id to find user's uploaded books in swap table
         const swap = await Swap.findAll({ where: { userId: userId }, include: "Index" });
+
+        // use user id to find user's purchased books in swap table
         const purchaseHistory = await Swap.findAll({ where: { purchasedId: userId }, include: "Index" });
 
         // infolog

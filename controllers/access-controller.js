@@ -7,7 +7,11 @@ const { errorCatch, validEmail, pwdByteLen, infoLog } = require("../constants/er
 const { fileNameFormat, controllerFnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
+
+
 class accessController {
+
+    // ----------------------------------------- REGISTER
     async register(req, res) {
 
         let fnName = controllerFnNameFormat();
@@ -48,6 +52,7 @@ class accessController {
         return res.status(result.status).json({ message: result.message });
     }
 
+    // ----------------------------------------- LOGIN
     async login(req, res) {
 
         let fnName = controllerFnNameFormat();
@@ -68,9 +73,10 @@ class accessController {
 
         if (result.status == 200) {
 
-            // Inserting cookies for access and refresh token 
+            // Inserting cookies for jwt access and refresh token 
             res.cookie(Constants.REFRESH_TOKEN, result.data.refreshToken, { httpOnly: true, sameSite: "None", secure: true });
             res.cookie(Constants.ACCESS_TOKEN, result.data.accessToken, { httpOnly: true, sameSite: "None", secure: true });
+
             return res.status(result.status).json({ message: result.message, data: result.data.userType });
 
         } else if (result.status == 400) {
@@ -78,6 +84,7 @@ class accessController {
         }
     }
 
+    // ----------------------------------------- LOGOUT
     async logout(req, res) {
 
         let fnName = controllerFnNameFormat();

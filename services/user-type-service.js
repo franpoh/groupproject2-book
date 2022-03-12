@@ -7,14 +7,20 @@ const serviceName = fileNameFormat(__filename, __dirname);
 
 const { Users } = require("../connect.js");
 
+
+
 module.exports = {
+    
     userType: async (editUserId, type, password, userId) => {
 
         let fnName = fnNameFormat();
 
         let msg = '';
 
+        // use userid to find user in user table, for admin user side
         const adminUser = await Users.findByPk(userId);
+
+        // use user id to find user in user table, for edit user side
         const editUser = await Users.findOne({ where: { userId: editUserId } });
 
         // error catch - if your user is not found
@@ -29,6 +35,7 @@ module.exports = {
             return response;
         }
 
+        // verify password
         const passwordVerification = await bcrypt.compare(password, adminUser.password);
 
         // error catch - if password is not verified
@@ -49,6 +56,7 @@ module.exports = {
             msg = `User has been set to '${Constants.USER_ADMIN}'.`;
         }
 
+        // save information in previously defined edit user
         await editUser.save();
 
         // infolog

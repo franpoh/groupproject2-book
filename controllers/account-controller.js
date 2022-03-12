@@ -7,13 +7,18 @@ const { errorCatch, validEmail, pwdByteLen } = require("../constants/error-catch
 const { fileNameFormat, controllerFnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat( __filename, __dirname );
 
+
+
 class accountController {
+
+    // ----------------------------------------- VIEW PROFILE
     async viewProfile(req, res) {
 
         const result = await viewProfileService.viewProfile(req.userId); // using values passed from jwt authentication middleware
         return res.status(result.status).json({ data: result.data, message: result.message });
     }
 
+    // ----------------------------------------- EDIT PROFILE
     async editProfile(req, res) {
 
         let fnName = controllerFnNameFormat();

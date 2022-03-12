@@ -2,20 +2,22 @@ const Constants = require("./index");
 
 const { formatLogMsg } = require("../services/service-logger/log-format");
 
-// checking if email is valid
+
+
+// ----------------------------------------- CHECK IF EMAIL IS VALID
 function validEmail(email) {
     const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return res.test(String(email).toLowerCase());
 }
 
-// checking password byte length
+// ----------------------------------------- CHECK PASSWORD BYTE LENGTH
 function pwdByteLen(pwd) {
     return new TextEncoder().encode(pwd).length
 }
 
 
 
-// ----------- error catching
+// ----------------------------------------- ERROR CATCHING
 function errorCatch(status, msg, serviceName, fnName) {
     let result = {
         status: null, // status code
@@ -56,7 +58,7 @@ function errorCatch(status, msg, serviceName, fnName) {
 
 
 
-// ----------- logging info
+// ----------------------------------------- INFO CATCHING
 function infoLog(msg, serviceName, fnName) {
     let result = {
         status: null, // status code

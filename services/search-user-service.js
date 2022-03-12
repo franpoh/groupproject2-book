@@ -5,11 +5,16 @@ const { errorCatch, infoLog } = require("../constants/error-catch");
 const { fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
+
+
 module.exports = {
+    
     searchUser: async (username) => {
 
         let fnName = fnNameFormat();
 
+        // use username to find all matching users in user table
+        // however, omit data defined in attributes in the return
         const user = await Users.findAll({
             where:
                 { username: username },

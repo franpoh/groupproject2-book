@@ -10,15 +10,19 @@ const serviceName = fileNameFormat(__filename, __dirname);
 
 const { Users } = require("../connect.js");
 
+
+
 module.exports = {
+
     editProfile: async (userId, email, oldPassword, newPassword) => {
 
         let fnName = fnNameFormat();
 
+        // use userid to find user in user table
         const user = await Users.findByPk(userId);
-        const findEmail = await Users.findAll({ where: { email: email } });
 
-        console.log("EDIT PROFILE", findEmail);
+        // use email to find matching user in user table
+        const findEmail = await Users.findAll({ where: { email: email } });
 
         // error catch - if user doesn't exist
         if (!user) {
@@ -60,12 +64,13 @@ module.exports = {
             return response;
 
         } catch (error) {
-            // error catching from model validation as backup
+            // error catch - model validation
             if (error instanceof ValidationError) {
                 let response = errorCatch(400, error.errors[0].message, serviceName, fnName);
                 return response;
             }
 
+            // error catch - all other errors
             let response = errorCatch(400, error.errors[0].message, serviceName, fnName);
             return response;
         }

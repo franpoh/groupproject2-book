@@ -4,11 +4,16 @@ const { errorCatch, infoLog } = require("../constants/error-catch");
 const { fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
+
+
 module.exports = {
+    
     viewUsers: async () => {
 
         let fnName = fnNameFormat();
 
+        // find all users in user table
+        // however, omit data defined in attributes in the return
         const users = await Users.findAll({
             attributes: {
                 exclude:

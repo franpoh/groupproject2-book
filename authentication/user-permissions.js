@@ -6,6 +6,9 @@ const { errorCatch, infoLog } = require("../constants/error-catch");
 const { fileNameFormat, fnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
+
+
+// ----------------------------------------- DEFINING USER / BANNED ACCESS
 async function protectedPermission(req, res, next) {
 
     let fnName = fnNameFormat();
@@ -23,6 +26,7 @@ async function protectedPermission(req, res, next) {
     }
 }
 
+// ----------------------------------------- DEFINING ADMIN ACCESS
 async function adminPermission(req, res, next) {
 
     let fnName = fnNameFormat();
