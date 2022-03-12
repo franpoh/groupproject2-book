@@ -2,8 +2,9 @@ const registerService = require("../services/register-service.js");
 const loginService = require("../services/login-service.js");
 
 const Constants = require("../constants/index");
-const { controlErrorCatch, validEmail, pwdByteLen, testErrorCatch } = require("../constants/error-catch");
-const { formatLogMsg, fileNameFormat, controllerFnNameFormat } = require("../services/service-logger/log-format");
+
+const { errorCatch, validEmail, pwdByteLen } = require("../constants/error-catch");
+const { fileNameFormat, controllerFnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
 class accessController {
@@ -19,40 +20,28 @@ class accessController {
         let vEmail = validEmail(req.body.email);
 
         // error catch - email is invalid
-        controlErrorCatch(
-            res, !vEmail, Constants.EMAIL_INVALID, 400,
-            Constants.LEVEL_ERROR, serviceName, fnName
-        );
+        if (!vEmail) {
+            let result = errorCatch(400, Constants.EMAIL_INVALID, serviceName, fnName);
+            return res.status(result.status).json({ message: result.message });
+        }
 
-        // error catch - password/username/email is invalid
-        controlErrorCatch(
-            res, !req.body.password || !req.body.username || !req.body.email,
-            Constants.GENERAL_INVALID, 400, Constants.LEVEL_ERROR, serviceName, fnName
-        );
+        // error catch - password/username/email is invalid (not filled in)
+        if (!req.body.password || !req.body.username || !req.body.email) {
+            let result = errorCatch(400, Constants.GENERAL_INVALID, serviceName, fnName);
+            return res.status(result.status).json({ message: result.message });
+        }
 
         // error catch - password is too long/short
-        controlErrorCatch(
-            res, checkLength > 72 || req.body.password.length < 5, Constants.PASSWORD_CHARS, 400,
-            Constants.LEVEL_ERROR, serviceName, fnName
-        );
+        if (checkLength > 72 || req.body.password.length < 5) {
+            let result = errorCatch(400, Constants.PASSWORD_CHARS, serviceName, fnName);
+            return res.status(result.status).json({ message: result.message });
+        }
 
         // error catch - username is too long/short
         if (req.body.username.length < 3 || req.body.username.length > 10) {
-            let result = testErrorCatch(400, Constants.USER_CHARS, Constants.LEVEL_ERROR, serviceName, fnName);
-            return res.status(result.status).json({ message: result.msg });
+            let result = errorCatch(400, Constants.USER_CHARS, serviceName, fnName);
+            return res.status(result.status).json({ message: result.message });
         }
-
-        // if (req.body.username.length < 3 || req.body.username.length > 10) {
-
-        //     formatLogMsg({
-        //         level: Constants.LEVEL_ERROR,
-        //         serviceName: serviceName,
-        //         fnName: fnName,
-        //         text: Constants.USER_CHARS,
-        //     });
-    
-        //     return res.status(400).json({ message: Constants.USER_CHARS });
-        // }
 
         const result = await registerService.register(req.body.email.toString(), req.body.username.toString(), req.body.password.toString());
 
@@ -64,16 +53,16 @@ class accessController {
         let fnName = controllerFnNameFormat();
 
         // error catch - email is invalid
-        controlErrorCatch(
-            res, !req.body.email, Constants.EMAIL_INVALID, 400,
-            Constants.LEVEL_ERROR, serviceName, fnName
-        );
+        if (!req.body.email) {
+            let result = errorCatch(400, Constants.EMAIL_INVALID, serviceName, fnName);
+            return res.status(result.status).json({ message: result.message });
+        }
 
         // error catch - password is invalid
-        controlErrorCatch(
-            res, !req.body.password, Constants.PASSWORD_INVALID, 400,
-            Constants.LEVEL_ERROR, serviceName, fnName
-        );
+        if (!req.body.password) {
+            let result = errorCatch(400, Constants.PASSWORD_INVALID, serviceName, fnName);
+            return res.status(result.status).json({ message: result.message });
+        }
 
         const result = await loginService.login(req.body.email.toString(), req.body.password.toString());
 

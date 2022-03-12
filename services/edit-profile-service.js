@@ -2,10 +2,11 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const Constants = require("../constants/index");
-const { serviceErrorCatch } = require("../constants/error-catch");
+
+const { errorCatch, infoLog } = require("../constants/error-catch");
 const { ValidationError } = require("sequelize"); // Validation Error is a class item
 const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
-const serviceName = fileNameFormat( __filename, __dirname );
+const serviceName = fileNameFormat(__filename, __dirname);
 
 const { Users } = require("../connect.js");
 
@@ -14,38 +15,34 @@ module.exports = {
 
         let fnName = fnNameFormat();
 
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
+        // let result = {
+        //     message: null,
+        //     status: null,
+        //     data: null,
+        // }
 
         const user = await Users.findByPk(userId);
-        const findEmail = await Users.findAll({ where: { email: email }});
+        const findEmail = await Users.findAll({ where: { email: email } });
 
         // error catch - if user doesn't exist
-        serviceErrorCatch(result, !user, Constants.USER_NOTFOUND, 404, Constants.LEVEL_ERROR, serviceName, fnName);
+        if (!user) {
+            let response = errorCatch(404, Constants.LEVEL_ERROR, serviceName, fnName);
+            return response;
+        }
 
         // error catch - if email is in use
-        serviceErrorCatch(result, findEmail, Constants.EMAIL_INUSE, 409, Constants.LEVEL_ERROR, serviceName, fnName);
+        if (findEmail) {
+            let response = errorCatch(409, Constants.EMAIL_INUSE, serviceName, fnName);
+            return response;
+        }
 
         // verify password
         const passwordVerification = await bcrypt.compare(oldPassword, user.password);
 
         // error catch - if password does not exist
         if (!passwordVerification) {
-            result.message = Constants.PASSWORD_INVALID;
-            result.status = 400;
-
-            // winston logging
-            formatLogMsg({
-                level: Constants.LEVEL_ERROR,
-                serviceName: serviceName,
-                fnName: fnName,
-                text: result.message
-            });
-
-            return result;
+            let response = errorCatch(400, Constants.PASSWORD_INVALID, serviceName, fnName);
+            return response;
         }
 
         try {
@@ -61,36 +58,46 @@ module.exports = {
             user.password = newPwd;
             await user.save();
 
-            result.status = 200;
-            result.data = JSON.stringify(user);
-            result.message = newMsg;
+            // infolog
+            let response = infoLog(newMsg, serviceName, fnName);
+            response.data = JSON.stringify(user);
+            return response;
 
-            // winston logging
-            formatLogMsg({
-                level: Constants.LEVEL_INFO,
-                serviceName: serviceName,
-                fnName: fnName,
-                text: result.message
-            });
+            // result.status = 200;
+            // result.message = newMsg;
 
-            return result;
+            // // winston logging
+            // formatLogMsg({
+            //     level: Constants.LEVEL_INFO,
+            //     serviceName: serviceName,
+            //     fnName: fnName,
+            //     text: result.message
+            // });
+
+            // return result;
 
         } catch (error) {
             // error catching from model validation as backup
-            serviceErrorCatch(result, error instanceof ValidationError, error.errors[0].message, 400, Constants.LEVEL_ERROR, serviceName, fnName)
-            
-            result.message = error.errors[0].message;
-            result.status = 400;
+            if (error instanceof ValidationError) {
+                let response = errorCatch(400, error.errors[0].message, serviceName, fnName);
+                return response;
+            }
 
-            // winston logging
-            formatLogMsg({
-                level: Constants.LEVEL_ERROR,
-                serviceName: serviceName,
-                fnName: fnName,
-                text: result.message
-            });
-            
-            return result;
+            let response = errorCatch(400, error.errors[0].message, serviceName, fnName);
+            return response;
+
+            // result.message = error.errors[0].message;
+            // result.status = 400;
+
+            // // winston logging
+            // formatLogMsg({
+            //     level: Constants.LEVEL_ERROR,
+            //     serviceName: serviceName,
+            //     fnName: fnName,
+            //     text: result.message
+            // });
+
+            // return result;
         }
     }
 }

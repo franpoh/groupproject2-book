@@ -1,3 +1,5 @@
+const Constants = require("./index");
+
 const { formatLogMsg } = require("../services/service-logger/log-format");
 
 function validEmail(email) {
@@ -9,67 +11,109 @@ function pwdByteLen(pwd) {
     return new TextEncoder().encode(pwd).length
 }
 
-function controlErrorCatch(res, error, msg, status, level, service, fn) {
-    if (error) {
-
-        formatLogMsg({
-            level: level,
-            serviceName: service,
-            fnName: fn,
-            text: msg,
-        });
-
-        result.status = status;
-        result.msg = msg;
-        return res.status(status).json({ message: msg });
-    }
-}
-
-function testErrorCatch(status, msg, level, serviceName, fnName) {
+function errorCatch(status, msg, serviceName, fnName) {
     let result = {
         status: null,
-        msg: null,
+        message: null,
     }
 
     formatLogMsg({
-        level: level,
+        level: Constants.LEVEL_ERROR,
         serviceName: serviceName,
         fnName: fnName,
         text: msg,
     });
 
     result.status = status;
-    result.msg = msg;
+    result.message = msg;
 
     return result;
 }
 
+// ----------- for use in controllers
 // if (error) {
-//     let result = testErrorCatch(msg, status, level, service, fn);
-//     return res.status(result.status).json({ message: result.msg });
+//     let result = errorCatch(status, msg, serviceName, fnName);
+//     return res.status(result.status).json({ message: result.message });
 // }
 
-// might mess up the order of some error checking
-function serviceErrorCatch(res, error, msg, status, level, service, fn) {
-    if (error) {
-        res.status = status;
-        res.message = msg;
+// ----------- for use in services
+// if (error) {
+//     let response = errorCatch(status, msg, serviceName, fnName);
+//     result.message = response.message;
+//     result.status = response.status;
+//     return result;
+// }
 
-        formatLogMsg({
-            level: level,
-            serviceName: service,
-            fnName: fn,
-            text: msg,
-        });
+// ----------- for use in services
+// if (error) {
+//     let response = errorCatch(status, msg, serviceName, fnName);
+//     return response;
+// }
 
-        return res;
+function infoLog(msg, serviceName, fnName) {
+    let result = {
+        status: null,
+        message: null,
+        data: null,
     }
+
+    formatLogMsg({
+        level: Constants.LEVEL_INFO,
+        serviceName: serviceName,
+        fnName: fnName,
+        text: msg,
+    });
+
+    result.status = 200;
+    result.message = msg;
+    result.data = null;
+
+    return result;
 }
+
+// ----------- for use in services
+// let response = infoLog(msg, serviceName, fnName);
+// return response;
+
+
+
+
+
+
+// might mess up the order of some error checking
+// function serviceErrorCatch(status, msg, serviceName, fnName) {
+//     let result = {
+//         status: null,
+//         msg: null,
+//     }
+
+//         formatLogMsg({
+//             level: Constants.LEVEL_ERROR,
+//             serviceName: serviceName,
+//             fnName: fnName,
+//             text: msg,
+//         });
+// }
+
+// if (error) {
+
+//     result.message = Constants.PASSWORD_INVALID;
+//     result.status = 400;
+
+//     // winston logging
+//     formatLogMsg({
+//         level: Constants.LEVEL_ERROR,
+//         serviceName: serviceName,
+//         fnName: fnName,
+//         text: result.message
+//     });
+
+//     return result;
+// }
 
 module.exports = {
     validEmail,
-    controlErrorCatch,
-    serviceErrorCatch,
+    errorCatch,
     pwdByteLen,
-    testErrorCatch,
+    infoLog,
 }

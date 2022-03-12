@@ -1,42 +1,50 @@
 const { Users } = require("../connect.js");
 
 const Constants = require("../constants/index.js");
-const { serviceErrorCatch } = require("../constants/error-catch");
+const { errorCatch, infoLog } = require("../constants/error-catch");
 const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
-const serviceName = fileNameFormat( __filename, __dirname );
+const serviceName = fileNameFormat(__filename, __dirname);
 
 module.exports = {
     viewUsers: async () => {
 
         let fnName = fnNameFormat();
 
-        let result = {
-            message: null,
-            status: null,
-            data: null,
-        }
+        // let result = {
+        //     message: null,
+        //     status: null,
+        //     data: null,
+        // }
 
-        const users = await Users.findAll({ 
-            attributes: { exclude: 
-                ['password', 'wishlist', 'imageURL', 'updatedAt'] 
-            } 
+        const users = await Users.findAll({
+            attributes: {
+                exclude:
+                    ['password', 'wishlist', 'imageURL', 'updatedAt']
+            }
         });
 
         // error catch - no users are found
-        serviceErrorCatch(result, !users, "Users not found", 404, Constants.LEVEL_ERROR, serviceName, fnName);
+        if (!users || users.length === 0) {
+            let response = errorCatch(404, "Users not found", serviceName, fnName);
+            return response;
+        }
 
-        result.data = users;
-        result.status = 200;
-        result.message = "All users in database.";
+        let response = infoLog("All users in database.", serviceName, fnName);
+        response.data = users;
+        return response;
 
-        // winston logging
-        formatLogMsg({
-            level: Constants.LEVEL_INFO,
-            serviceName: serviceName,
-            fnName: fnName,
-            text: result.message
-        });
+        // result.data = users;
+        // result.status = 200;
+        // result.message = "All users in database.";
 
-        return result;
+        // // winston logging
+        // formatLogMsg({
+        //     level: Constants.LEVEL_INFO,
+        //     serviceName: serviceName,
+        //     fnName: fnName,
+        //     text: result.message
+        // });
+
+        // return result;
     }
 }
