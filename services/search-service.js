@@ -200,7 +200,7 @@ module.exports = {
 
         const index = await Index.findAll();
 
-        if (!index) {
+        if (index.length === 0) {
             result.message = `Index data not found in database`;
             result.status = 404;
 
