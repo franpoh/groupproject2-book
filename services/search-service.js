@@ -337,22 +337,7 @@ module.exports = {
             result.status = 404;
 
             formatLogMsg({
-                level: Constants.LEVEL_INFO,
-                serviceName: serviceName,
-                fnName: fnName,
-                text: result.message
-            });
-
-            return result;
-        };
-
-        if (byIndex.length === 0) {
-            result.data = review;
-            result.message = `BY LENGTH reviews does not exist for book id:${paramsId}`;
-            result.status = 404;
-
-            formatLogMsg({
-                level: Constants.LEVEL_INFO,
+                level: Constants.LEVEL_ERROR,
                 serviceName: serviceName,
                 fnName: fnName,
                 text: result.message
