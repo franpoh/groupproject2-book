@@ -4,7 +4,6 @@ const saltRounds = 10;
 const Constants = require("../constants/index");
 const { serviceErrorCatch } = require("../constants/error-catch");
 const { ValidationError } = require("sequelize"); // Validation Error is a class item
-
 const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat( __filename, __dirname );
 

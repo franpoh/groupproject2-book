@@ -20,13 +20,12 @@ module.exports = {
 
         const adminUser = await Users.findByPk(userId);
         const editUser = await Users.findOne({ where: { userId: editUserId } });
-        const passwordVerification = await bcrypt.compare(password, adminUser.password);
 
         // error catching
 
         serviceErrorCatch(result, !adminUser, Constants.USER_NOTFOUND, 404, Constants.LEVEL_ERROR, serviceName, fnName);
         serviceErrorCatch(result, !editUser, "Target user not found.", 404, Constants.LEVEL_ERROR, serviceName, fnName);
-        serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400, Constants.LEVEL_ERROR, serviceName, fnName);
+        // serviceErrorCatch(result, !passwordVerification, Constants.PASSWORD_INVALID, 400, Constants.LEVEL_ERROR, serviceName, fnName);
 
         // if (!adminUser) {
         //     result.message = "User not found. Please try logging in again.";
@@ -40,11 +39,13 @@ module.exports = {
         //     return result;
         // }
 
-        // if (!passwordVerification) {
-        //     result.message = "You have entered the wrong password";
-        //     result.status = 400;
-        //     return result;
-        // }
+        const passwordVerification = await bcrypt.compare(password, adminUser.password);
+        
+        if (!passwordVerification) {
+            result.message = "You have entered the wrong password";
+            result.status = 400;
+            return result;
+        }
 
         // different returns for different user types
         if (type === Constants.USER_BANNED) {
