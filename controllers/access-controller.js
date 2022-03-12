@@ -2,7 +2,7 @@ const registerService = require("../services/register-service.js");
 const loginService = require("../services/login-service.js");
 
 const Constants = require("../constants/index");
-const { controlErrorCatch, validEmail, pwdByteLen } = require("../constants/error-catch");
+const { controlErrorCatch, validEmail, pwdByteLen, testErrorCatch } = require("../constants/error-catch");
 const { formatLogMsg, fileNameFormat, controllerFnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
@@ -37,10 +37,10 @@ class accessController {
         );
 
         // error catch - username is too long/short
-        controlErrorCatch(
-            res, req.body.username.length < 3 || req.body.username.length > 10, Constants.USER_CHARS, 400,
-            Constants.LEVEL_ERROR, serviceName, fnName
-        );
+        if (req.body.username.length < 3 || req.body.username.length > 10) {
+            let result = testErrorCatch(Constants.USER_CHARS, 400, Constants.LEVEL_ERROR, serviceName, fnName);
+            return res.status(result.status).json({ message: result.msg });
+        }
 
         // if (req.body.username.length < 3 || req.body.username.length > 10) {
 

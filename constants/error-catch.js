@@ -25,6 +25,27 @@ function controlErrorCatch(res, error, msg, status, level, service, fn) {
     }
 }
 
+function testErrorCatch(res, error, msg, status, level, service, fn) {
+    let result = {
+        status = null,
+        msg = null,
+    }
+
+    formatLogMsg({
+        level: level,
+        serviceName: service,
+        fnName: fn,
+        text: msg,
+    });
+
+    return result;
+}
+
+// if (error) {
+//     let result = testErrorCatch(msg, status, level, service, fn);
+//     return res.status(result.status).json({ message: result.msg });
+// }
+
 // might mess up the order of some error checking
 function serviceErrorCatch(res, error, msg, status, level, service, fn) {
     if (error) {
@@ -47,4 +68,5 @@ module.exports = {
     controlErrorCatch,
     serviceErrorCatch,
     pwdByteLen,
+    testErrorCatch,
 }
