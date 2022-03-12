@@ -4,9 +4,9 @@ const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 const Constants = require("../constants/index.js");
 
-const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
+const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 
-const serviceName = fileNameFormat( __filename, __dirname );
+const serviceName = fileNameFormat(__filename, __dirname);
 
 module.exports = {
     search: async (title) => {
@@ -71,7 +71,7 @@ module.exports = {
             status: null,
             data: null,
         };
-        
+
         const book = await Index.findAll({
             where: {
                 indexId: submittedIndexId,
@@ -82,8 +82,8 @@ module.exports = {
             },
         });
 
-        if (!book) {
-            result.message = `Book ID ${submittedIndexId} is not found..`;            
+        if (book.length === 0) {
+            result.message = `Book ID ${submittedIndexId} is not found..`;
             result.status = 404;
 
             formatLogMsg({
@@ -131,7 +131,7 @@ module.exports = {
                 fnName: fnName,
                 text: result.message
             });
-            
+
             return result;
         };
 
@@ -198,14 +198,8 @@ module.exports = {
             data: null,
         };
 
-        // title = title.toLowerCase();
         const index = await Index.findAll();
 
-        // const index = await Index.findAll({
-        //     where: {
-        //         title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('title')), 'LIKE', '%' + title + '%'),
-        //     }
-        // })
         if (!index) {
             result.message = `Index data not found in database`;
             result.status = 404;
@@ -239,12 +233,12 @@ module.exports = {
     searchSwapByIndex: async (submittedIndexId) => {
 
         let fnName = fnNameFormat();
-        
+
         let result = {
             message: null,
             status: null,
             data: null,
-        };     
+        };
 
         const swapForIndex = await Swap.findAll({
             // not working
@@ -279,14 +273,14 @@ module.exports = {
                 result.data = testArray;
                 result.status = 200;
                 result.message = `Book ID ${submittedIndexId} has swap available for purchase`;
-                
+
                 formatLogMsg({
                     level: Constants.LEVEL_INFO,
                     serviceName: serviceName,
                     fnName: fnName,
                     text: result.message
                 });
-                
+
                 return result;
             };
         } catch (error) {
