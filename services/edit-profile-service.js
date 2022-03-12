@@ -3,20 +3,18 @@ const saltRounds = 10;
 
 const Constants = require("../constants/index");
 const { serviceErrorCatch } = require("../constants/error-catch");
-
 const { ValidationError } = require("sequelize"); // Validation Error is a class item
 
-const { Users } = require("../connect.js");
-
-const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
-
+const { formatLogMsg, fileNameFormat, fnNameFormat } = require("./service-logger/log-format");
 const serviceName = fileNameFormat( __filename, __dirname );
+
+const { Users } = require("../connect.js");
 
 module.exports = {
     editProfile: async (userId, email, oldPassword, newPassword) => {
 
         let fnName = fnNameFormat(new Error());
-
+        
         let result = {
             message: null,
             status: null,
@@ -37,6 +35,7 @@ module.exports = {
             result.message = Constants.PASSWORD_INVALID;
             result.status = 400;
 
+            // winston logging
             formatLogMsg({
                 level: Constants.LEVEL_ERROR,
                 serviceName: serviceName,
@@ -55,6 +54,7 @@ module.exports = {
             // Message depending on what was edited
             let newMsg = !newPassword ? "Profile Updated!" : "Password Updated! Logging you out..."
 
+            // set new email and/or password
             user.email = newEmail;
             user.password = newPwd;
             await user.save();
@@ -63,6 +63,7 @@ module.exports = {
             result.data = JSON.stringify(user);
             result.message = newMsg;
 
+            // winston logging
             formatLogMsg({
                 level: Constants.LEVEL_INFO,
                 serviceName: serviceName,
@@ -79,6 +80,7 @@ module.exports = {
             result.message = error.errors[0].message;
             result.status = 400;
 
+            // winston logging
             formatLogMsg({
                 level: Constants.LEVEL_ERROR,
                 serviceName: serviceName,

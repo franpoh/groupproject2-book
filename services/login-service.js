@@ -5,11 +5,10 @@ const jwt = require("jsonwebtoken");
 const Constants = require("../constants/index.js");
 const { serviceErrorCatch } = require("../constants/error-catch");
 
-const { Users } = require("../connect.js");
-
 const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/log-format");
-
 const serviceName = fileNameFormat( __filename, __dirname );
+
+const { Users } = require("../connect.js");
 
 module.exports = {
     login: async (email, password) => {

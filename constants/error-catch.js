@@ -1,3 +1,5 @@
+const { formatLogMsg }= require("./service-logger/log-format");
+
 function validEmail(email) {
     const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return res.test(String(email).toLowerCase());
@@ -18,6 +20,14 @@ function serviceErrorCatch(res, error, msg, status) {
     if (error) {
         res.status = status;
         res.message = msg;
+
+        formatLogMsg({
+            level: Constants.LEVEL_ERROR,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
+
         return res;
     }
 }
