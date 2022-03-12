@@ -2,6 +2,8 @@ const logger = require("./file-logger");
 
 const Constants = require("../../constants/index");
 
+// ========== info ========== 
+//
 // data from parent would be {
 //     level: Constants.LEVEL_INFO,   or Constants.LEVEL_ERROR
 //     serviceName: serviceName,
@@ -10,7 +12,9 @@ const Constants = require("../../constants/index");
 // }
 // 
 // at head of parent file, const serviceName = fileNameFormat( __filename, __dirname );
-// let fnName = fnNameFormat(new Error());
+// let fnName = fnNameFormat();
+//
+// ========== info ========== 
 
 const formatLogMsg = function ( data ) {
 
@@ -39,7 +43,8 @@ const fileNameFormat = function ( a, b ) {
 
 // function name, Answer by VanagaS  Ref: https://stackoverflow.com/questions/280389/how-do-you-find-out-the-caller-function-in-javascript
 const fnNameFormat = function ( data ) {
-    return data.stack.split("\n")[2].trim().split(" ")[1];
+    return data;
+    // return data.stack.split("\n")[2].trim().split(" ")[1];
 };
 
 
@@ -47,7 +52,7 @@ const fnNameFormat = function ( data ) {
 // const controllerFnNameFormat = function ( data ) {
 const controllerFnNameFormat = function () {
     let data = new Error();
-    // return data.stack;
+    // if new Error is generated at caller, split("\n")[1]
     return data.stack.split("\n")[2].trim().split(" ")[1];
 };
 

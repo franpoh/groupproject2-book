@@ -11,17 +11,14 @@ class GrabController {
     async grabBook(req, res) {
 
         let fnName = controllerFnNameFormat();
-        // let fnName = controllerFnNameFormat(new Error());        
 
         // req.body.swapId - for id of specific book in inventory
 
         // if tokenId or swapId missing
         if (!req.userId || !req.body.swapId) {
             res.status(400);
-            let message = 'Incomplete data types submitted..';
-            res.json({
-                message: message
-            });
+
+            let message = 'Incomplete data types submitted..'; // need this for formatLogMsg
 
             formatLogMsg({
                 level: Constants.LEVEL_ERROR,
@@ -30,7 +27,9 @@ class GrabController {
                 text: message
             });
 
-            return res;
+            return res.json({
+                message: message
+            });
         };
 
         const loginId = req.userId; // token's userId
