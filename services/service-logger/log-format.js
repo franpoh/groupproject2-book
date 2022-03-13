@@ -42,12 +42,12 @@ const fileNameFormat = function ( a, b ) {
 };
 
 // function name, Answer by VanagaS  Ref: https://stackoverflow.com/questions/280389/how-do-you-find-out-the-caller-function-in-javascript
+// this should be only for services
 const fnNameFormat = function () {
     let data = new Error();
     // if new Error is generated at caller, split("\n")[2]    
     return data.stack.split("\n")[3].trim().split(" ")[1];
 };
-
 
 // function name within class, location in error stack is different, inspired by Answer and dicussion by georg Ref: https://stackoverflow.com/questions/38435450/get-current-function-name-in-strict-mode/38435618#38435618
 // const controllerFnNameFormat = function ( data ) {
@@ -61,17 +61,15 @@ const controllerFnNameFormat = function () {
 const authenFnNameFormat = function () {
     let data = new Error();
 
-    let test = data;
+    let test = data.stack.split("\n")[2].trim().split(" ")[1]; 
 
     // refresh - verify >> [5] is = at Object.module.exports [as verify] 
     // access - verify >> [5] is = at Object.module.exports [as verify] 
 
-    // if ((test.stack.split("\n")[2].trim().split(" ")[1]) === "Object.module.exports") {
-    //     return data.stack;
-    // };
-
-    // return data.stack.split("\n")[2].trim().split(" ")[1];
-    return data.stack;
+    if (test === "Object.module.exports") {
+        return data.stack.split("\n")[5].trim().split(" ")[2]; ;
+    };
+    return data.stack.split("\n")[2].trim().split(" ")[1];
 };
 
 module.exports = {
