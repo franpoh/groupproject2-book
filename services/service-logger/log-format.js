@@ -45,7 +45,8 @@ const fileNameFormat = function ( a, b ) {
 const fnNameFormat = function () {
     let data = new Error();
     // if new Error is generated at caller, split("\n")[2]
-    return data.stack.split("\n")[3].trim().split(" ")[1];
+    return data.stack;
+    // return data.stack.split("\n")[3].trim().split(" ")[1];
 };
 
 
