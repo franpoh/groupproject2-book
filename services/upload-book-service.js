@@ -71,7 +71,6 @@ module.exports = {
                 result.status = 200;
                 result.message = `New Index added to Library, index id:", ${library.dataValues.indexId}`
 
-                return result;
             } catch (error) {
 
                 console.log('User attempted to access library, failed. Error: ', error);
