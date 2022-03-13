@@ -67,7 +67,11 @@ module.exports = {
                 const newIndex = await library.save();
                 console.log("New Index Request Created: ", newIndex instanceof Index);
                 console.log("Book details successfully added to index database.");
-                console.log("New Index added to Library, index id:", library.dataValues.indexId);
+
+                result.status = 200;
+                result.message = `New Index added to Library, index id:", ${library.dataValues.indexId}`
+
+                return result;
             } catch (error) {
 
                 console.log('User attempted to access library, failed. Error: ', error);
@@ -132,6 +136,8 @@ module.exports = {
                             fnName: fnName,
                             text: result.message
                         });
+
+                        return result;
                     }
 
                     console.log(`${addToSwap.dataValues.price} points successfully added to user ${userid}`);
@@ -220,6 +226,8 @@ module.exports = {
                         fnName: fnName,
                         text: result.message
                     });
+
+                    return result;
                 }
 
                 console.log(`${addToSwap.dataValues.price} points successfully added to user ${userid}`);
