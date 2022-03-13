@@ -88,8 +88,7 @@ module.exports = {
                 return result;
 
             }
-
-            try {
+            
             const addToSwap = await Swap.create({
                 userId: userid,
                 price: 1,
@@ -97,22 +96,13 @@ module.exports = {
                 availability: Constants.AVAIL_YES,
                 comments: usercomments
             });
+            
 
             console.log(`Swap Request Created: `, addToSwap instanceof Swap);
             console.log('New Swap ID: ', addToSwap.dataValues.swapId);
 
             result.status = 200;
             result.message = `New Swap Created: ${addToSwap.dataValues.swapId}`
-
-            } catch (err) {
-                console.log(`System to add new swap, failed. Error: ${err}`);
-                result.message = `Failed to add user: ${user.userId}'s new swap to database. Error: ${err}`
-                result.status = 500;
-                
-                return result;
-            }
-
-            
             //if swap id for new swap is created, give points.
             if (addToSwap.dataValues.swapId !== null) {
 
