@@ -59,13 +59,16 @@ const controllerFnNameFormat = function () {
 
 // 20220313 G1: current authentication-user persmissions has same level of stack as controllerFnNameFormat but split here due possible future changes
 const authenFnNameFormat = function () {
-    let data = new Error();    
+    let data = new Error();
 
-    if ((data.stack.split("\n")[2].trim().split(" ")[1]) === "protectedPermission") {
-        return data.stack.split("\n")[2].trim().split(" ")[1];
+    // refresh - verify >> [5] is = at Object.module.exports [as verify] 
+    // access - verify >> [5] is = at Object.module.exports [as verify] 
+
+    if ((data.stack.split("\n")[2].trim().split(" ")[1]) === "Object.module.exports") {
+        return data.stack;
     };
-
-    return data.stack;
+    
+    return data.stack.split("\n")[2].trim().split(" ")[1];
 };
 
 module.exports = {
