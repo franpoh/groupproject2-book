@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken"); // Import
 const Constants = require("../constants/index");
 
 const { errorCatch, infoLog } = require("../constants/error-catch");
-const { fileNameFormat, fnNameFormat } = require("../services/service-logger/log-format");
+const { fileNameFormat, fnNameFormat, authenFnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
 
@@ -13,7 +13,7 @@ const serviceName = fileNameFormat(__filename, __dirname);
 // ----------------------------------------- VERIFY JWT REFRESH TOKEN
 module.exports = function (req, res, next) {
 
-    let fnName = fnNameFormat();
+    // let fnName = authenFnNameFormat();
 
     const { refreshToken } = req.cookies;
 
@@ -25,7 +25,7 @@ module.exports = function (req, res, next) {
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
             if (err) {
                 // error catch - refresh token has expired
-                let result = errorCatch(403, "Refresh token authentication error.", serviceName, fnName);
+                let result = errorCatch(403, "Refresh token authentication error.", serviceName, authenFnNameFormat());
                 res.status(result.status).json({ message: "Please login again." });
 
             } else if (user) {
@@ -33,7 +33,7 @@ module.exports = function (req, res, next) {
                 res.cookie(Constants.ACCESS_TOKEN, accessToken, { httpOnly: true, sameSite: "None", secure: true });
 
                 // infolog
-                infoLog("Refresh token valid, refreshed access token.", serviceName, fnName);
+                infoLog("Refresh token valid, refreshed access token.", serviceName, authenFnNameFormat());
 
                 req.username = user.username;
                 req.userId = user.userId;

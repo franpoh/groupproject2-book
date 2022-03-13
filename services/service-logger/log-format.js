@@ -44,9 +44,8 @@ const fileNameFormat = function ( a, b ) {
 // function name, Answer by VanagaS  Ref: https://stackoverflow.com/questions/280389/how-do-you-find-out-the-caller-function-in-javascript
 const fnNameFormat = function () {
     let data = new Error();
-    // if new Error is generated at caller, split("\n")[2]
-    return data.stack;
-    // return data.stack.split("\n")[3].trim().split(" ")[1];
+    // if new Error is generated at caller, split("\n")[2]    
+    return data.stack.split("\n")[3].trim().split(" ")[1];
 };
 
 
@@ -58,11 +57,15 @@ const controllerFnNameFormat = function () {
     return data.stack.split("\n")[2].trim().split(" ")[1];
 };
 
-// 20220313 G1: current authentication-user persmissions has same level of stack as controllerFnNameFormat but separate formatter Fn due possible future changes
+// 20220313 G1: current authentication-user persmissions has same level of stack as controllerFnNameFormat but split here due possible future changes
 const authenFnNameFormat = function () {
-    let data = new Error();
-    // if new Error is generated at caller, split("\n")[1]
-    return data.stack.split("\n")[2].trim().split(" ")[1];
+    let data = new Error();    
+
+    if ((data.stack.split("\n")[2].trim().split(" ")[1]) === "protectedPermission") {
+        return data.stack.split("\n")[2].trim().split(" ")[1];
+    };
+
+    return data.stack;
 };
 
 module.exports = {
