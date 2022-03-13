@@ -58,10 +58,18 @@ const controllerFnNameFormat = function () {
     return data.stack.split("\n")[2].trim().split(" ")[1];
 };
 
+// 20220313 G1: current authentication-user persmissions has same level of stack as controllerFnNameFormat but separate formatter Fn due possible future changes
+const authenFnNameFormat = function () {
+    let data = new Error();
+    // if new Error is generated at caller, split("\n")[1]
+    return data.stack.split("\n")[2].trim().split(" ")[1];
+};
+
 module.exports = {
     formatLogMsg,
     fileNameFormat,
     fnNameFormat,
-    controllerFnNameFormat
+    controllerFnNameFormat,
+    authenFnNameFormat
 };
 

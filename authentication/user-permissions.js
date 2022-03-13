@@ -3,15 +3,13 @@ const { Users } = require("../connect.js");
 const Constants = require("../constants/index.js");
 
 const { errorCatch, infoLog } = require("../constants/error-catch");
-const { fileNameFormat, fnNameFormat } = require("../services/service-logger/log-format");
+const { fileNameFormat, fnNameFormat, authenFnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
-
-
 
 // ----------------------------------------- DEFINING USER / BANNED ACCESS
 async function protectedPermission(req, res, next) {
 
-    let fnName = fnNameFormat();
+    let fnName = authenFnNameFormat();
 
     const user = await Users.findByPk(req.userId);
 
@@ -29,7 +27,7 @@ async function protectedPermission(req, res, next) {
 // ----------------------------------------- DEFINING ADMIN ACCESS
 async function adminPermission(req, res, next) {
 
-    let fnName = fnNameFormat();
+    let fnName = authenFnNameFormat();
     
     const user = await Users.findByPk(req.userId);
 
