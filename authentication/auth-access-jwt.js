@@ -3,7 +3,7 @@ require('dotenv').config();
 const jwt = require("jsonwebtoken"); // Import
 
 const { errorCatch, infoLog } = require("../constants/error-catch");
-const { fileNameFormat, fnNameFormat } = require("../services/service-logger/log-format");
+const { fileNameFormat, fnNameFormat, authenFnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
 
