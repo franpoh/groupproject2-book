@@ -28,9 +28,16 @@ class searchController {
 
         let fnName = controllerFnNameFormat();
 
-        const indexId = req.query.bookID;
+        if (!req.query.bookID) {
+            res.status(400);
+            return res.json({
+                message: 'Incorrect data types submitted...'
+            });
+        };
 
-        if (!indexId || typeof parseInt(indexId) != 'number' || !Number.isFinite(indexId)) {
+        const indexId = parseInt(req.query.bookID);
+
+        if (typeof indexId != 'number' || !Number.isFinite(indexId)) {
             res.status(400);
             return res.json({
                 message: 'Incorrect data types submitted...'
