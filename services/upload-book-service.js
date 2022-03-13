@@ -33,7 +33,17 @@ module.exports = {
             });
 
             return result;
-        } console.log("User Attempting to upload book for swap, user is: ", user);
+        }
+
+        console.log("User Attempting to upload book for swap, user is: ", user);
+        result.message = `User Attempting to upload book for swap, user id: ${user.userId} `, 
+
+        formatLogMsg({
+            level: Constants.LEVEL_INFO,
+            serviceName: serviceName,
+            fnName: fnName,
+            text: result.message
+        });
 
         //If necessary parameters are given, findorcreate index.
 
@@ -54,7 +64,14 @@ module.exports = {
         // If index was created, add it to swap, give userId point.
         if (created) {
 
-            console.log(`User ${userid} requested to add book titled ${booktitle}, by author ${bookauthor} to library but it does not exist. Adding to index database...`);
+            result.message = `User ${userid} requested to add book titled ${booktitle}, by author ${bookauthor} to library but it does not exist. Adding to index database...`
+
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
 
             try {
 
@@ -63,15 +80,21 @@ module.exports = {
                 library.genreId = bookgenre;
                 library.year = bookyear;
                 library.imageURL = bookcover;
-                console.log("bookcover :", bookcover);
                 const newIndex = await library.save();
-                console.log("New Index Request Created: ", newIndex instanceof Index);
-                console.log("Book details successfully added to index database.");
-                console.log("New Index added to Library, index id:", library.dataValues.indexId);
+
+                result.status = 200;
+                result.message = `New Index added to Library, index id: ${newIndex.dataValues.indexId}, title: ${newIndex.dataValues.title} by author: ${newIndex.dataValues.author}`
+
+                formatLogMsg({
+                    level: Constants.LEVEL_INFO,
+                    serviceName: serviceName,
+                    fnName: fnName,
+                    text: result.message
+                });
+
             } catch (error) {
 
-                console.log('User attempted to access library, failed. Error: ', error);
-                result.message = "Failed to access library database. Please try again later.";
+                result.message = `Failed to access library database. Error: ${error} Please try again later.`;
                 result.status = 500;
 
                 formatLogMsg({
@@ -84,18 +107,40 @@ module.exports = {
                 return result;
 
             }
+            
+            try {
+                console.log(`Swap Request Created by user id: ${user.userId}`);
 
-            const addToSwap = await Swap.create({
-                userId: userid,
-                price: 1,
-                indexId: library.dataValues.indexId,
-                availability: Constants.AVAIL_YES,
-                comments: usercomments
-            });
+                const addToSwap = await Swap.create({
+                    userId: userid,
+                    price: 1,
+                    indexId: library.dataValues.indexId,
+                    availability: Constants.AVAIL_YES,
+                    comments: usercomments
+                });
 
-            console.log(`Swap Request Created: `, addToSwap instanceof Swap);
-            console.log('New Swap ID: ', addToSwap.dataValues.swapId);
+                result.status = 200;
+                result.message = `New Swap Created, Swap ID: ${addToSwap.dataValues.swapId}`
 
+                formatLogMsg({
+                    level: Constants.LEVEL_INFO,
+                    serviceName: serviceName,
+                    fnName: fnName,
+                    text: result.message
+                });
+
+            } catch (e) {
+                result.message = `User ID ${user.userId} attempted to upload a new swap, failed. Error: ${e}`;
+                result.status = 500;
+
+                formatLogMsg({
+                    level: Constants.LEVEL_ERROR,
+                    serviceName: serviceName,
+                    fnName: fnName,
+                    text: result.message
+                });
+            }
+            
             //if swap id for new swap is created, give points.
             if (addToSwap.dataValues.swapId !== null) {
 
@@ -132,6 +177,8 @@ module.exports = {
                             fnName: fnName,
                             text: result.message
                         });
+
+                        return result;
                     }
 
                     console.log(`${addToSwap.dataValues.price} points successfully added to user ${userid}`);
@@ -220,6 +267,8 @@ module.exports = {
                         fnName: fnName,
                         text: result.message
                     });
+
+                    return result;
                 }
 
                 console.log(`${addToSwap.dataValues.price} points successfully added to user ${userid}`);
