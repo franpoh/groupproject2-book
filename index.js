@@ -10,7 +10,8 @@ const generalRoutes = require("./routes/general-routes.js");
 const protectedRoutes = require("./routes/protected-routes.js");
 
 const corsOptions = {
-  origin: "http://localhost:3000", // Configures the Access-Control-Allow-Origin CORS header to specific origin
+  // origin: "http://localhost:3000",
+  origin: process.env.ORIGIN, // Configures the Access-Control-Allow-Origin CORS header to specific origin
   credentials: true, // Configures the Access-Control-Allow-Credentials CORS header. Set to true to pass the header, otherwise it is omitted.
 }
 
