@@ -109,7 +109,7 @@ module.exports = {
             }
             
             try {
-                console.log(`Swap Request Created: `, addToSwap instanceof Swap);
+                console.log(`Swap Request Created by user id: ${user.userId}`);
 
                 const addToSwap = await Swap.create({
                     userId: userid,
