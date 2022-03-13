@@ -320,7 +320,7 @@ module.exports = {
             status: null,
             data: null,
         };
-        const review = await Reviews.findAll();
+        
         const byIndex = await Reviews.findAll({
             where: {
                 indexId: paramsId
@@ -332,24 +332,8 @@ module.exports = {
         })
 
         if (byIndex.length === 0) {
-            result.data = review;
+            result.data = byIndex;
             result.message = `reviews does not exist for book id:${paramsId}`;
-            result.status = 404;
-
-            formatLogMsg({
-                level: Constants.LEVEL_ERROR,
-                serviceName: serviceName,
-                fnName: fnName,
-                text: result.message
-            });
-
-            return result;
-        };
-
-
-        if (paramsId === 0) {
-            result.data = review;
-            result.message = `all reviews for every indexId retrieved`;
             result.status = 200;
 
             formatLogMsg({
@@ -360,7 +344,7 @@ module.exports = {
             });
 
             return result;
-        };
+        };        
 
         result.data = byIndex;
         result.status = 200;
