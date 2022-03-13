@@ -12,8 +12,8 @@ const protectedRoutes = require("./routes/protected-routes.js");
 const whitelist = ["http://localhost:3000", process.env.ORIGIN];
 
 const corsOptions = {
-  // origin: "http://localhost:3000",
-  // origin: process.env.ORIGIN, // Configures the Access-Control-Allow-Origin CORS header to specific origin
+  // Configures the Access-Control-Allow-Origin CORS header to specific origin
+  // origin: process.env.ORIGIN,
   credentials: true, // Configures the Access-Control-Allow-Credentials CORS header. Set to true to pass the header, otherwise it is omitted.
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
