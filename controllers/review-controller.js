@@ -25,7 +25,6 @@ class reviewController {
                 text: message
             });
 
-
             return res.json({
                 message: message
             });
@@ -38,7 +37,8 @@ class reviewController {
 
         if (
             typeof receivedIndexId !== "number" ||
-            typeof receivedRev !== "string"
+            typeof receivedRev !== "string" ||
+            !Number.isFinite(receivedIndexId)
         ) {
             res.status(400);
 

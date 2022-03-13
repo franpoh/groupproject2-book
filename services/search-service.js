@@ -226,8 +226,6 @@ module.exports = {
         });
 
         return result;
-
-
     },
 
     searchSwapByIndex: async (submittedIndexId) => {

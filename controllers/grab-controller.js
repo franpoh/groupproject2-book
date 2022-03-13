@@ -37,10 +37,10 @@ class GrabController {
 
         // console.log('grabBook Controller', loginId, receivedSwapId);
 
-        if (typeof receivedSwapId !== 'number') {
+        if (typeof receivedSwapId !== 'number' || !Number.isFinite(receivedSwapId)) {
             res.status(400);
 
-            let message = 'Incomplete data types submitted..'; // need this for error formatLogMsg
+            let message = 'Incorrect data types submitted..'; // need this for error formatLogMsg
 
             formatLogMsg({
                 level: Constants.LEVEL_ERROR,
@@ -56,7 +56,6 @@ class GrabController {
 
         const result = await grabService.grabBook(loginId, receivedSwapId);
         res.status(result.status);
-
         
         formatLogMsg({
             level: (result.status == 200 ? Constants.LEVEL_INFO : Constants.LEVEL_ERROR),
