@@ -67,9 +67,10 @@ module.exports = {
                 const newIndex = await library.save();
                 console.log("New Index Request Created: ", newIndex instanceof Index);
                 console.log("Book details successfully added to index database.");
+                console.log(`New Index added to Library, index id: ${library.dataValues.indexId}`);
 
                 result.status = 200;
-                result.message = `New Index added to Library, index id:", ${library.dataValues.indexId}`
+                result.message = `New Index added to Library, index id: ${library.dataValues.indexId}`
 
             } catch (error) {
 
@@ -88,6 +89,7 @@ module.exports = {
 
             }
 
+            try {
             const addToSwap = await Swap.create({
                 userId: userid,
                 price: 1,
@@ -99,6 +101,18 @@ module.exports = {
             console.log(`Swap Request Created: `, addToSwap instanceof Swap);
             console.log('New Swap ID: ', addToSwap.dataValues.swapId);
 
+            result.status = 200;
+            result.message = `New Swap Created: ${addToSwap.dataValues.swapId}`
+
+            } catch (err) {
+                console.log(`System to add new swap, failed. Error: ${err}`);
+                result.message = `Failed to add user: ${user.userId}'s new swap to database. Error: ${err}`
+                result.status = 500;
+                
+                return result;
+            }
+
+            
             //if swap id for new swap is created, give points.
             if (addToSwap.dataValues.swapId !== null) {
 
