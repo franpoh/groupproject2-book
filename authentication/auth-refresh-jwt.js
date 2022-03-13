@@ -13,7 +13,7 @@ const serviceName = fileNameFormat(__filename, __dirname);
 // ----------------------------------------- VERIFY JWT REFRESH TOKEN
 module.exports = function (req, res, next) {
 
-    // let fnName = authenFnNameFormat();
+    let fnName = "infolog text manual";
 
     const { refreshToken } = req.cookies;
 
