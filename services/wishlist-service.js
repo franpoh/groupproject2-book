@@ -282,10 +282,10 @@ module.exports = {
             user.wishlist = [];
             result.data = user;
             result.message = `There are no items inside User ID ${submittedUserId} wishlist..`;
-            result.status = 404;
+            result.status = 200;
 
             formatLogMsg({
-                level: Constants.LEVEL_ERROR,
+                level: Constants.LEVEL_INFO,
                 serviceName: serviceName,
                 fnName: fnName,
                 text: result.message
@@ -297,10 +297,10 @@ module.exports = {
         if (user.wishlist.length === 0) {
             result.data = user;
             result.message = `There are no items inside User ID ${submittedUserId} wishlist..`;
-            result.status = 404;
+            result.status = 200;
 
             formatLogMsg({
-                level: Constants.LEVEL_ERROR,
+                level: Constants.LEVEL_INFO,
                 serviceName: serviceName,
                 fnName: fnName,
                 text: result.message
