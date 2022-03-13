@@ -67,7 +67,7 @@ const authenFnNameFormat = function () {
     // access - verify >> [5] is = at Object.module.exports [as verify] 
 
     if (test.stack.split("\n")[2].trim().split(" ")[1] === "Object.module.exports") {
-        return data.stack;
+        return data.stack.split("\n")[5].trim().split(" ")[2];;
     };
     return data.stack.split("\n")[2].trim().split(" ")[1];
 };
