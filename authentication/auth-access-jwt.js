@@ -22,7 +22,7 @@ module.exports = function (req, res, next) {
             next();
         } else {
             // infolog
-            infoLog("Access token valid, passing on user info.", serviceName, fnName);
+            infoLog("Access token valid, passing on user info.", serviceName, fnNameFormat());
 
             req.username = user.username;
             req.userId = user.userId;
