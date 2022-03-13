@@ -61,13 +61,15 @@ const controllerFnNameFormat = function () {
 const authenFnNameFormat = function () {
     let data = new Error();
 
+    let test = data;
+
     // refresh - verify >> [5] is = at Object.module.exports [as verify] 
     // access - verify >> [5] is = at Object.module.exports [as verify] 
 
     if ((data.stack.split("\n")[2].trim().split(" ")[1]) === "Object.module.exports") {
-        return data.stack;
+        return test.stack;
     };
-    
+
     return data.stack.split("\n")[2].trim().split(" ")[1];
 };
 
