@@ -27,10 +27,10 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 // Adding middleware to all protected routes
-const accessJwt = require("./authentication/auth-access-jwt");
-const refreshJwt = require("./authentication/auth-refresh-jwt")
+const { verifyJwtAccess } = require("./authentication/auth-access-jwt");
+const { verifyJwtRefresh } = require("./authentication/auth-refresh-jwt");
 
-app.use('/protected', accessJwt, refreshJwt, protectedPermission);
+app.use('/protected', verifyJwtAccess, verifyJwtRefresh, protectedPermission);
 app.use('/protected/admin', adminPermission);
 
 // Main Page
