@@ -6,6 +6,8 @@ const { errorCatch, infoLog } = require("../constants/error-catch");
 const { fileNameFormat, authenFnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat(__filename, __dirname);
 
+
+
 // ----------------------------------------- DEFINING USER / BANNED ACCESS
 async function protectedPermission(req, res, next) {
 
@@ -37,7 +39,7 @@ async function adminPermission(req, res, next) {
     // if user is admin, allow to access resource
     if (user.type === Constants.USER_ADMIN) {
         next();
-        
+
     } else {
         // error catch - user/banned user trying to access admin resource
         let result = errorCatch(401, "User does not have sufficient permissions to access this resource.", serviceName, fnName);

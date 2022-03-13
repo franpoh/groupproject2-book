@@ -1,5 +1,4 @@
 const { sequelize, testConnection, Users, Index, Swap, Reviews, Genres } = require("./connect.js");
-const { protectedPermission, adminPermission } = require("./authentication/user-permissions");
 
 const express = require('express');
 const app = express();
@@ -11,8 +10,8 @@ const generalRoutes = require("./routes/general-routes.js");
 const protectedRoutes = require("./routes/protected-routes.js");
 
 const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true,
+  origin: "http://localhost:3000", // Configures the Access-Control-Allow-Origin CORS header to specific origin
+  credentials: true, // Configures the Access-Control-Allow-Credentials CORS header. Set to true to pass the header, otherwise it is omitted.
 }
 
 // Test connections 
@@ -21,6 +20,7 @@ testConnection();
 // Parsing JSON
 app.use(express.json());
 
+// enable cors for all routes
 app.use(cors(corsOptions));
 
 // Parsing Cookies
@@ -29,6 +29,7 @@ app.use(cookieParser());
 // Adding middleware to all protected routes
 const { verifyJwtAccess } = require("./authentication/auth-access-jwt");
 const { verifyJwtRefresh } = require("./authentication/auth-refresh-jwt");
+const { protectedPermission, adminPermission } = require("./authentication/user-permissions");
 
 app.use('/protected', verifyJwtAccess, verifyJwtRefresh, protectedPermission);
 app.use('/protected/admin', adminPermission);
