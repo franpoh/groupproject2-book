@@ -114,7 +114,7 @@ module.exports = {
                 { where: { userId: user.userId } }
             );
 
-            console.log('updating user');
+            // console.log('updating user');
             // User credit MUST be deducted successfully before proceeding to "remove" book from swap availability
 
             // result not for return but for log update

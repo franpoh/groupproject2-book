@@ -5,6 +5,8 @@ const { formatLogMsg, fileNameFormat, fnNameFormat }= require("./service-logger/
 
 const serviceName = fileNameFormat( __filename, __dirname );
 
+const priceOfBook = 1; // currently client side not uploading price data.
+
 module.exports = {
 
     uploadbook: async (userid, booktitle, bookauthor, bookyear, bookgenre, usercomments, bookcover) => {
@@ -79,7 +81,7 @@ module.exports = {
                 library.genreId = bookgenre;
                 library.year = bookyear;
                 library.imageURL = bookcover;
-                const newIndex = await library.save();
+                const newIndex = await library.save(); // G1: by right line 51 should have var library with the data line 79-83
 
                 result.status = 200;
                 result.message = `New Index added to Library, index id: ${newIndex.dataValues.indexId}, title: ${newIndex.dataValues.title} by ${newIndex.dataValues.author}`
@@ -104,30 +106,68 @@ module.exports = {
                 });
 
                 return result;
-
-            }
+            };
+        };
             
-            try {
-                const addToSwap = await Swap.create({
-                    userId: userid,
-                    price: 1,
-                    indexId: library.dataValues.indexId,
-                    availability: Constants.AVAIL_YES,
-                    comments: usercomments
+        try {
+            const addToSwap = await Swap.create({
+                userId: userid,
+                price: priceOfBook,
+                indexId: library.dataValues.indexId,
+                availability: Constants.AVAIL_YES,
+                comments: usercomments
+            });
+
+            result.status = 200;
+            result.message = `New Swap Created, Swap ID: ${addToSwap.dataValues.swapId}`
+
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
+        } catch (e) {
+            result.message = `User ID ${user.userId} attempted to upload a new swap, failed. Error: ${e}`;
+            result.status = 500;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
+            return result;
+        };
+            
+        //swap id for new swap is created, give points.
+        try {
+
+            // console.log("User current points is ", user.dataValues.points);
+            // console.log("Swap price/point is ", addToSwap.dataValues.price);
+
+            const currentPoints = user.dataValues.points;
+            const currentPrice = priceOfBook;
+            const expectedPoints = currentPoints + currentPrice;
+
+            user.dataValues.points += priceOfBook;
+
+            // console.log("New User Points should be: ", user.dataValues.points);
+            const newPoints = user.dataValues.points;
+
+            await Users.update({
+                points: newPoints
+            },
+                {
+                    where: { userId: userid }
                 });
 
-                result.status = 200;
-                result.message = `New Swap Created, Swap ID: ${addToSwap.dataValues.swapId}`
+            // console.log("New User Points is now: ", user.dataValues.points);
 
-                formatLogMsg({
-                    level: Constants.LEVEL_INFO,
-                    serviceName: serviceName,
-                    fnName: fnName,
-                    text: result.message
-                });
-
-            } catch (e) {
-                result.message = `User ID ${user.userId} attempted to upload a new swap, failed. Error: ${e}`;
+            if (user.dataValues.points !== expectedPoints) {
+                result.message = "System failed to save new points, please contact an administrator or send us an email."
                 result.status = 500;
 
                 formatLogMsg({
@@ -136,165 +176,125 @@ module.exports = {
                     fnName: fnName,
                     text: result.message
                 });
-            }
-            
-            //if swap id for new swap is created, give points.
-            if (addToSwap.dataValues.swapId !== null) {
 
-                try {
-
-                    // console.log("User current points is ", user.dataValues.points);
-                    // console.log("Swap price/point is ", addToSwap.dataValues.price);
-
-                    const currentPoints = user.dataValues.points
-                    const currentPrice = addToSwap.dataValues.price
-                    const expectedPoints = currentPoints + currentPrice;
-
-                    user.dataValues.points += addToSwap.dataValues.price;
-
-                    // console.log("New User Points should be: ", user.dataValues.points);
-                    const newPoints = user.dataValues.points;
-
-                    await Users.update({
-                        points: newPoints
-                    },
-                        {
-                            where: { userId: userid }
-                        });
-
-                    // console.log("New User Points is now: ", user.dataValues.points);
-
-                    if (user.dataValues.points !== expectedPoints) {
-                        result.message = "System failed to save new points, please contact an administrator or send us an email."
-                        result.status = 500;
-
-                        formatLogMsg({
-                            level: Constants.LEVEL_ERROR,
-                            serviceName: serviceName,
-                            fnName: fnName,
-                            text: result.message
-                        });
-
-                        return result;
-                    }
-
-                    console.log(`${addToSwap.dataValues.price} points successfully added to user ${userid}`);
-
-                    result.data = addToSwap;
-                    result.status = 200;
-                    result.message = "Book successfully uploaded for swap! You currently have " + user.dataValues.points + " points";
-
-                    formatLogMsg({
-                        level: Constants.LEVEL_INFO,
-                        serviceName: serviceName,
-                        fnName: fnName,
-                        text: result.message
-                    });
-
-                    return result;
-
-                } catch (error) {
-
-                    console.log('User attempted to upload book to swap, failed. Error: ', error);
-                    result.message = `Failed to add ${addToSwap.dataValues.price} points to your account. Please contact our administrator through email.`
-                    result.status = 500;
-
-                    formatLogMsg({
-                        level: Constants.LEVEL_ERROR,
-                        serviceName: serviceName,
-                        fnName: fnName,
-                        text: result.message
-                    });
-
-                    return result;
-
-                }
-
+                return result;
             }
 
+            console.log(`${priceOfBook} points successfully added to user ${userid}`);
 
-        }
+            result.data = user;
+            result.status = 200;
+            result.message = "Book successfully uploaded for swap! You currently have " + user.dataValues.points + " points";
 
+            formatLogMsg({
+                level: Constants.LEVEL_INFO,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
 
-        const addToSwap = await Swap.create({
-            userId: userid,
-            price: 1,
-            indexId: library.dataValues.indexId,
-            availability: Constants.AVAIL_YES,
-            comments: usercomments
-        });
+            return result;
+
+        } catch (error) {
+
+            console.log('User attempted to upload book to swap, failed. Error: ', error);
+            result.message = `Failed to add ${priceOfBook} points to your account. Please contact our administrator through email.`
+            result.status = 500;
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: result.message
+            });
+
+            return result;
+        };
         
-        result.status = 200;
-        result.message = `New Swap Created, ID: ${addToSwap.dataValues.swapId}`
 
-        //if swap id for new swap is created, give points.
-        if (addToSwap.dataValues.swapId !== null) {
+        // try {
+        //     const addToSwap = await Swap.create({
+        //         userId: userid,
+        //         price: priceOfBook,
+        //         indexId: library.dataValues.indexId,
+        //         availability: Constants.AVAIL_YES,
+        //         comments: usercomments
+        //     });
+            
+        //     result.status = 200;
+        //     result.message = `New Swap Created, ID: ${addToSwap.dataValues.swapId}`;
 
-            try {
+        //     //if swap id for new swap is created, give points.
+        //     if (addToSwap.dataValues.swapId !== null) {
 
-                // console.log("User current points is ", user.dataValues.points);
-                // console.log("Swap price/point is ", addToSwap.dataValues.price);
+        //         try {
 
-                const currentPoints = user.dataValues.points
-                const currentPrice = addToSwap.dataValues.price
-                const expectedPoints = currentPoints + currentPrice;
+        //             // console.log("User current points is ", user.dataValues.points);
+        //             // console.log("Swap price/point is ", addToSwap.dataValues.price);
 
-                user.dataValues.points += addToSwap.dataValues.price;
+        //             const currentPoints = user.dataValues.points;
+        //             const currentPrice = priceOfBook;
+        //             const expectedPoints = currentPoints + currentPrice;
 
-                // console.log("New User Points should be: ", user.dataValues.points);
-                const newPoints = user.dataValues.points;
+        //             user.dataValues.points += addToSwap.dataValues.price;
 
-                await Users.update({
-                    points: newPoints
-                },
-                    {
-                        where: { userId: userid }
-                    });
-                
-                console.log("New User Points is now: ", user.dataValues.points);
+        //             // console.log("New User Points should be: ", user.dataValues.points);
+        //             const newPoints = user.dataValues.points;
 
-                if (user.dataValues.points !== expectedPoints) {
-                    result.message = "System failed to save new points, please contact an administrator or send us an email."
-                    result.status = 500;
+        //             await Users.update({
+        //                 points: newPoints
+        //             },
+        //                 {
+        //                     where: { userId: userid }
+        //                 });
+                    
+        //             console.log("New User Points is now: ", user.dataValues.points);
 
-                    formatLogMsg({
-                        level: Constants.LEVEL_ERROR,
-                        serviceName: serviceName,
-                        fnName: fnName,
-                        text: result.message
-                    });
+        //             if (user.dataValues.points !== expectedPoints) {
+        //                 result.message = "System failed to save new points, please contact an administrator or send us an email."
+        //                 result.status = 500;
 
-                    return result;
-                }
+        //                 formatLogMsg({
+        //                     level: Constants.LEVEL_ERROR,
+        //                     serviceName: serviceName,
+        //                     fnName: fnName,
+        //                     text: result.message
+        //                 });
 
-                result.data = addToSwap;
-                result.status = 200;
-                result.message = `Book successfully uploaded for swap! User ID ${user.userId} currently has ${user.dataValues.points} points`;
+        //                 return result;
+        //             }
 
-                formatLogMsg({
-                    level: Constants.LEVEL_INFO,
-                    serviceName: serviceName,
-                    fnName: fnName,
-                    text: result.message
-                });
+        //             result.data = addToSwap;
+        //             result.status = 200;
+        //             result.message = `Book successfully uploaded for swap! User ID ${user.userId} currently has ${user.dataValues.points} points`;
 
-                return result;
+        //             formatLogMsg({
+        //                 level: Constants.LEVEL_INFO,
+        //                 serviceName: serviceName,
+        //                 fnName: fnName,
+        //                 text: result.message
+        //             });
 
-            } catch (error) {
+        //             return result;
 
-                result.message = `Failed to add ${addToSwap.dataValues.price} points to ${user.userId}'s account. Please contact our administrator through email.`
-                result.status = 500;
+        //         } catch (error) {
 
-                formatLogMsg({
-                    level: Constants.LEVEL_ERROR,
-                    serviceName: serviceName,
-                    fnName: fnName,
-                    text: result.message
-                });
-                
-                return result;
+        //             result.message = `Failed to add ${addToSwap.dataValues.price} points to ${user.userId}'s account. Please contact our administrator through email.`
+        //             result.status = 500;
 
-            }
-        }
+        //             formatLogMsg({
+        //                 level: Constants.LEVEL_ERROR,
+        //                 serviceName: serviceName,
+        //                 fnName: fnName,
+        //                 text: result.message
+        //             });
+                    
+        //             return result;
+
+        //         }
+        //     }
+        // } catch (error) {
+
+        // };
     },
 }
