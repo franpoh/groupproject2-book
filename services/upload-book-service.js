@@ -57,7 +57,7 @@ module.exports = {
                 defaults: {
                     title: booktitle,
                     author: bookauthor,
-                    // genreId: bookgenre,
+                    genreId: bookgenre,
                     // year: bookyear,
                     // imageURL: bookcover
                 }
