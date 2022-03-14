@@ -38,8 +38,8 @@ module.exports = {
       return result;
     }
 
-    if (index != indexid) {
-      result.message = `TEST request: Book ID "${indexid}" does not exist in the database`;
+    if (!index || index === null) {
+      result.message = `Bad request: this Book ID "${indexid}" does not exist in the database`;
       result.status = 400;
 
       formatLogMsg({
