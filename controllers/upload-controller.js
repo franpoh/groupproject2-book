@@ -80,7 +80,7 @@ class UploadController {
         // check for bookyear
         if (!req.body.bookyear) {
             submittedBookYear = null; // year to service should not be undefined, as default when empty in DB should be null
-        } else if ((req.body.bookyear).toString().length !== 4) { // What if it's a REALLY old book at year 500 AD?
+        } else if ((req.body.bookyear).toString().length !== 4 && !Number.isFinite(parseInt(req.body.bookyear))) { // What if it's a REALLY old book at year 500 AD?
             res.status(400);
 
             let message = `Book year ${req.body.bookyear} is invald. Please provide a valid year.`; // need this for error formatLogMsg
