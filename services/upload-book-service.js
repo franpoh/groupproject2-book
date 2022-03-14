@@ -7,6 +7,8 @@ const serviceName = fileNameFormat( __filename, __dirname );
 
 const priceOfBook = 1; // currently client side not uploading price data.
 
+let obtainedId; // var for assigned IndexId
+
 module.exports = {
 
     uploadbook: async (userid, booktitle, bookauthor, bookyear, bookgenre, usercomments, bookcover) => {
@@ -62,6 +64,8 @@ module.exports = {
                     // imageURL: bookcover
                 }
             });
+
+            obtainedId = library.indexId;
     
             // If index was created, add it to swap, give userId point.
             if (created) {
@@ -83,6 +87,8 @@ module.exports = {
                     if (bookyear !== null) {library.year = bookyear};
                     if (bookcover !== null) {library.imageURL = bookcover};                
                     const newIndex = await library.save();
+
+                    obtainedId = newIndex.dataValues.indexId;
     
                     result.status = 200;
                     result.message = `New Index added to Library, index id: ${newIndex.dataValues.indexId}, title: ${newIndex.dataValues.title} by ${newIndex.dataValues.author}`
@@ -129,7 +135,7 @@ module.exports = {
             const addToSwap = await Swap.create({
                 userId: userid,
                 price: priceOfBook,
-                indexId: library.dataValues.indexId,
+                indexId: obtainedId,
                 availability: Constants.AVAIL_YES,
                 comments: usercomments
             });
