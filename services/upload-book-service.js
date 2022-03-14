@@ -35,7 +35,6 @@ module.exports = {
             return result;
         }
 
-        console.log("User Attempting to upload book for swap, user is: ", user);
         result.message = `User Attempting to upload book for swap, user id: ${user.userId} `, 
 
         formatLogMsg({
@@ -64,7 +63,7 @@ module.exports = {
         // If index was created, add it to swap, give userId point.
         if (created) {
 
-            result.message = `User ${userid} requested to add book titled ${booktitle}, by author ${bookauthor} to library but it does not exist. Adding to index database...`
+            result.message = `User ${userid} requested to add book to library but it does not exist. Adding to index database...`
 
             formatLogMsg({
                 level: Constants.LEVEL_INFO,
@@ -83,7 +82,7 @@ module.exports = {
                 const newIndex = await library.save();
 
                 result.status = 200;
-                result.message = `New Index added to Library, index id: ${newIndex.dataValues.indexId}, title: ${newIndex.dataValues.title} by author: ${newIndex.dataValues.author}`
+                result.message = `New Index added to Library, index id: ${newIndex.dataValues.indexId}, title: ${newIndex.dataValues.title} by ${newIndex.dataValues.author}`
 
                 formatLogMsg({
                     level: Constants.LEVEL_INFO,
@@ -109,8 +108,6 @@ module.exports = {
             }
             
             try {
-                console.log(`Swap Request Created by user id: ${user.userId}`);
-
                 const addToSwap = await Swap.create({
                     userId: userid,
                     price: 1,
@@ -146,8 +143,8 @@ module.exports = {
 
                 try {
 
-                    console.log("User current points is ", user.dataValues.points);
-                    console.log("Swap price/point is ", addToSwap.dataValues.price);
+                    // console.log("User current points is ", user.dataValues.points);
+                    // console.log("Swap price/point is ", addToSwap.dataValues.price);
 
                     const currentPoints = user.dataValues.points
                     const currentPrice = addToSwap.dataValues.price
@@ -155,7 +152,7 @@ module.exports = {
 
                     user.dataValues.points += addToSwap.dataValues.price;
 
-                    console.log("New User Points should be: ", user.dataValues.points);
+                    // console.log("New User Points should be: ", user.dataValues.points);
                     const newPoints = user.dataValues.points;
 
                     await Users.update({
@@ -164,8 +161,8 @@ module.exports = {
                         {
                             where: { userId: userid }
                         });
-                    // await user.save()
-                    console.log("New User Points is now: ", user.dataValues.points);
+
+                    // console.log("New User Points is now: ", user.dataValues.points);
 
                     if (user.dataValues.points !== expectedPoints) {
                         result.message = "System failed to save new points, please contact an administrator or send us an email."
@@ -218,8 +215,6 @@ module.exports = {
 
         }
 
-        console.log("Book currently exists in index library", library);
-        console.log("Adding book swap request to swap");
 
         const addToSwap = await Swap.create({
             userId: userid,
@@ -228,16 +223,17 @@ module.exports = {
             availability: Constants.AVAIL_YES,
             comments: usercomments
         });
-        console.log(`Swap Request Created: `, addToSwap instanceof Swap);
-        console.log('New Swap ID: ', addToSwap.dataValues.swapId);
+        
+        result.status = 200;
+        result.message = `New Swap Created, ID: ${addToSwap.dataValues.swapId}`
 
         //if swap id for new swap is created, give points.
         if (addToSwap.dataValues.swapId !== null) {
 
             try {
 
-                console.log("User current points is ", user.dataValues.points);
-                console.log("Swap price/point is ", addToSwap.dataValues.price);
+                // console.log("User current points is ", user.dataValues.points);
+                // console.log("Swap price/point is ", addToSwap.dataValues.price);
 
                 const currentPoints = user.dataValues.points
                 const currentPrice = addToSwap.dataValues.price
@@ -245,7 +241,7 @@ module.exports = {
 
                 user.dataValues.points += addToSwap.dataValues.price;
 
-                console.log("New User Points should be: ", user.dataValues.points);
+                // console.log("New User Points should be: ", user.dataValues.points);
                 const newPoints = user.dataValues.points;
 
                 await Users.update({
@@ -254,7 +250,7 @@ module.exports = {
                     {
                         where: { userId: userid }
                     });
-                // await user.save()
+                
                 console.log("New User Points is now: ", user.dataValues.points);
 
                 if (user.dataValues.points !== expectedPoints) {
@@ -271,11 +267,9 @@ module.exports = {
                     return result;
                 }
 
-                console.log(`${addToSwap.dataValues.price} points successfully added to user ${userid}`);
-
                 result.data = addToSwap;
                 result.status = 200;
-                result.message = "Book successfully uploaded for swap! You currently have " + user.dataValues.points + " points";
+                result.message = `Book successfully uploaded for swap! User ID ${user.userId} currently has ${user.dataValues.points} points`;
 
                 formatLogMsg({
                     level: Constants.LEVEL_INFO,
@@ -288,8 +282,7 @@ module.exports = {
 
             } catch (error) {
 
-                console.log('User attempted to upload book to swap, failed. Error: ', error);
-                result.message = `Failed to add ${addToSwap.dataValues.price} points to your account. Please contact our administrator through email.`
+                result.message = `Failed to add ${addToSwap.dataValues.price} points to ${user.userId}'s account. Please contact our administrator through email.`
                 result.status = 500;
 
                 formatLogMsg({

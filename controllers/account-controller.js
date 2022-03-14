@@ -3,7 +3,7 @@ const editProfileService = require("../services/edit-profile-service")
 
 const Constants = require("../constants/index");
 
-const { errorCatch, validEmail, pwdByteLen } = require("../constants/error-catch");
+const { errorCatch, validEmail, pwdByteLen, infoLog } = require("../constants/error-catch");
 const { fileNameFormat, controllerFnNameFormat } = require("../services/service-logger/log-format");
 const serviceName = fileNameFormat( __filename, __dirname );
 
