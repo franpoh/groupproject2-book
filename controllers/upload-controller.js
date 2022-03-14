@@ -42,10 +42,28 @@ class UploadController {
 
         // check for correct type for required data 
         if (typeof submittedUserId !== "number" || typeof submittedTitle !== "string" || typeof submittedAuthor !== "string" || !Number.isFinite(submittedUserId)) {
-            console.log("typeof userid, " + typeof submittedUserId + " typeof booktitle, " + typeof submittedTitle + " typeof bookauthor, " + typeof submittedAuthor);
+            // console.log("typeof userid, " + typeof submittedUserId + " typeof booktitle, " + typeof submittedTitle + " typeof bookauthor, " + typeof submittedAuthor);
             res.status(400);
 
             let message = 'Incorrect data types submitted..'; // need this for error formatLogMsg
+
+            formatLogMsg({
+                level: Constants.LEVEL_ERROR,
+                serviceName: serviceName,
+                fnName: fnName,
+                text: message
+            });
+
+            return res.json({
+                message: message
+            });
+        };
+
+        // check for author and title length limit
+        if (submittedTitle.length === 0 || submittedTitle.length > 100 || submittedAuthor.length === 0 || submittedAuthor.length > 100) {            
+            res.status(400);
+
+            let message = 'Invalid data types submitted..'; // need this for error formatLogMsg
 
             formatLogMsg({
                 level: Constants.LEVEL_ERROR,
