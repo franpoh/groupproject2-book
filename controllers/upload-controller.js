@@ -102,7 +102,7 @@ class UploadController {
         // check for genreId
         if (!req.body.bookgenre){
             submittedBookGenre = null; // genre to service should not be undefined, as default when empty in DB should be null
-        } else if (typeof req.body.bookgenre !== "number" || !Number.isFinite(parseInt(req.body.bookgenre))) {
+        } else if (typeof parseInt(req.body.bookgenre) !== "number" || !Number.isFinite(parseInt(req.body.bookgenre))) {
             res.status(400);
 
             let message = `Book genre ${req.body.bookgenre} is invald.`; // need this for error formatLogMsg
