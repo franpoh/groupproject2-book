@@ -39,7 +39,7 @@ module.exports = {
     }
 
     if (index != indexid) {
-      result.message = `Bad request: Book ID "${indexid}" does not exist in the database`;
+      result.message = `TEST request: Book ID "${indexid}" does not exist in the database`;
       result.status = 400;
 
       formatLogMsg({
