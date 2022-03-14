@@ -14,7 +14,7 @@ class UploadController {
         let fnName = controllerFnNameFormat();
 
         // check for required data 
-        if (!req.userId || !req.body.userid|| !req.body.booktitle || !req.body.bookauthor) {
+        if (!req.userId || !req.body.userid|| !req.body.booktitle || !req.body.bookauthor || req.body.booktitle === "" || req.body.bookauthor === "") {
             res.status(400);
 
             let message = 'Incomplete data types submitted..'; // need this for error formatLogMsg
@@ -78,7 +78,7 @@ class UploadController {
         };
 
         // check for bookyear
-        if (!req.body.bookyear) {
+        if (!req.body.bookyear || req.body.bookyear === "") {
             submittedBookYear = null; // year to service should not be undefined, as default when empty in DB should be null
         } else if ((req.body.bookyear).toString().length !== 4 && !Number.isFinite(parseInt(req.body.bookyear))) { // What if it's a REALLY old book at year 500 AD?
             res.status(400);
@@ -122,7 +122,7 @@ class UploadController {
         };
         
         // check for user comments
-        if (!req.body.usercomments){
+        if (!req.body.usercomments || req.body.usercomments === ""){
             submittedUserComments = null; // user comments to service should not be undefined, as default when empty in DB should be null
         } else if ((req.body.usercomments).toString() <= 5) {
             res.status(400);
