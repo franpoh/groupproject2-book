@@ -56,9 +56,9 @@ module.exports = {
             defaults: {
                 title: booktitle,
                 author: bookauthor,
-                genreId: bookgenre,
-                year: bookyear,
-                imageURL: bookcover
+                // genreId: bookgenre,
+                // year: bookyear,
+                // imageURL: bookcover
             }
         });
 
@@ -78,10 +78,10 @@ module.exports = {
 
                 library.title = booktitle;
                 library.author = bookauthor;
-                library.genreId = bookgenre;
-                library.year = bookyear;
-                library.imageURL = bookcover;
-                const newIndex = await library.save(); // G1: by right line 51 should have var library with the data line 79-83
+                if (bookgenre !== null) {library.genreId = bookgenre};
+                if (bookyear !== null) {library.year = bookyear};
+                if (bookcover !== null) {library.imageURL = bookcover};                
+                const newIndex = await library.save();
 
                 result.status = 200;
                 result.message = `New Index added to Library, index id: ${newIndex.dataValues.indexId}, title: ${newIndex.dataValues.title} by ${newIndex.dataValues.author}`
