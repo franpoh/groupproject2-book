@@ -66,8 +66,68 @@ module.exports = {
             });
 
             obtainedId = library.indexId;
+
+            // If index already exists, fill up remaining info if avail.
+            if (!created) {
+
+                result.message = `User ${userid} requested to add book to library, existing Index is ${obtainedId}...`
     
-            // If index was created, add it to swap, give userId point.
+                formatLogMsg({
+                    level: Constants.LEVEL_INFO,
+                    serviceName: serviceName,
+                    fnName: fnName,
+                    text: result.message
+                });
+
+                try {
+
+                    if (library.year === null && bookyear !== null) {
+                        library.year = bookyear;
+                    };
+                    if (library.genreId === null && bookgenre !== null) {
+                        library.genreId = bookgenre;
+                    };
+                    if (library.imageURL === null && bookcover !== null) {
+                        library.imageURL = bookcover;
+                    };
+
+                    await Index.update(
+                        {
+                            year: library.year,
+                            genreId: library.genreId,
+                            imageURL: library.imageURL
+                        },
+                        { where: { indexId: obtainedId } }
+                    );
+    
+                    result.status = 200;
+                    result.message = `Updated Index id: ${obtainedId}, with year: ${library.year}, with genreId: ${library.genreId} by ${library.imageURL}`
+    
+                    formatLogMsg({
+                        level: Constants.LEVEL_INFO,
+                        serviceName: serviceName,
+                        fnName: fnName,
+                        text: result.message
+                    });
+
+                } catch(error) {
+
+                    result.message = `Failed to update new index in database. Error: ${error} Please try again later.`;
+                    result.status = 500;
+    
+                    formatLogMsg({
+                        level: Constants.LEVEL_ERROR,
+                        serviceName: serviceName,
+                        fnName: fnName,
+                        text: result.message
+                    });
+    
+                    // return result; no need return as update attempt is optional
+                };
+
+            };
+    
+            // If index was created, fill up remaining info.
             if (created) {
     
                 result.message = `User ${userid} requested to add book to library but it does not exist. Adding to index database...`
@@ -102,7 +162,7 @@ module.exports = {
     
                 } catch (error) {
     
-                    result.message = `Failed to access library database. Error: ${error} Please try again later.`;
+                    result.message = `Failed to create new index in database. Error: ${error} Please try again later.`;
                     result.status = 500;
     
                     formatLogMsg({
@@ -118,7 +178,7 @@ module.exports = {
 
         } catch(error) {
 
-            result.message = `Failed to create new index in database. Error: ${error} Please try again later.`;
+            result.message = `Failed to access index database. Error: ${error} Please try again later.`;
             result.status = 500;
 
             formatLogMsg({
@@ -130,7 +190,8 @@ module.exports = {
 
             return result;
         };        
-            
+        
+        // add it to swap
         try {
             const addToSwap = await Swap.create({
                 userId: userid,
