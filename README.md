@@ -1,7 +1,5 @@
 # BACKEND
 
-Backend Github Repository: https://github.com/franpoh/groupproject2-book
-
 - PostgreSQL database
 - Database deployed on Heroku PostgreSQL
 - Sequelize for object relational mapping
